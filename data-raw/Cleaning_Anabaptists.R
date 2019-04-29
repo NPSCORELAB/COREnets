@@ -26,13 +26,21 @@ anabaptists_full <- graph_from_data_frame(get.data.frame(anabaptists, what="edge
 # In order to create a comprehesive file, create a list with the following items:
 # 1. Node list
 # 2. Edge list
+# 3. Name
+# 4. Description
 
 # Node list: 
-nodes <- as_tibble(anabaptists_full, what="vertices")
+nodes <- as_tibble(get.data.frame(anabaptists_full, what="vertices"))
 
 # Edge list:
-edges <- as_tibble(anabaptists_full, what="edges")
+edges <- as_tibble(get.data.frame(anabaptists_full, what="edges"))
+
+# Name
+name <- "anabaptists"
+
+# Description
+desc <- "No description is available."
 
 # Anabaptists list:
-anabaptists <- list(nodes=nodes, edges=edges)
+anabaptists <- list(nodes=nodes, edges=edges, name=name, desc=desc)
 usethis::use_data(anabaptists, overwrite = TRUE)
