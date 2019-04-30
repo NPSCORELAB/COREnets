@@ -67,33 +67,59 @@ to_graph <- function(.mat, directed=FALSE, ...){
 #' @importFrom igraph is.bipartite bipartite.mapping is.igraph bipartite.projection V
 #'
 #' @export
-to_one_mode <- function(.g, ...){
+to_one_mode <- function(.g, auto=TRUE, project="rows", ...){
   if(!is.igraph(.g)){
     stop("Object provided is not an igraph object, try again.", call. = FALSE)
-    return(.g)
   }
+  if(!is.logical(auto)){
+    stop("'auto' value provided is not a logical, only TRUE and FALSE logicals are accepted.", call. = FALSE)
+  }
+  if(!is.character(project)){
+    stop("'project' value provided is not a string, only 'rows' and 'columns' strings are accepted.", call. = FALSE)
+  }
+  if(project == "rows" | project == "columns"){
   if(is.igraph(.g)){
-    if(is.bipartite(.g)==FALSE){
-      cat("Graph is one-mode, no need to transform.")
-      return(.g)
-    }
-    if(is.bipartite(.g)==TRUE){
-      choice <- menu(c("Yes", "No"), title=paste("Your network", deparse(substitute(.g)), "tested as bipartite, is this true?"))
-      if(choice==1){
-        V(.g)$type <- bipartite.mapping(.g)$type
-        type_choice <- menu(c("Row -- Row (proj1)", "Column -- Column (proj2)"), title=paste("Select how to project the two-mode network."))
-        if(type_choice==1){
+    if(auto==TRUE){
+      if(is.bipartite(.g)==FALSE){
+        return(.g)
+      }
+      if(is.bipartite(.g)==TRUE){
+        if(project=="rows"){
           g <- bipartite.projection(.g)$proj1
         }
-        if(type_choice==2){
+        if(project=="columns"){
           g <- bipartite.projection(.g)$proj2
         }
         return(g)
       }
-      if(choice==2){
-        cat("Cool, not a bipartate network, so no need to transform it")
+    }
+    if(auto==FALSE){
+      if(is.bipartite(.g)==FALSE){
+        cat("Graph is one-mode, no need to transform.")
         return(.g)
+      }
+      if(is.bipartite(.g)==TRUE){
+        choice <- menu(c("Yes", "No"), title=paste("Your network", deparse(substitute(.g)), "tested as bipartite, is this true?"))
+        if(choice==1){
+          V(.g)$type <- bipartite.mapping(.g)$type
+          type_choice <- menu(c("Row -- Row (proj1)", "Column -- Column (proj2)"), title=paste("Select how to project the two-mode network."))
+          if(type_choice==1){
+            g <- bipartite.projection(.g)$proj1
+          }
+          if(type_choice==2){
+            g <- bipartite.projection(.g)$proj2
+          }
+          return(g)
+        }
+        if(choice==2){
+          cat("Cool, not a bipartate network, so no need to transform it")
+          return(.g)
+        }
       }
     }
   }
-}
+  }
+  else {
+    stop("'project' value provided is not valid, only 'rows' and 'columns' strings are accepted.", call. = FALSE)
+  }
+  }

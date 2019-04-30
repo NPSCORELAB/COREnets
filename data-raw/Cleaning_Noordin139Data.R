@@ -41,20 +41,20 @@ logistical_function    <- COREnets::to_graph(logistical_function)
 meetings               <- COREnets::to_graph(meetings)
 
 # Transform two-mode data to one mode:
-orgs_pxp                   <- COREnets::to_one_mode(orgs)
-schools_pxp                <- COREnets::to_one_mode(schools)
-classmates_pxp             <- COREnets::to_one_mode(classmates)
-communication_pxp          <- COREnets::to_one_mode(communication)
-kinship_pxp                <- COREnets::to_one_mode(kinship)
-training_pxp               <- COREnets::to_one_mode(training)
-business_pxp               <- COREnets::to_one_mode(business)
-operations_pxp             <- COREnets::to_one_mode(operations)
-friendship_pxp             <- COREnets::to_one_mode(friendship)
-religious_affiliations_pxp <- COREnets::to_one_mode(religious_affiliations)
-soulmates_pxp              <- COREnets::to_one_mode(soulmates)
-logistical_place_pxp       <- COREnets::to_one_mode(logistical_place)
-logistical_function_pxp    <- COREnets::to_one_mode(logistical_function)
-meetings_pxp               <- COREnets::to_one_mode(meetings)
+orgs_pxp                   <- COREnets::to_one_mode(orgs, auto=TRUE, project = "rows")
+schools_pxp                <- COREnets::to_one_mode(schools, auto=TRUE, project = "rows")
+classmates_pxp             <- COREnets::to_one_mode(classmates, auto=TRUE, project = "rows")
+communication_pxp          <- COREnets::to_one_mode(communication, auto=TRUE, project = "rows")
+kinship_pxp                <- COREnets::to_one_mode(kinship, auto=TRUE, project = "rows")
+training_pxp               <- COREnets::to_one_mode(training, auto=TRUE, project = "rows")
+business_pxp               <- COREnets::to_one_mode(business, auto=TRUE, project = "rows")
+operations_pxp             <- COREnets::to_one_mode(operations, auto=TRUE, project = "rows")
+friendship_pxp             <- COREnets::to_one_mode(friendship, auto=TRUE, project = "rows")
+religious_affiliations_pxp <- COREnets::to_one_mode(religious_affiliations, auto=TRUE, project = "rows")
+soulmates_pxp              <- COREnets::to_one_mode(soulmates, auto=TRUE, project = "rows")
+logistical_place_pxp       <- COREnets::to_one_mode(logistical_place, auto=TRUE, project = "rows")
+logistical_function_pxp    <- COREnets::to_one_mode(logistical_function, auto=TRUE, project = "rows")
+meetings_pxp               <- COREnets::to_one_mode(meetings, auto=TRUE, project = "rows")
 
 listed <- list("orgs_pxp" =orgs_pxp, "schools_pxp" = schools_pxp, "classmates_pxp" = classmates_pxp,
                "communication_pxp" = communication_pxp, "kinship_pxp" = kinship_pxp, "training_pxp" = training_pxp,
@@ -63,4 +63,6 @@ listed <- list("orgs_pxp" =orgs_pxp, "schools_pxp" = schools_pxp, "classmates_px
                "logistical_function_pxp" = logistical_function_pxp, "meetings_pxp" = meetings_pxp)
 
 edges <- purrr::imap_dfr(listed, ~.x %>% get.data.frame('edges') %>% mutate(type = .y))
+
+
 
