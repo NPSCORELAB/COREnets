@@ -7,7 +7,7 @@
 to_matrix(.df)
 }
 \arguments{
-\item{.df, }{A `df` produced by the `read_xlsx` function}
+\item{.df, }{A `df` produced by the `read_xlsx` function.}
 }
 \description{
 `to_adj_matrix` returns a `matrix` with the values tibble imported from an excel file.

@@ -7,7 +7,11 @@
 to_one_mode(.g, auto = TRUE, project = "rows", ...)
 }
 \arguments{
-\item{.g, }{An `igraph` object produced by the `to_graph` function}
+\item{.g, }{An `igraph` object produced by the `to_graph` function.}
+
+\item{auto, }{Set whether this function automatically transforms data or do you control it. This is a logical argument.}
+
+\item{project, }{Projection type for igraph to extract. "rows" will extract a one-mode matrix of rows-to-rows, while "columns" will extract a one-mode matrix of colums-to-columns.}
 }
 \description{
 Transform to one-mode

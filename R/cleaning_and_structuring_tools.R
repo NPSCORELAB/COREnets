@@ -4,7 +4,7 @@
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #'
-#' @param .df, A `df` produced by the `read_xlsx` function
+#' @param .df, A `df` produced by the `read_xlsx` function.
 #' 
 #' @importFrom tibble is_tibble
 #'
@@ -33,7 +33,8 @@ to_matrix <- function(.df){
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #'
-#' @param .mat, A `matrix` produced by the `to_adj_matrix` function
+#' @param .mat, A `matrix` produced by the `to_adj_matrix` function.
+#' @param directed, Logical argument to specify whether or not a network is to graphed as directed or not.
 #' 
 #' @importFrom igraph graph_from_adjacency_matrix graph_from_incidence_matrix
 #'
@@ -62,7 +63,9 @@ to_graph <- function(.mat, directed=FALSE, ...){
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #'
-#' @param .g, An `igraph` object produced by the `to_graph` function
+#' @param .g, An `igraph` object produced by the `to_graph` function.
+#' @param auto, Set whether this function automatically transforms data or do you control it. This is a logical argument.
+#' @param project, Projection type for igraph to extract. "rows" will extract a one-mode matrix of rows-to-rows, while "columns" will extract a one-mode matrix of colums-to-columns.
 #' 
 #' @importFrom igraph is.bipartite bipartite.mapping is.igraph bipartite.projection V
 #'
@@ -123,3 +126,26 @@ to_one_mode <- function(.g, auto=TRUE, project="rows", ...){
     stop("'project' value provided is not valid, only 'rows' and 'columns' strings are accepted.", call. = FALSE)
   }
   }
+
+#' @title Read Relational Excels
+#'
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#'
+#' @param .path, A path to the workbook with multiple relational and non-relational network data.
+#' 
+#' @importFrom readxl excel_sheets read_excel
+#' @importFrom tidyselect ends_with
+#' @importFrom purrr map
+#' 
+#' @usage 
+#' listed_df <- get_xlsx("datasets/Afghan Tribal Networks.xlsx")
+#' 
+#' @export
+get_xlsx <- function(.path){
+  if(endsWith(basename(.path), "xlsx")){
+    sheets <- readxl::excel_sheets(.path)
+    listed_dfs <- purrr::map(sheets, function(X) readxl::read_excel(.path, sheet = X))
+    names(listed_dfs) <- sheets
+    return(listed_dfs)
+  }
+}

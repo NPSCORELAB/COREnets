@@ -64,5 +64,21 @@ listed <- list("orgs_pxp" =orgs_pxp, "schools_pxp" = schools_pxp, "classmates_px
 
 edges <- purrr::imap_dfr(listed, ~.x %>% get.data.frame('edges') %>% mutate(type = .y))
 
+nodes <- data.frame(name = c(edges$from, edges$to)) %>%
+  unique() %>%
+  left_join(attributes, by=c("name"="X__1"))
 
+### Note 4/30/2019 ###
+# Two nodes are missing all attibutes.
 
+# Name
+name <- "noordin_top_complete_one-mode"
+
+# Description
+desc <- "The foundation for the Noordin Top Terrorist network data were extracted from two International Crisis Group (ICG) reports, which contain rich data one- and two-mode data on a variety of relations and affiliations (friendship, kinship, meetings, etc.) along with significant attribute data (education, group membership, physical status, etc.).
+Because a single source for any network data raises the possibility of bias, the data were supplemented with additional open-source literature in order to fill gaps in the data and in order to generate montly time codes from January 2010 through December 2010, whih allowed the authors to account for when actors enter and leave the network and examine the network longitudinally."
+
+# Anabaptists list:
+noordin_top_complete_one_mode <- list(nodes=nodes, edges=edges, name=name, desc=desc)
+
+usethis::use_data(noordin_top_complete_one_mode, overwrite = TRUE)

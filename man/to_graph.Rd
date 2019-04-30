@@ -7,7 +7,9 @@
 to_graph(.mat, directed = FALSE, ...)
 }
 \arguments{
-\item{.mat, }{A `matrix` produced by the `to_adj_matrix` function}
+\item{.mat, }{A `matrix` produced by the `to_adj_matrix` function.}
+
+\item{directed, }{Logical argument to specify whether or not a network is to graphed as directed or not.}
 }
 \description{
 Graph Matrices as `igraph` graphs
