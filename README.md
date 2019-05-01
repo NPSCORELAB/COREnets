@@ -20,6 +20,7 @@ devtools::install_github("NPSCORELAB/COREnets")
 `COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
 
 ```r
+library(COREnets)
 anabaptists <- COREnets::anabaptists
 ```
 
