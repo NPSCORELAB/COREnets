@@ -10,7 +10,7 @@
 #'
 #' @export
 to_matrix <- function(.df){
-  if(is_tibble(.df)){
+  if(is_tibble(.df) | is.data.frame(.df)){
     .df <- as.matrix(.df)
     row.names(.df) <- .df[,1]
     .df <- .df[,-1]
