@@ -9,8 +9,7 @@ RUN R -e "install.packages('dplyr')"
 RUN R -e "install.packages('devtools')"
 RUN R -e "install.packages('igraph')"
 RUN R -e "install.packages('visNetwork')"
-RUN R -e "library(devtools)\
-install_github('NPSCORELAB/COREnets')"
+RUN installGithub.r NPSCORELAB/COREnets
 
 COPY / /
 
