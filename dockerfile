@@ -6,7 +6,7 @@ RUN apt-get update -qq && apt-get install -y \
 
 RUN R -e "install.packages('plumber')"
 RUN R -e "install.packages('dplyr')"
-RUN R -e "install.packages('devtools')"
+RUN R -e "install.packages('remotes')"
 RUN R -e "install.packages('igraph')"
 RUN R -e "install.packages('visNetwork')"
 RUN installGithub.r NPSCORELAB/COREnets
