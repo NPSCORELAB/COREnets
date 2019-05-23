@@ -15,4 +15,4 @@ COPY / /
 
 EXPOSE 80
 
-ENTRYPOINT ["Rscript", "R/main.R"]
+ENTRYPOINT ["Rscript", "API/main.R"]
