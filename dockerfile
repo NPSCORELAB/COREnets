@@ -5,7 +5,7 @@ RUN apt-get update -qq && apt-get install -y \
       libcurl4-gnutls-dev
 
 ## Install Padoc
-Run apt-get install pandoc
+Run apt-get install pandoc -y
 
 ## Install R packages
 RUN R -e "install.packages('plumber')"
