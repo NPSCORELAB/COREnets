@@ -1,4 +1,4 @@
-FROM rocker/r-base:latest
+FROM rocker/r-ver:3.5.0
 
 RUN apt-get update -qq && apt-get install -y \
       libssl-dev \
