@@ -23,24 +23,45 @@ V(anabaptists)$name <- ifelse(V(anabaptists)$name=="Boekbinder","Gerrit Boekbind
 anabaptists_full <- graph_from_data_frame(get.data.frame(anabaptists, what="edges"),
                               vertices = anabaptists_attr)
 
-# In order to create a comprehesive file, create a list with the following items:
-# 1. Node list
-# 2. Edge list
-# 3. Name
-# 4. Description
-
 # Node list: 
 nodes <- as_tibble(get.data.frame(anabaptists_full, what="vertices"))
 
 # Edge list:
 edges <- as_tibble(get.data.frame(anabaptists_full, what="edges"))
 
-# Name
-name <- "anabaptists"
+# Dataset metadata:
+anabaptists <- list(
+  page_metadata = list(
+    category = "religious",
+    tags = c("religion"),
+    about = NULL,
+    description = NULL
+  ),
+  bibtex_data = list(
+    preamble = NULL,
+    title = NULL,
+    author = NULL,
+    publisher = NULL,
+    journal = NULL,
+    volume = NULL,
+    pages = NULL,
+    address = NULL,
+    year = NULL,
+    note = NULL,
+    url = NULL
+  ),
+  network = list(
+    metadata = list(
+      node_type = "people",
+      edge_type = NULL,
+      modes = 1,
+      directed = TRUE,
+      weighted = FALSE,
+      multiplex = FALSE
+    ),
+    node_table = nodes,
+    edge_table = edges
+  )
+)
 
-# Description
-desc <- "No description is available."
-
-# Anabaptists list:
-anabaptists <- list(nodes=nodes, edges=edges, name=name, desc=desc)
 usethis::use_data(anabaptists, overwrite = TRUE)
