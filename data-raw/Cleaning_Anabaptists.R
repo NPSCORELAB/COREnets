@@ -32,6 +32,7 @@ edges <- as_tibble(get.data.frame(anabaptists_full, what="edges"))
 # Dataset metadata:
 anabaptists <- list(
   page_metadata = list(
+    title = "Anabaptist Network",
     category = "religious",
     tags = c("religion"),
     about = NULL,

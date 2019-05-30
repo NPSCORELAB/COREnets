@@ -22,30 +22,42 @@ baad_1m_attr <- purrr::map_dfr(files[2], read_csv) %>%
   as_tibble()
 
 test_g <- graph_from_data_frame(baad_1m,
-                                directed = TRUE,
                                 vertices = baad_1m_attr)
 
-# visNetwork::visIgraph(test_g) %>%
-#   visNetwork::visOptions(nodesIdSelection = TRUE)
-
-# In order to create a comprehesive file, create a list with the following items:
-# 1. Node list
-# 2. Edge list
-# 3. Name
-# 4. Description
-
-# Node list: 
-nodes <- as_tibble(get.data.frame(test_g, what="vertices"))
-
-# Edge list:
-edges <- as_tibble(get.data.frame(test_g, what="edges"))
-
-# Name
-name <- "BAAD"
-
-# Description
-desc <- "No description is available."
-
-# Anabaptists list:
-baad <- list(nodes=nodes, edges=edges, name=name, desc=desc)
+# Dataset metadata:
+baad <- list(
+  page_metadata = list(
+    title = "Big Allied and Dangerous (BAAD) Network",
+    category = "terrorism",
+    tags = c("terrorism"),
+    about = NULL,
+    description = NULL
+  ),
+  bibtex_data = list(
+    preamble = "misc",
+    title = "Big Allied and Dangerous Dataset Version 2.",
+    author = "Asal, Victor H. and R. Karl Rethemeyer.",
+    publisher = NULL,
+    journal = NULL,
+    volume = NULL,
+    pages = NULL,
+    address = NULL,
+    year = 2015,
+    note = NULL,
+    url = "www.start.umd.edu/baad/database"
+  ),
+  network = list(
+    metadata = list(
+      node_type = "people",
+      edge_type = NULL,
+      modes = 1,
+      directed = TRUE,
+      weighted = FALSE,
+      multiplex = FALSE
+    ),
+    node_table = as_tibble(get.data.frame(test_g, what="vertices")),
+    edge_table = as_tibble(get.data.frame(test_g, what="edges"))
+  )
+)
 usethis::use_data(baad, overwrite = TRUE)
+
