@@ -70,10 +70,10 @@ metadata <- tibble::tibble(
     "A formal title for the dataset for external uses.",
     "An informal dataset label for internal use.",
     "An internal classification for the type dataset, based on one of the following: <br>
-    * Religious <br>
-    * Terrorirsm <br>
-    * Criminal <br>
-    * Other",
+    - Religious <br>
+    - Terrorirsm <br>
+    - Criminal <br>
+    - Other",
     "An atomic vector of key words assinged to the piece of data.",
     "A brief definition of the dataset in regards to the type of data, collection, etc."
   )
@@ -125,5 +125,5 @@ net_metadata %>%
   knitr::kable(format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("bordered"))
 ```
-  * `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable. 
-  * `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
+  - `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable. 
+  - `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
