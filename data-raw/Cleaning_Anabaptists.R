@@ -62,7 +62,9 @@ anabaptists <- list(
       modes = 1,
       directed = TRUE,
       weighted = FALSE,
-      multiplex = FALSE
+      multiplex = FALSE,
+      dynamic = FALSE,
+      spatial = FALSE
     ),
     node_table = nodes,
     edge_table = edges

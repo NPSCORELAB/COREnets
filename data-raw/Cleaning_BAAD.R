@@ -53,7 +53,9 @@ baad <- list(
       modes = 1,
       directed = TRUE,
       weighted = FALSE,
-      multiplex = FALSE
+      multiplex = FALSE,
+      dynamic = FALSE,
+      spatial = FALSE
     ),
     node_table = as_tibble(get.data.frame(test_g, what="vertices")),
     edge_table = as_tibble(get.data.frame(test_g, what="edges"))
