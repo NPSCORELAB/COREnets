@@ -82,7 +82,7 @@ An informal dataset label for internal use.
 `character`
 </td>
 <td style="text-align:left;">
-An internal classification for the type dataset, based on one of the following: &lt;br&gt; \* Religious &lt;br&gt; \* Terrorirsm &lt;br&gt; \* Criminal &lt;br&gt; \* Other
+An internal classification for the type dataset, based on one of the following: <br> \* Religious <br> \* Terrorirsm <br> \* Criminal <br> \* Other
 </td>
 </tr>
 <tr>
