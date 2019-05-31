@@ -48,7 +48,6 @@ names(anabaptists)
 ```
 
   1. The `metadata` contains information on the dataset:
-  
 ```{r, echo=F}
 library(tidyverse)
 metadata <- tibble::tibble(
@@ -87,7 +86,6 @@ metadata %>%
   3. The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
   
   - `net_metadata`: A list of descriptive information on the type of network:
-
 ```{r, echo=FALSE}
 net_metadata <- tibble::tibble(
   Field = c(
