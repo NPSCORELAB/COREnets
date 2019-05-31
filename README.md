@@ -109,9 +109,9 @@ A brief definition of the dataset in regards to the type of data, collection, et
 </tr>
 </tbody>
 </table>
-1.  The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
 
-2.  The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
+2.  The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
+3.  The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
 
 -   `net_metadata`: A list of descriptive information on the type of network:
 
@@ -220,5 +220,6 @@ A logical denoting whether or not the network vertices or edges are associated w
 </tr>
 </tbody>
 </table>
+
 -   `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable.
 -   `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
