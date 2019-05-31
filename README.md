@@ -53,21 +53,10 @@ names(anabaptists)
     <tbody>
     <tr>
     <td style="text-align:left;">
-    `title`
+    title
     </td>
     <td style="text-align:left;">
-    `character`
-    </td>
-    <td style="text-align:left;">
-    A formal title for the dataset for external uses.
-    </td>
-    </tr>
-    <tr>
-    <td style="text-align:left;">
-    `name`
-    </td>
-    <td style="text-align:left;">
-    `character`
+    `character </td>    <td style="text-align:left;"> A formal title for the dataset for external uses. </td>   </tr>   <tr>    <td style="text-align:left;"> name </td>    <td style="text-align:left;">`character
     </td>
     <td style="text-align:left;">
     An informal dataset label for internal use.
@@ -75,44 +64,28 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `category`
+    category
     </td>
     <td style="text-align:left;">
-    `character`
+    `character </td>    <td style="text-align:left;"> An internal classification for the type dataset, based on one of the following: <br> - Religious <br> - Terrorirsm <br> - Criminal <br> - Other </td>   </tr>   <tr>    <td style="text-align:left;"> tags </td>    <td style="text-align:left;">`character
     </td>
     <td style="text-align:left;">
-    An internal classification for the type dataset, based on one of the following: <br>
-    -   Religious <br>
-    -   Terrorirsm <br>
-    -   Criminal <br>
-    -   Other
-        </td>
-        </tr>
-        <tr>
-        <td style="text-align:left;">
-        `tags`
-        </td>
-        <td style="text-align:left;">
-        `character`
-        </td>
-        <td style="text-align:left;">
-        An atomic vector of key words assinged to the piece of data.
-        </td>
-        </tr>
-        <tr>
-        <td style="text-align:left;">
-        `description`
-        </td>
-        <td style="text-align:left;">
-        `character`
-        </td>
-        <td style="text-align:left;">
-        A brief definition of the dataset in regards to the type of data, collection, etc.
-        </td>
-        </tr>
-        </tbody>
-        </table>
-
+    An atomic vector of key words assinged to the piece of data.
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    description
+    </td>
+    <td style="text-align:left;">
+    \`character
+    </td>
+    <td style="text-align:left;">
+    A brief definition of the dataset in regards to the type of data, collection, etc.
+    </td>
+    </tr>
+    </tbody>
+    </table>
 2.  The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
 3.  The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
 
@@ -134,10 +107,10 @@ names(anabaptists)
     <tbody>
     <tr>
     <td style="text-align:left;">
-    `node_type`
+    node\_type
     </td>
     <td style="text-align:left;">
-    `character`
+    character
     </td>
     <td style="text-align:left;">
     Description of the node class.
@@ -145,10 +118,10 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `edge_type`
+    edge\_type
     </td>
     <td style="text-align:left;">
-    `character`
+    character
     </td>
     <td style="text-align:left;">
     Description of the edge.
@@ -156,10 +129,10 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `modes`
+    modes
     </td>
     <td style="text-align:left;">
-    `double`
+    double
     </td>
     <td style="text-align:left;">
     A number denoting one or two mode networks.
@@ -167,10 +140,10 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `directed`
+    directed
     </td>
     <td style="text-align:left;">
-    `logical`
+    logical
     </td>
     <td style="text-align:left;">
     A logical denoting whether the network edges are directed or not.
@@ -178,10 +151,10 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `weighted`
+    weighted
     </td>
     <td style="text-align:left;">
-    `logical`
+    logical
     </td>
     <td style="text-align:left;">
     A logical denoting whether or not the edges are weighted.
@@ -189,10 +162,10 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `multiplex`
+    multiplex
     </td>
     <td style="text-align:left;">
-    `logical`
+    logical
     </td>
     <td style="text-align:left;">
     A logical denoting whether or not the network is made up of multiple layers.
@@ -200,10 +173,10 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `dynamic`
+    dynamic
     </td>
     <td style="text-align:left;">
-    `logical`
+    logical
     </td>
     <td style="text-align:left;">
     A logical denoting whether or not the network changes with time.
@@ -211,10 +184,10 @@ names(anabaptists)
     </tr>
     <tr>
     <td style="text-align:left;">
-    `spatial`
+    spatial
     </td>
     <td style="text-align:left;">
-    `logical`
+    logical
     </td>
     <td style="text-align:left;">
     A logical denoting whether or not the network vertices or edges are associated with a geographic feature.

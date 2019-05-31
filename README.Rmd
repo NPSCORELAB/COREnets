@@ -52,18 +52,18 @@ names(anabaptists)
 library(tidyverse)
 metadata <- tibble::tibble(
   Field = c(
-    "`title`",
-    "`name`",
-    "`category`",
-    "`tags`",
-    "`description`"
+    "title",
+    "name",
+    "category",
+    "tags",
+    "description"
   ),
   Type = c(
-    "`character`",
-    "`character`",
-    "`character`",
-    "`character`",
-    "`character`"
+    "`character",
+    "`character",
+    "`character",
+    "`character",
+    "`character"
   ),
   Definition = c(
     "A formal title for the dataset for external uses.",
@@ -89,24 +89,24 @@ metadata %>%
 ```{r, echo=FALSE}
 net_metadata <- tibble::tibble(
   Field = c(
-    "`node_type`",
-    "`edge_type`",
-    "`modes`",
-    "`directed`",
-    "`weighted`",
-    "`multiplex`",
-    "`dynamic`",
-    "`spatial`"
+    "node_type",
+    "edge_type",
+    "modes",
+    "directed",
+    "weighted",
+    "multiplex",
+    "dynamic",
+    "spatial"
   ),
   Type = c(
-    "`character`",
-    "`character`",
-    "`double`",
-    "`logical`",
-    "`logical`",
-    "`logical`",
-    "`logical`",
-    "`logical`"
+    "character",
+    "character",
+    "double",
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    "logical"
   ),
   Definition = c(
     "Description of the node class.",
