@@ -59,11 +59,11 @@ metadata <- tibble::tibble(
     "description"
   ),
   Type = c(
-    "`character",
-    "`character",
-    "`character",
-    "`character",
-    "`character"
+    "character",
+    "character",
+    "character",
+    "character",
+    "character"
   ),
   Definition = c(
     "A formal title for the dataset for external uses.",
@@ -125,5 +125,13 @@ net_metadata %>%
   kableExtra::kable_styling(bootstrap_options = c("bordered"))
 ```
   
-  - `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable. 
+  - `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `name` variable.
+```{r}
+head(anabaptists$network$node_table)
+```
+
   - `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
+```{r}
+head(anabaptists$network$edge_table)
+```
+
