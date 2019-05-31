@@ -39,17 +39,21 @@ anabaptists <- list(
     description = NULL
   ),
   bibtex_data = list(
-    preamble = NULL,
-    title = NULL,
-    author = NULL,
-    publisher = NULL,
-    journal = NULL,
-    volume = NULL,
-    pages = NULL,
-    address = NULL,
-    year = NULL,
-    note = NULL,
-    url = NULL
+    list(preamble = "article",
+         title = "Cultural Inheritance or Cultural Diffusion of Religious Violence? A Quantitative Case Study of the Radical Reformation.",
+         author = "Matthews, Luke J., Jeffrey Edmonds, Wesley Wildman, and Charles Nunn.",
+         journal = "Religion, Brain & Behavior.",
+         volume = 3,
+         pages = "3-15",
+         year = 2013),
+    list(preamble = "masterthesis",
+         title = "Anabaptist Leadership Network.",
+         author = "McLaughlin, John M.",
+         school = "Naval Postgraduate School",
+         address = "1 University Circle, Monterey, CA 93943",
+         year = 2015,
+         month = NULL,
+         note = NULL)
   ),
   network = list(
     metadata = list(
