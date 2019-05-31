@@ -1,0 +1,128 @@
+---
+output: 
+  github_document:
+    html_preview: false
+always_allow_html: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.align = "center",
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+# COREnets
+
+## Installation
+
+  1. Install `devtools` if you haven't already.
+
+```{r, eval=FALSE}
+install.packages("devtools")
+```
+
+  2. Install the package using `devtools`.
+  
+```{r, eval=FALSE}
+devtools::install_github("NPSCORELAB/COREnets")
+```
+
+## Using the Package
+
+`COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
+
+```{r}
+library(COREnets)
+anabaptists <- COREnets::anabaptists
+```
+
+Each data object is a nested list with three levels:
+
+```{r}
+names(anabaptists)
+```
+
+  1. The `metadata` contains information on the dataset:
+  
+```{r, echo=F}
+library(tidyverse)
+metadata <- tibble::tibble(
+  Field = c(
+    "`title`",
+    "`name`",
+    "`category`",
+    "`tags`",
+    "`description`"
+  ),
+  Type = c(
+    "`character`",
+    "`character`",
+    "`character`",
+    "`character`",
+    "`character`"
+  ),
+  Definition = c(
+    "A formal title for the dataset for external uses.",
+    "An informal dataset label for internal use.",
+    "An internal classification for the type dataset, based on one of the following: <br>
+    * Religious <br>
+    * Terrorirsm <br>
+    * Criminal <br>
+    * Other",
+    "An atomic vector of key words assinged to the piece of data.",
+    "A brief definition of the dataset in regards to the type of data, collection, etc."
+  )
+)
+metadata %>%
+  knitr::kable(format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("bordered"))
+```
+  2. The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
+  3. The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
+  * `net_metadata`: A list of descriptive information on the type of network:
+
+```{r, echo=FALSE}
+net_metadata <- tibble::tibble(
+  Field = c(
+    "`node_type`",
+    "`edge_type`",
+    "`modes`",
+    "`directed`",
+    "`weighted`",
+    "`multiplex`",
+    "`dynamic`",
+    "`spatial`"
+  ),
+  Type = c(
+    "`character`",
+    "`character`",
+    "`double`",
+    "`logical`",
+    "`logical`",
+    "`logical`",
+    "`logical`",
+    "`logical`"
+  ),
+  Definition = c(
+    "Description of the node class.",
+    "Description of the edge.",
+    "A number denoting one or two mode networks.",
+    "A logical denoting whether the network edges are directed or not.",
+    "A logical denoting whether or not the edges are weighted.",
+    "A logical denoting whether or not the network is made up of multiple layers.",
+    "A logical denoting whether or not the network changes with time.",
+    "	A logical denoting whether or not the network vertices or edges are associated with a geographic feature."
+  )
+)
+
+net_metadata %>%
+  knitr::kable(format = "html", escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("bordered"))
+```
+  * `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable. 
+  * `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).

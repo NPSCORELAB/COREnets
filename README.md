@@ -1,37 +1,42 @@
-# COREnets
 
-## Installation
+COREnets
+========
 
-  1. Install `devtools` if you haven't already.
+Installation
+------------
+
+1.  Install `devtools` if you haven't already.
 
 ``` r
 install.packages("devtools")
 ```
 
-  2. Install the package using `devtools`.
-  
+1.  Install the package using `devtools`.
+
 ``` r
 devtools::install_github("NPSCORELAB/COREnets")
 ```
 
-
-## Using the Package
+Using the Package
+-----------------
 
 `COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
 
-```r
+``` r
 library(COREnets)
 anabaptists <- COREnets::anabaptists
 ```
 
 Each data object is a nested list with three levels:
 
-```r
+``` r
 names(anabaptists)
-[1] "metadata" "bibtex_data"   "network" 
 ```
-  1. The `metadata` contains information on the dataset:
-  
+
+    #> [1] "metadata"    "bibtex_data" "network"
+
+1.  The `metadata` contains information on the dataset:
+
 <table class="table table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -77,12 +82,7 @@ An informal dataset label for internal use.
 `character`
 </td>
 <td style="text-align:left;">
-An internal classification for the type dataset, based on one of the following:
-
-  * Religious
-  * Terrorirsm
-  * Criminal
-  * Other
+An internal classification for the type dataset, based on one of the following: <br> \* Religious <br> \* Terrorirsm <br> \* Criminal <br> \* Other
 </td>
 </tr>
 <tr>
@@ -109,12 +109,11 @@ A brief definition of the dataset in regards to the type of data, collection, et
 </tr>
 </tbody>
 </table>
+2.  The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
+3.  The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
 
-  2. The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
+-   `net_metadata`: A list of descriptive information on the type of network:
 
-  3. The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
-  * `net_metadata`: A list of descriptive information on the type of network:
-    
 <table class="table table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -138,7 +137,7 @@ Definition
 `character`
 </td>
 <td style="text-align:left;">
-A description of the node class.
+Description of the node class.
 </td>
 </tr>
 <tr>
@@ -149,7 +148,7 @@ A description of the node class.
 `character`
 </td>
 <td style="text-align:left;">
-A description of the edge.
+Description of the edge.
 </td>
 </tr>
 <tr>
@@ -220,7 +219,5 @@ A logical denoting whether or not the network vertices or edges are associated w
 </tr>
 </tbody>
 </table>
-
-  * `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable. 
-  * `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
-  
+-   `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable.
+-   `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
