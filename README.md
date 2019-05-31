@@ -82,7 +82,7 @@ An informal dataset label for internal use.
 `character`
 </td>
 <td style="text-align:left;">
-An internal classification for the type dataset, based on one of the following: <br> \* Religious <br> \* Terrorirsm <br> \* Criminal <br> \* Other
+An internal classification for the type dataset, based on one of the following: &lt;br&gt; \* Religious &lt;br&gt; \* Terrorirsm &lt;br&gt; \* Criminal &lt;br&gt; \* Other
 </td>
 </tr>
 <tr>
@@ -109,8 +109,9 @@ A brief definition of the dataset in regards to the type of data, collection, et
 </tr>
 </tbody>
 </table>
-2.  The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
-3.  The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
+1.  The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
+
+2.  The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
 
 -   `net_metadata`: A list of descriptive information on the type of network:
 
