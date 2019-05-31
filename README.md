@@ -220,5 +220,6 @@ A logical denoting whether or not the network vertices or edges are associated w
 </tr>
 </tbody>
 </table>
+
 -   `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `id` variable.
 -   `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
