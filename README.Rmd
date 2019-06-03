@@ -121,7 +121,7 @@ net_metadata <- tibble::tibble(
 )
 
 net_metadata %>%
-  knitr::kable(format = "html", escape = TRUE) %>%
+  knitr::kable(format = "html", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("bordered"))
 ```
   
@@ -144,13 +144,5 @@ Each network in the package contains the necessary edges and nodes tables to gen
 net <- igraph::graph_from_data_frame(COREnets::anabaptists$network$edge_table,
                                      directed = anabaptists$network$metadata$directed,
                                      vertices = COREnets::anabaptists$network$node_table)
-```
-
-```{r}
-igraph::plot.igraph(net,
-            vertex.label=NA,
-            vertex.color="lightblue",
-            edge.color="slategrey",
-            edge.curved=FALSE
-            )
+net
 ```
