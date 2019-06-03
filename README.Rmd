@@ -32,7 +32,7 @@ install.packages("devtools")
 devtools::install_github("NPSCORELAB/COREnets")
 ```
 
-## Using the Package
+## Using the Package to Access Data
 
 `COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
 
@@ -121,7 +121,7 @@ net_metadata <- tibble::tibble(
 )
 
 net_metadata %>%
-  knitr::kable(format = "html", escape = FALSE) %>%
+  knitr::kable(format = "html", escape = TRUE) %>%
   kableExtra::kable_styling(bootstrap_options = c("bordered"))
 ```
   
@@ -135,3 +135,22 @@ head(anabaptists$network$node_table)
 head(anabaptists$network$edge_table)
 ```
 
+
+## Generating Networks 
+
+Each network in the package contains the necessary edges and nodes tables to generate network objects with `igraph`:
+
+```{r}
+net <- igraph::graph_from_data_frame(COREnets::anabaptists$network$edge_table,
+                                     directed = anabaptists$network$metadata$directed,
+                                     vertices = COREnets::anabaptists$network$node_table)
+```
+
+```{r}
+igraph::plot.igraph(net,
+            vertex.label=NA,
+            vertex.color="lightblue",
+            edge.color="slategrey",
+            edge.curved=FALSE
+            )
+```

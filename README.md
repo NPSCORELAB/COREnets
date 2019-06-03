@@ -17,8 +17,8 @@ install.packages("devtools")
 devtools::install_github("NPSCORELAB/COREnets")
 ```
 
-Using the Package
------------------
+Using the Package to Access Data
+--------------------------------
 
 `COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
 
@@ -257,3 +257,25 @@ head(anabaptists$network$edge_table)
     #> 4 Martin Luther Caspar Schwenckfeld      1
     #> 5 Martin Luther Melchior Hofmann         1
     #> 6 Martin Luther Philipp Melanchthon      1
+
+Generating Networks
+-------------------
+
+Each network in the package contains the necessary edges and nodes tables to generate network objects with `igraph`:
+
+``` r
+net <- igraph::graph_from_data_frame(COREnets::anabaptists$network$edge_table,
+                                     directed = anabaptists$network$metadata$directed,
+                                     vertices = COREnets::anabaptists$network$node_table)
+```
+
+``` r
+igraph::plot.igraph(net,
+            vertex.label=NA,
+            vertex.color="lightblue",
+            edge.color="slategrey",
+            edge.curved=FALSE
+            )
+```
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
