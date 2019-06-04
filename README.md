@@ -265,19 +265,19 @@ Each network in the package contains the necessary edges and nodes tables to gen
 
 ``` r
 net <- igraph::graph_from_data_frame(COREnets::anabaptists$network$edge_table,
-                                     directed = anabaptists$network$metadata$directed,
+                                     directed = COREnets::anabaptists$network$metadata$directed,
                                      vertices = COREnets::anabaptists$network$node_table)
 net
 ```
 
-    #> IGRAPH 037c121 UNW- 67 366 -- 
+    #> IGRAPH e2ed8d4 UNW- 67 366 -- 
     #> + attr: name (v/c), Believers.Baptism (v/n), Violence (v/n),
     #> | Münster.Rebellion (v/n), Apocalyptic (v/n), Anabaptist (v/n),
     #> | Melchiorite (v/n), Swiss.Brethren (v/n), Denck (v/n), Hut (v/n),
     #> | Hutterite (v/n), Other.Anabaptist (v/n), Lutheran (v/n),
     #> | Reformed (v/n), Other.Protestant (v/n), Tradition (v/n),
     #> | Origin.. (v/n), Operate.. (v/n), weight (e/n)
-    #> + edges from 037c121 (vertex names):
+    #> + edges from e2ed8d4 (vertex names):
     #> [1] Martin Luther--Ulrich Zwingli      Martin Luther--Thomas Muntzer     
     #> [3] Martin Luther--Andreas Carlstadt   Martin Luther--Caspar Schwenckfeld
     #> [5] Martin Luther--Melchior Hofmann    Martin Luther--Philipp Melanchthon

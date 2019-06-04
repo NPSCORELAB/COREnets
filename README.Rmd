@@ -142,7 +142,7 @@ Each network in the package contains the necessary edges and nodes tables to gen
 
 ```{r}
 net <- igraph::graph_from_data_frame(COREnets::anabaptists$network$edge_table,
-                                     directed = anabaptists$network$metadata$directed,
+                                     directed = COREnets::anabaptists$network$metadata$directed,
                                      vertices = COREnets::anabaptists$network$node_table)
 net
 ```
