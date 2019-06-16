@@ -5,28 +5,20 @@
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #'
 #' @param .df, A `df` produced by the `read_xlsx` function.
-#' 
-#' @importFrom tibble is_tibble
 #'
 #' @export
-to_matrix <- function(.df){
-  if(is_tibble(.df) | is.data.frame(.df)){
-    .df <- as.matrix(.df)
-    row.names(.df) <- .df[,1]
-    .df <- .df[,-1]
-    
-    if(nrow(.df)==ncol(.df)){
-      cat("An adjacency matrix will be returned.")
-      return(.df)
-    }
-    else{
-      cat("An incidence matrix will be returned.")
-      return(.df)
-    }
+to_matrix <- function(.df) {
+  if (!is.data.frame(.df)) {
+    stop("Not a dataframe.", call. = FALSE)
   }
-  else{
-    stop("Data provided is not a tibble.", call. = FALSE)
-  }
+  
+  .df <- as.matrix(.df)
+  row.names(.df) <- .df[ ,1]
+  .df <- .df[ ,-1]
+  
+  if (nrow(.df) != ncol(.df)) message("An incidence matrix will be returned")
+  if (nrow(.df) == ncol(.df)) message("An adjacency matrix will be returned.")
+  .df
 }
 
 #' @title Graph Matrices as `igraph` graphs

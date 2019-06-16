@@ -107,22 +107,22 @@ pattern = "attrs_")) %>%
 
 nodes <- nodes %>%
   rename(
-    name    = group,
-    based_in= homecountry,
-    is_contain_ethno    = ContainEthno,
-    is_contain_ethno2   = ContainEthno2,
-    is_contain_relig    = ContainRelig,
-    is_contain_relig2   = ContainRelig2,
-    is_islam= Islam,
+    name                      = group,
+    based_in                  = homecountry,
+    is_contain_ethno          = ContainEthno,
+    is_contain_ethno2         = ContainEthno2,
+    is_contain_relig          = ContainRelig,
+    is_contain_relig2         = ContainRelig2,
+    is_islam                  = Islam,
     is_leftist_no_relig_ethno = LeftNoReligEthno,
-    is_terrStrong = terrStrong,
-    is_pure_ethno = PureEthno,
-    is_pure_relig = PureRelig,
-    is_relig_ethno= ReligEthno,
-    is_statespond = statespond,
-    fatalities_1998_2005= fatalities19982005,
-    org_age = OrgAge,
-    org_size= ordsize
+    is_terrStrong             = terrStrong,
+    is_pure_ethno             = PureEthno,
+    is_pure_relig             = PureRelig,
+    is_relig_ethno            = ReligEthno,
+    is_statespond             = statespond,
+    fatalities_1998_2005      = fatalities19982005,
+    org_age                   = OrgAge,
+    org_size                  = ordsize
   ) %>%
   select(-degree) %>%
   mutate_at(vars(starts_with("is_")), as.logical) %>%

@@ -1,84 +1,145 @@
-################################
-# Transforming Noordin 139 Data
-# Date: 04/29/2019
-################################
+
 library(igraph)
-library(dplyr)
+library(tidyverse)
 library(COREnets)
 library(readxl)
 
-# First import all tabs from "Noordin 139 Data.xlsx":
-orgs                   <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=1))
-schools                <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=2))
-classmates             <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=3))
-communication          <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=4))
-kinship                <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=5))
-training               <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=6))
-business               <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=7))
-operations             <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=8))
-friendship             <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=9))
-religious_affiliations <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=10))
-soulmates              <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=11))
-logistical_place       <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=12))
-logistical_function    <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=13))
-meetings               <- COREnets::to_matrix(readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=14))
-attributes             <- readxl::read_excel("datasets/Noordin 139 Data.xlsx", sheet=15)
+# paper: 
+# codebook: http://www.thearda.com/archive/files/codebooks/origCB/Noordin%20Subset%20Codebook.pdf
 
-# From matrices to graphs:
-orgs                   <- COREnets::to_graph(orgs)
-schools                <- COREnets::to_graph(schools)
-classmates             <- COREnets::to_graph(classmates)
-communication          <- COREnets::to_graph(communication)
-kinship                <- COREnets::to_graph(kinship)
-training               <- COREnets::to_graph(training)
-business               <- COREnets::to_graph(business)
-operations             <- COREnets::to_graph(operations)
-friendship             <- COREnets::to_graph(friendship)
-religious_affiliations <- COREnets::to_graph(religious_affiliations)
-soulmates              <- COREnets::to_graph(soulmates)
-logistical_place       <- COREnets::to_graph(logistical_place)
-logistical_function    <- COREnets::to_graph(logistical_function)
-meetings               <- COREnets::to_graph(meetings)
+# read edges data ======================================================================
+files <- "datasets/Noordin 139 Data.xlsx"
 
-# Transform two-mode data to one mode:
-orgs_pxp                   <- COREnets::to_one_mode(orgs, auto=TRUE, project = "rows")
-schools_pxp                <- COREnets::to_one_mode(schools, auto=TRUE, project = "rows")
-classmates_pxp             <- COREnets::to_one_mode(classmates, auto=TRUE, project = "rows")
-communication_pxp          <- COREnets::to_one_mode(communication, auto=TRUE, project = "rows")
-kinship_pxp                <- COREnets::to_one_mode(kinship, auto=TRUE, project = "rows")
-training_pxp               <- COREnets::to_one_mode(training, auto=TRUE, project = "rows")
-business_pxp               <- COREnets::to_one_mode(business, auto=TRUE, project = "rows")
-operations_pxp             <- COREnets::to_one_mode(operations, auto=TRUE, project = "rows")
-friendship_pxp             <- COREnets::to_one_mode(friendship, auto=TRUE, project = "rows")
-religious_affiliations_pxp <- COREnets::to_one_mode(religious_affiliations, auto=TRUE, project = "rows")
-soulmates_pxp              <- COREnets::to_one_mode(soulmates, auto=TRUE, project = "rows")
-logistical_place_pxp       <- COREnets::to_one_mode(logistical_place, auto=TRUE, project = "rows")
-logistical_function_pxp    <- COREnets::to_one_mode(logistical_function, auto=TRUE, project = "rows")
-meetings_pxp               <- COREnets::to_one_mode(meetings, auto=TRUE, project = "rows")
+edges <- files %>%
+  readxl::excel_sheets()%>%
+  purrr::discard(stringr::str_detect, pattern = "Attributes") %>%
+  purrr::set_names() %>%
+  purrr::imap_dfr(
+    ~ readxl::read_excel(path = files, sheet = .x) %>%
+      as.data.frame() %>%
+      COREnets::to_matrix() %>%
+      COREnets::to_graph() %>%
+      COREnets::to_one_mode(auto = TRUE, project = "rows") %>%
+      igraph::get.data.frame("edges") %>%
+      dplyr::mutate(relationships = .y)
+  ) 
+  
+# read attribute data ==================================================================
 
-listed <- list("orgs_pxp" =orgs_pxp, "schools_pxp" = schools_pxp, "classmates_pxp" = classmates_pxp,
-               "communication_pxp" = communication_pxp, "kinship_pxp" = kinship_pxp, "training_pxp" = training_pxp,
-               "business_pxp" = business_pxp, "operations_pxp" = operations_pxp, "friendship_pxp" = friendship_pxp,
-               "religious_affiliations_pxp" = religious_affiliations_pxp, "soulmates_pxp" = soulmates_pxp, "logistical_place_pxp" = logistical_place_pxp,
-               "logistical_function_pxp" = logistical_function_pxp, "meetings_pxp" = meetings_pxp)
+attrs <- files %>%
+  readxl::excel_sheets() %>%
+  purrr::keep(stringr::str_detect, pattern = "Attributes") %>%
+  purrr::map_dfr(
+    ~ readxl::read_excel(path = files, sheet = .x) %>%
+      dplyr::as_tibble()
+    )
 
-edges <- purrr::imap_dfr(listed, ~.x %>% get.data.frame('edges') %>% mutate(type = .y))
+# build node table =====================================================================
 
 nodes <- data.frame(name = c(edges$from, edges$to)) %>%
   unique() %>%
-  left_join(attributes, by=c("name"="X__1"))
+  left_join(attrs, by=c("name"="...1"))
 
-### Note 4/30/2019 ###
-# Two nodes are missing all attibutes.
+# Note 15 - June - 2019 ================================================================
+# Three nodes are missing all attibutes:
+# nodes %>% filter(is.na(`Education Level`)==TRUE)
+#               name Education Level Contact with People Military Training Nationality Current Status (ICG Article) Current Status (Updated)
+#1    Suramto (Deni)              NA                  NA                NA          NA                           NA                       NA
+#2 Mohamed Saifuddin              NA                  NA                NA          NA                           NA                       NA
+#3     Mohammed Faiz              NA                  NA                NA          NA                           N
 
-# Name
-name <- "noordin_top_complete_one-mode"
+# clean node table =====================================================================
 
-# Description
-desc <- "The foundation for the Noordin Top Terrorist network data were extracted from two International Crisis Group (ICG) reports, which contain rich data one- and two-mode data on a variety of relations and affiliations (friendship, kinship, meetings, etc.) along with significant attribute data (education, group membership, physical status, etc.).
-Because a single source for any network data raises the possibility of bias, the data were supplemented with additional open-source literature in order to fill gaps in the data and in order to generate montly time codes from January 2010 through December 2010, whih allowed the authors to account for when actors enter and leave the network and examine the network longitudinally."
+nodes <- nodes %>%
+  mutate(
+    education_level = case_when(`Education Level` == 0 ~ "Unknown",
+                                `Education Level` == 1 ~ "Elementary Education ",
+                                `Education Level` == 2 ~ "Pesantren (Luqmanul Hakiem, Ngruki, al-Husein, Indramayu, Jemaah Islamiyah)",
+                                `Education Level` == 3 ~ "State High School",
+                                `Education Level` == 4 ~ "Some University (University an-Nur, Univeristi Teknologi Malaysia, Adelaide University, Bogor Agricultural Univ.)",
+                                `Education Level` == 5 ~ "BA/BS Designation",
+                                `Education Level` == 6 ~ "Some Graduate School",
+                                `Education Level` == 7 ~ "Masters",
+                                `Education Level` == 8 ~ "PhD (includes Reading University)"),
+    contact_w_people = case_when(`Contact with People` ==  0 ~ "Unknown",
+                                 `Contact with People` ==  1 ~ "Afghanistan",
+                                 `Contact with People` ==  2 ~ "Australia",
+                                 `Contact with People` ==  3 ~ "Malaysia",
+                                 `Contact with People` ==  4 ~ "Pakistan",
+                                 `Contact with People` ==  5 ~ "Philippines",
+                                 `Contact with People` ==  6 ~ "Singapore",
+                                 `Contact with People` ==  7 ~ "Thailand",
+                                 `Contact with People` ==  8 ~ "United Kingdom",
+                                 `Contact with People` ==  9 ~ "Afghanistan & Malaysia",
+                                 `Contact with People` == 10 ~ "Afghanistan & Pakistan",
+                                 `Contact with People` == 11 ~ "Afghanistan & Philippines",
+                                 `Contact with People` == 12 ~ "Afghanistan, Malaysia, & Philippines",
+                                 `Contact with People` == 13 ~ "Australia & Malaysia",
+                                 `Contact with People` == 14 ~ "Philippines & Malaysia",
+                                 `Contact with People` == 15 ~ "Afghanistan, Pakistan, Egypt",
+                                 `Contact with People` == 16 ~ "Iraq, Afghanistan and Pakistan"),
+    military_training = case_when(`Military Training` ==  0 ~ "Unknown",
+                                  `Military Training` ==  1 ~ "Afghanistan",
+                                  `Military Training` ==  2 ~ "Australia",
+                                  `Military Training` ==  3 ~ "Indonesia",
+                                  `Military Training` ==  4 ~ "Malaysia",
+                                  `Military Training` ==  5 ~ "Philippines",
+                                  `Military Training` ==  6 ~ "Singapore",
+                                  `Military Training` ==  7 ~ "Afghanistan & Indonesia",
+                                  `Military Training` ==  8 ~ "Afghanistan & Philippines",
+                                  `Military Training` ==  9 ~ "Indonesia & Malaysia",
+                                  `Military Training` == 10 ~ "Indonesia & Philippines",
+                                  `Military Training` == 11 ~ "Afghanistan & Iraq"),
+    nationality = case_when(Nationality == 1 ~ "Afghanistan",
+                            Nationality == 2 ~ "Australia",
+                            Nationality == 3 ~ "Indonesia",
+                            Nationality == 4 ~ "Malaysia",
+                            Nationality == 5 ~ "Philippines",
+                            Nationality == 6 ~ "Singapore",
+                            Nationality == 7 ~ "Saudi Arabia",
+                            Nationality == 8 ~ "Jordan",
+                            Nationality == 9 ~ "Egypt"),
+    current_status_per_icg_article = case_when(`Current Status (ICG Article)` == 0 ~ "Dead",
+                                               `Current Status (ICG Article)` == 1 ~ "Alive",
+                                               `Current Status (ICG Article)` == 2 ~ "Jail"),
+    current_status_updated = case_when(`Current Status (Updated)` == 0 ~ "Dead",
+                                       `Current Status (Updated)` == 1 ~ "Alive",
+                                       `Current Status (Updated)` == 2 ~ "Jail"),
+    role_original_coding = case_when(`Role (Original Coding)` ==  0 ~ "no info/unclear",
+                                     `Role (Original Coding)` ==  1 ~ "strategist",
+                                     `Role (Original Coding)` ==  2 ~ "bomb maker",
+                                     `Role (Original Coding)` ==  3 ~ "bomber/fighter",
+                                     `Role (Original Coding)` ==  4 ~ "trainer/instructor",
+                                     `Role (Original Coding)` ==  5 ~ "suicide bomber",
+                                     `Role (Original Coding)` ==  6 ~ "recon and surveillance",
+                                     `Role (Original Coding)` ==  7 ~ "recruiter",
+                                     `Role (Original Coding)` ==  8 ~ "courier/go-between",
+                                     `Role (Original Coding)` ==  9 ~ "propagandist",
+                                     `Role (Original Coding)` == 10 ~ "facilitator",
+                                     `Role (Original Coding)` == 11 ~ "religious leader",
+                                     `Role (Original Coding)` == 12 ~ "commander/tactical leader"),
+    # role_expanded_primary = case_when(`Role Expanded (Primary)` == 1 ~ ""), # not in codebook
+    # role_expanded_secondary = case_when(`Role Expanded (Secondary)` == 1 ~ ""), # not in codebook
+    # logistic_function = case_when(`Logistic Function` == 1 ~ ""), # not in codebook
+    # technical_skills = case_when(`Technical Skills` == 1 ~ ""), # not in codebook
+    primary_group_affiliation = case_when(`Primary Group Affiliation` == 0 ~ "None (Noordin)",
+                                          `Primary Group Affiliation` == 1 ~ "Darul Islam (DI)",
+                                          `Primary Group Affiliation` == 2 ~ "KOMPAK",
+                                          `Primary Group Affiliation` == 3 ~ "Jemaah Islamiyah (JI)",
+                                          `Primary Group Affiliation` == 4 ~ "Ring Banten Group (DI)",
+                                          `Primary Group Affiliation` == 5 ~ "Al-Qaeda"),
+    is_noordin_network = ifelse(`Noordin's Network` == 0, FALSE, TRUE),
+    is_orginal_79 = ifelse(`Original 79` == 0, FALSE, TRUE)
+  ) %>%
+  select(education_level, contact_w_people, military_training, nationality,
+         current_status_per_icg_article, current_status_updated, role_original_coding,
+         #role_expanded_primary, role_expanded_secondary, logistic_function, technical_skills,
+         primary_group_affiliation, is_noordin_network, is_orginal_79
+         )
 
-# Anabaptists list:
-noordin_top_complete_one_mode <- list(nodes=nodes, edges=edges, name=name, desc=desc)
-
-usethis::use_data(noordin_top_complete_one_mode, overwrite = TRUE)
+# build igraph object ==================================================================
+g <- igraph::graph_from_data_frame(
+  d = edges,
+  directed = FALSE,
+  vertices = nodes
+)
