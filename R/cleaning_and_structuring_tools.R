@@ -100,7 +100,7 @@ to_one_mode <- function(.g, project="rows", ...) {
 #' @export
 extract_xlsx <- function(.path) {
   if (!endsWith(basename(.path), "xlsx")) {
-    stop("Path provided did not end with the .xlsx extension expercted", call. = FALSE)
+    stop("Path provided did not end with the .xlsx extension expected", call. = FALSE)
   }
   
   listed_tibbles <- .path %>%
