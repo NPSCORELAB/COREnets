@@ -2,12 +2,14 @@
 % Please edit documentation in R/cleaning_and_structuring_tools.R
 \name{to_matrix}
 \alias{to_matrix}
-\title{From Tibble to Adjacency or Incidence Matrix}
+\title{From Dataframe to Adjacency or Incidence Matrix}
 \usage{
-to_matrix(.df)
+to_matrix(.df, .rownames = 1)
 }
 \arguments{
 \item{.df, }{A `df` produced by the `read_xlsx` function.}
+
+\item{.rownames, }{A column value for the row that will be reassigned as rownames and then removed from the data frame.}
 }
 \description{
 `to_adj_matrix` returns a `matrix` with the values tibble imported from an excel file.

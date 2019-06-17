@@ -4,7 +4,7 @@
 \alias{to_graph}
 \title{Graph Matrices as `igraph` graphs}
 \usage{
-to_graph(.mat, directed = FALSE, ...)
+to_graph(.mat, .directed = FALSE, ...)
 }
 \arguments{
 \item{.mat, }{A `matrix` produced by the `to_adj_matrix` function.}
