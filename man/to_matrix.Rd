@@ -9,10 +9,12 @@ to_matrix(.df, .rownames = 1)
 \arguments{
 \item{.df, }{A `df` produced by the `read_xlsx` function.}
 
-\item{.rownames, }{A column value for the row that will be reassigned as rownames and then removed from the data frame.}
+\item{.rownames, }{A column value for the row that will be reassigned as 
+rownames and then removed from the data frame.}
 }
 \description{
-`to_adj_matrix` returns a `matrix` with the values tibble imported from an excel file.
+`to_adj_matrix` returns a `matrix` with the values tibble 
+imported from an excel file.
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}

@@ -9,10 +9,13 @@ to_graph(.mat, .directed = FALSE, ...)
 \arguments{
 \item{.mat, }{A `matrix` produced by the `to_adj_matrix` function.}
 
-\item{directed, }{Logical argument to specify whether or not a network is to graphed as directed or not.}
+\item{directed, }{Logical argument to specify whether or not a network is to 
+graphed as directed or not.}
 }
 \description{
-Graph Matrices as `igraph` graphs
+`to_graph` returns an `igraph` object when provided with a 
+matrix. The function evaluates the matrix and graphs either a bipartite 
+graph or not.`
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}

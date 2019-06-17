@@ -2,15 +2,17 @@
 % Please edit documentation in R/cleaning_and_structuring_tools.R
 \name{extract_xlsx}
 \alias{extract_xlsx}
-\title{Read Relational Excels}
+\title{Read Multiple Tables from Excels}
 \usage{
 listed_df <- get_xlsx("datasets/Afghan Tribal Networks.xlsx")
 }
 \arguments{
-\item{.path, }{A path to the workbook with multiple relational and non-relational network data.}
+\item{.path, }{A path to the workbook with multiple relational and 
+non-relational network data.}
 }
 \description{
-Read Relational Excels
+`extract_xlsx` inspects excel documents for multiple tabs, then
+proceeds to open these, and return all in a list as tibbles.
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
