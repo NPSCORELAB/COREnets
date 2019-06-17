@@ -1,77 +1,79 @@
-###################################
-# Transforming the FIFA Data
-# Date: 12/28/2018
-###################################
 
-library(igraph)
 library(tidyverse)
-library(COREnets)
+library(igraph)
 
-# Get files:
+# paper:
+
+# read "raw" data ======================================================================
+# pull edges from two matrices in CSV format:
 files <- list.files(path="datasets/FIFA/",
                     pattern = "*.csv", 
                     full.names = TRUE)
 
-dfs_listed <- purrr::map(files, read_csv) %>%
+edges <- purrr::map(files, read_csv) %>%
+  # extract from multiple files and pull into one data.frame
   setNames(str_extract(files,
-                       pattern = "[\\w]+.csv")) %>%
+                       pattern = "[\\w]+\\.csv")) %>%
   map(., COREnets::to_matrix) %>%
   map(., COREnets::to_graph) %>%
   imap_dfr(., ~.x %>%
-             set.edge.attribute(., name="time",
+             set.edge.attribute(., name="time_slice",
                                 value=str_extract(.y,
                                                   pattern = "\\d+")) %>%
-             get.data.frame("edges"))
+             get.data.frame("edges")) %>%
+  # clean edges data.frame:
+  mutate(to = str_to_title(to),
+         from = str_to_title(from))
 
-# Standardize names:
-dfs_listed$to <- str_to_title(dfs_listed$to)
-dfs_listed$from <- str_to_title(dfs_listed$from)
+# build igraph object ==================================================================
+g <- igraph::graph_from_data_frame(
+  d = edges,
+  directed = FALSE
+  )
 
-# Test:
-g <- igraph::graph_from_data_frame(dfs_listed,
-                                   directed = FALSE)
-# Visualize for testing purposes:
-visNetwork::visIgraph(g)
+# build final dataset ==================================================================
+.network <- list(
+  metadata = list(
+    is_directed  = igraph::is_directed(g),
+    is_weighted  = igraph::is_weighted(g),
+    is_multiplex = igraph::any_multiple(g),
+    node_type    = "people",
+    is_two_mode  = igraph::is_bipartite(g),
+    is_dynamic   = FALSE,
+    are_nodes_spatial = inherits(igraph::as_data_frame(g, what = "vertices"), "sf"),
+    are_edges_spatial =  inherits(igraph::as_data_frame(g, what = "edges"), "sf")
+  ),
+  node_table = as_tibble(igraph::as_data_frame(g, what = "vertices")),
+  edge_table = as_tibble(igraph::as_data_frame(g, what = "edges"))
+)
 
-# Set values for exporting
-edges <- dfs_listed %>%
-  as.data.frame()
-nodes <- get.data.frame(g, what = "vertices")
+.introduction <- "Two Networks of Standing Committee membership. These are overt networks with
+covert elements."
 
-# Dataset metadata:
+.abstract <- "This dataset was reconstructed by Gemma Edwards from FIFA Select Committee reports
+for both 2006 and 2015. These are overt networks with covert elements."
+
+.bibtex <- c(
+  "@misc{fifa,
+  author  = {Edwards, Gemma}, 
+  year    = {2016},
+  title   = {FIFA},
+  note    = {data retrieved from UCINET Software, 
+             \\url{https://sites.google.com/site/ucinetsoftware/datasets/covert-networks/fifa}},
+  }"
+)
+
 fifa <- list(
   metadata = list(
-    title = "FIFA Committee Membership Network",
-    name = "fifa",
-    category = "sport",
-    tags = c("FIFA", "sport"),
-    description = "Two networks of standing commitee membership for FIFA. Both networks (2006 and 2015) were derived from two-mode data (persons to standing committees). Data reconstructed by Gemma Edwards from Select Committee 2006 activity report. This data was adquired from the UCINet site on June 3, 2019."
+    title       = "FIFA Standing Committee Co-Membership Network",
+    name        = "fifa",
+    category    = "sport",
+    tags        = "sport",
+    description = .description,
+    abstract    = .abstract
   ),
-  bibtex_data = list(
-    fifa = list(preamble = "misc",
-                name = "fifa",
-                title = "FIFA",
-                author = "Edwards, G.",
-                year = "2016",
-                note = "data retrieved from UCINET's site",
-                url = "https://sites.google.com/site/ucinetsoftware/datasets/covert-networks/fifa"
-                
-  )),
-  network = list(
-    net_metadata = list(
-      node_type = "people",
-      edge_type = NULL,
-      modes = 1,
-      directed = FALSE,
-      weighted = FALSE,
-      multiplex = FALSE,
-      dynamic = TRUE,
-      spatial = FALSE
-    ),
-    node_table = nodes,
-    edge_table = edges
-  )
+  bibtex = .bibtex,
+  network = .network
 )
 
 usethis::use_data(fifa, overwrite = TRUE)
-

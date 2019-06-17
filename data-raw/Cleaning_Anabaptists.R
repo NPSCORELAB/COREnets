@@ -1,9 +1,10 @@
 
 library(tidyverse)
+library(igraph)
 
 # paper: https://apps.dtic.mil/dtic/tr/fulltext/u2/a632471.pdf
 
-# helper vars ==========================================================================
+# helper vars ==================================================================
 # key-value maps to recode `Origin #` and `Operate #`
 kv_origins <- c(
   "1" = "Austria",
@@ -24,10 +25,10 @@ kv_bases <- c(
   "5" = "Switzerland"
 )
 
-# read "raw" data ======================================================================
+# read "raw" data ==============================================================
 init_attrs <- read_csv("datasets/Anabaptist Attributes.csv")
 
-# clean node attributes ================================================================
+# clean node attributes ========================================================
 groups_attr <- init_attrs %>%
   rename(name = X1) %>% 
   mutate(is_anabaptist = Anabaptist == 1) %>% 
@@ -68,23 +69,25 @@ nodes_df <- init_attrs %>%
   select(name, group, origin, based_in, is_anabaptist, everything())
 
 # pull edges from pajek file
-edges_df <- igraph::read_graph("datasets/Anabaptist Leaders.net", format = "paj") %>%
+edges_df <- igraph::read_graph("datasets/Anabaptist Leaders.net",
+                               format = "paj") %>%
   igraph::as_data_frame() %>% 
   select(-weight) %>% 
   # fix name that doesn't match
   mutate_all(~ if_else(. == "Boekbinder", "Gerrit Boekbinder", .)) %>% 
-  # pajek file is tracking edges in both directions, but it's supposed to be undirected
+  # pajek file is tracking edges in both directions, but it's supposed to be
+  # undirected
   distinct() %>% 
   rename(source = from, target = to)
 
-# build igraph object ==================================================================
+# build igraph object ==========================================================
 g <- igraph::graph_from_data_frame(
   d = edges_df,
   directed = FALSE,
   vertices = nodes_df
 )
 
-# build final dataset ==================================================================
+# build final dataset ==========================================================
 .network <- list(
   metadata = list(
     is_directed  = igraph::is_directed(g),
@@ -93,34 +96,37 @@ g <- igraph::graph_from_data_frame(
     node_type    = "people",
     is_two_mode  = igraph::is_bipartite(g),
     is_dynamic   = FALSE,
-    are_nodes_spatial = inherits(igraph::as_data_frame(g, what = "vertices"), "sf"),
-    are_edges_spatial =  inherits(igraph::as_data_frame(g, what = "edges"), "sf")
+    are_nodes_spatial = inherits(igraph::as_data_frame(g,
+                                                       what = "vertices"), "sf"),
+    are_edges_spatial =  inherits(igraph::as_data_frame(g,
+                                                        what = "edges"), "sf")
   ),
   node_table = as_tibble(igraph::as_data_frame(g, what = "vertices")),
   edge_table = as_tibble(igraph::as_data_frame(g, what = "edges"))
 )
 
-.introduction <- "This dataset examines social networks between early Anabaptist leaders. 
-Together with the dataset on the beliefs of early Anabaptist leaders and groups, it 
-can be used to examine the diffusion of theology and ideas among early Anabaptist 
-leaders."
+.introduction <- "This dataset examines social networks between early Anabaptist 
+leaders. Together with the dataset on the beliefs of early Anabaptist leaders 
+and groups, it can be used to examine the diffusion of theology and ideas among 
+early Anabaptist leaders."
 
-.abstract <- "Religiously motivated violence is and always will be a relevant topic. To 
-address and effectively counter contemporary violent groups, it is important to 
-investigate similar historic groups. This thesis attempts to answer the research 
-question: 'During the Radical Reformation, why did some Anabaptist groups accept the 
-use of violence while others did not, and how did the movement evolve to pacifism?' To
-answer this question, this study utilizes a mixed methodology of case study analysis 
-and social network analysis of Anabaptist leaders during the 16th century. This thesis 
-argues that violent ideology is largely a function of three factors: charismatic 
-leadership, isolation, and apocalypticism. The interaction of these factors led to the
-emergence of Anabaptist groups that embraced the use of violence. However, groups' 
-internal characteristics can also lead them away from violence. In the case of the 
+.abstract <- "Religiously motivated violence is and always will be a relevant 
+topic. To address and effectively counter contemporary violent groups, it is 
+important to investigate similar historic groups. This thesis attempts to answer 
+the research question: 'During the Radical Reformation, why did some Anabaptist 
+groups accept the use of violence while others did not, and how did the movement 
+evolve to pacifism?' To answer this question, this study utilizes a mixed 
+methodology of case study analysis and social network analysis of Anabaptist 
+leaders during the 16th century. This thesis argues that violent ideology is 
+largely a function of three factors: charismatic leadership, isolation, and 
+apocalypticism. The interaction of these factors led to the emergence of 
+Anabaptist groups that embraced the use of violence. However, groups' internal 
+characteristics can also lead them away from violence. In the case of the 
 Anabaptists, social proximity assisted leaders with a counter-message to speak 
-effectively to violent ultra-radical factions. The goal of this thesis is to identify 
-characteristics of religious groups that may signal the potential for future violence, 
-while also providing insight into which leaders may be capable of re-directing groups 
-that have become violent."
+effectively to violent ultra-radical factions. The goal of this thesis is to 
+identify characteristics of religious groups that may signal the potential for 
+future violence, while also providing insight into which leaders may be capable 
+of re-directing groups that have become violent."
 
 .bibtex <- c(
   "@Article{anabaptists_matthews_edmonds_wildman_nunn_2013,

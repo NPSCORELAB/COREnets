@@ -75,7 +75,7 @@ kv_homebase <- c(
 "850" ="Indonesia"
 )
 
-# read "raw" data ======================================================================
+# read "raw" data ==============================================================
 files <- list.files(path="datasets/BAAD/full/",
   pattern = "\\.csv$", 
   full.names = TRUE)
@@ -103,7 +103,7 @@ nodes <- purrr::map(files, read_csv) %>%
 pattern = "attrs_")) %>%
   bind_rows()
 
-# clean node attributes ================================================================
+# clean node attributes ========================================================
 
 nodes <- nodes %>%
   rename(
@@ -128,14 +128,14 @@ nodes <- nodes %>%
   mutate_at(vars(starts_with("is_")), as.logical) %>%
   mutate(based_in = recode(based_in, !!!kv_homebase))
 
-# build igraph object ==================================================================
+# build igraph object ==========================================================
 g <- igraph::graph_from_data_frame(
   d = edges,
   directed = FALSE,
   vertices = nodes
 )
 
-# build final dataset ==================================================================
+# build final dataset ==========================================================
 
 data(countryref, package = "CoordinateCleaner")
 countries <- countryref[!duplicated(countryref[c('name')]),]
@@ -145,9 +145,10 @@ nodes <- nodes %>%
   left_join(countries, by=c("based_in"="name")) %>%
   as_tibble() %>%
   st_as_sf(coords = c("centroid.lon", "centroid.lat"), crs = 4326) %>%
-  select(name, based_in, based_in, fatalities_1998_2005, org_age, org_size, is_terrStrong,
-         is_contain_ethno, is_contain_relig, is_contain_ethno2, is_contain_relig2, is_leftist_no_relig_ethno,
-         is_pure_ethno, is_pure_relig, is_islam, geometry) 
+  select(name, based_in, based_in, fatalities_1998_2005, org_age, org_size,
+         is_terrStrong, is_contain_ethno, is_contain_relig, is_contain_ethno2,
+         is_contain_relig2, is_leftist_no_relig_ethno, is_pure_ethno,
+         is_pure_relig, is_islam, geometry) 
 
 .network <- list(
   metadata = list(
@@ -157,24 +158,32 @@ nodes <- nodes %>%
     node_type    = "organizations",
     is_two_mode  = igraph::is_bipartite(g),
     is_dynamic   = FALSE,
-    are_nodes_spatial = inherits(igraph::as_data_frame(g, what = "vertices"), "sf"),
-    are_edges_spatial =  inherits(igraph::as_data_frame(g, what = "edges"), "sf")
+    are_nodes_spatial = inherits(igraph::as_data_frame(g,
+                                                       what = "vertices"), "sf"),
+    are_edges_spatial =  inherits(igraph::as_data_frame(g,
+                                                        what = "edges"), "sf")
   ),
   node_table = nodes,
   edge_table = as_tibble(igraph::as_data_frame(g, what = "edges"))
 )
 
-.introduction <- "This dataset, Big Allied and Dangerous 1.0 (BAAD1), contains information on the size of terrorist organziations, their ideology,
-whether they are supported by state sponsors, the age of organizations, numbrer of fatalities attributed to the organizations, whether the organization 
-controls territory, and counts of alliace connections."
+.introduction <- "This dataset, Big Allied and Dangerous 1.0 (BAAD1), contains
+information on the size of terrorist organziations, their ideology, whether they
+are supported by state sponsors, the age of organizations, numbrer of fatalities
+attributed to the organizations, whether the organization controls territory,
+and counts of alliace connections."
 
-.abstract <- "Why are some terrorist organizations so much more deadly then others? Rearchers Victor Asal and Karl Rethmeyere address this
-question by examining organizational characteristics such as ideology, size, age, state sponsorship, alliance connections, and control of
-territory while controlling for factors that may also influence lethality, including the political system and relative wealth of the country
-in which the organization is based. Using data from the Memorial Institute for the Prevention of Terrorism’s Terrorism 
-Knowledge Base(TKB), we use a negative binomial model of organizational lethality, finding that organizational size, ideology,
-territorial control, and connectedness are important predictors of lethality while state sponsorship, organizational age, and 
-host country characteristics are not."
+.abstract <- "Why are some terrorist organizations so much more deadly then 
+others? Rearchers Victor Asal and Karl Rethmeyere address this question by 
+examining organizational characteristics such as ideology, size, age, state 
+sponsorship, alliance connections, and control of territory while controlling 
+for factors that may also influence lethality, including the political system 
+and relative wealth of the country in which the organization is based. Using 
+data from the Memorial Institute for the Prevention of Terrorism’s Terrorism 
+Knowledge Base(TKB), we use a negative binomial model of organizational 
+lethality, finding that organizational size, ideology,territorial control, and 
+connectedness are important predictors of lethality while state sponsorship, 
+organizational age, and host country characteristics are not."
 
 .bibtex <- c(
   "@Article{baad_2008,
