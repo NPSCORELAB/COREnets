@@ -63,6 +63,13 @@ for both 2006 and 2015. These are overt networks with covert elements."
   }"
 )
 
+.codebook <- data.frame(
+  relationship = c("Co-membership"),
+  data_type = c("one-mode"),
+  definition = c("Person by person undirected and binary relationships extracted from standing committee membership"),
+  stringsAsFactors = FALSE
+)
+
 fifa <- list(
   metadata = list(
     title       = "FIFA Standing Committee Co-Membership Network",
@@ -73,6 +80,7 @@ fifa <- list(
     abstract    = .abstract
   ),
   bibtex = .bibtex,
+  codebook = .codebook,
   network = .network
 )
 

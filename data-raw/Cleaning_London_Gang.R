@@ -17,7 +17,13 @@ edges <- files %>%
   read_csv() %>%
   COREnets::to_matrix() %>%
   graph_from_adjacency_matrix(weighted = TRUE, mode = "undirected") %>%
-  get.data.frame("edges")
+  get.data.frame("edges") %>%
+  # The extracted weights represent types of ties
+  mutate(relationships = weight,
+         relationships = case_when(relationships == 1 ~ "Hang Out Together",
+                                   relationships == 2 ~ "Co-Offend Together",
+                                   relationships == 3 ~ "Co-Offend Together, Serious Crime",
+                                   relationships == 4 ~ "Co-Offend Together, Seriour Crime, Kin"))
 
 # read attribute table =========================================================
 nodes <- files %>%
@@ -27,11 +33,12 @@ nodes <- files %>%
   rename(name = X1)
 
 # recode attribute table =======================================================
-nodes %>%
-  mutate(birthplace = case_when(Birthplace == 1 ~ "West Africa",
+nodes <- nodes %>%
+  mutate(hr_birthplace = case_when(Birthplace == 1 ~ "West Africa",
                                 Birthplace == 2 ~ "Caribbean",
                                 Birthplace == 3 ~ "United Kingdom",
                                 Birthplace == 4 ~ "East Africa"))
+
 # Note 17 June 2019 ============================================================
 # Though the dataset was downloaded from UCINet's site there are issues with the
 # reliability of variables. For instance, the original paper cited by the site
@@ -92,6 +99,22 @@ activities is dominated by ethnicity."
   }"
 )
 
+.codebook <- data.frame(
+  `Tie Value` = c("1",
+                  "2",
+                  "3",
+                  "4"),
+  data_type   = c("one-mode",
+                  "one-mode",
+                  "one-mode",
+                  "one-mode"),
+  definition  = c("Undirected valued relationship for actors who hang out together.",
+                  "Undirected valued relationship for actors who co-offend together.",
+                  "Undirected valued relationship for actors who co-offend together and committed a serious crime.",
+                  "Undirected valued relationship for actors who co-offend together, committed a serious crime, and are kin."),
+  stringsAsFactors = FALSE
+)
+
 london_gang <- list(
   metadata = list(
     title       = "London Gang",
@@ -102,8 +125,9 @@ london_gang <- list(
     description = .introduction,
     abstract    = .abstract
   ),
-  bibtex = .bibtex,
-  network = .network
+  metadata      = .bibtex,
+  codebook      = .codebook,
+  network       = .network
 )
 
 usethis::use_data(london_gang, overwrite = TRUE)

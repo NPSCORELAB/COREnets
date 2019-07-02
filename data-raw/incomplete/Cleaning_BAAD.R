@@ -83,30 +83,22 @@ files <- list.files(path="datasets/BAAD/full/",
 edges <- purrr::map(files, read_csv) %>%
   # extract from multiple files and pull into one data.frame
   setNames(str_extract(files,
-     pattern = "[\\w]+\\.csv$")) %>%
-  keep(str_detect(names(.),
-pattern = "edges_")) %>%
+     pattern = "(?<=edges_).+?(?=\\.csv$)")) %>%
+  keep(!is.na(names(.))) %>%
   map(., COREnets::to_matrix) %>%
-  map(., COREnets::to_graph) %>%
+  #map(., COREnets::to_graph) %>%
+  map(., igraph::graph_from_adjacency_matrix) %>%
   imap_dfr(., ~.x %>%
  set.edge.attribute(., name="relationship",
-value=str_extract(.y,
-pattern = "\\w+")) %>%
- get.data.frame("edges")) %>%
-  mutate(relationship = str_replace(relationship, "edges_", ""))
+value=.y) %>%
+ get.data.frame("edges"))
 
-nodes <- purrr::map(files, read_csv) %>%
-  # extract from multiple files and pull into one data.frame
-  setNames(str_extract(files,
-     pattern = "[\\w]+\\.csv")) %>%
-  keep(str_detect(names(.),
-pattern = "attrs_")) %>%
-  bind_rows()
+nodes <- read_csv(file = "datasets/BAAD/full/attrs_baad.csv")
 
 # clean node attributes ========================================================
 
 nodes <- nodes %>%
-  rename(
+  mutate(
     name                      = group,
     based_in                  = homecountry,
     is_contain_ethno          = ContainEthno,
@@ -124,9 +116,10 @@ nodes <- nodes %>%
     org_age                   = OrgAge,
     org_size                  = ordsize
   ) %>%
-  select(-degree) %>%
+  select(-c(degree, OrgAge, ordsize, fatalities19982005, group)) %>%
+  select(name, everything()) %>%
   mutate_at(vars(starts_with("is_")), as.logical) %>%
-  mutate(based_in = recode(based_in, !!!kv_homebase))
+  mutate(hr_based_in = recode(based_in, !!!kv_homebase))
 
 # build igraph object ==========================================================
 g <- igraph::graph_from_data_frame(
@@ -185,6 +178,17 @@ lethality, finding that organizational size, ideology,territorial control, and
 connectedness are important predictors of lethality while state sponsorship, 
 organizational age, and host country characteristics are not."
 
+### RE-DO ### ==================================================================
+.codebook <- data.frame(
+    relationship = c("Alliance",
+                     "Target"),
+    data_type = c("one-mode",
+                  "one-mode"),
+    definition = c("Positive relationships ranging from suspected alliance, alliance and rivalry, confirmed alliance, and familial.",
+                   "Negative relationships."),
+    stringsAsFactors = FALSE
+  )
+
 .bibtex <- c(
   "@Article{baad_2008,
   title   = {The Nature of the Beast: Terrorist Organizational Characteristics and Organizational Lethality.}, 
@@ -208,6 +212,7 @@ baad <- list(
     abstract    = .abstract
   ),
   bibtex = .bibtex,
+  codebook = .codebook,
   network = .network
 )
 

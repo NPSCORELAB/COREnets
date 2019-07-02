@@ -106,6 +106,13 @@ each cocaine smuggling investigaion:
   }"
 )
 
+.codebook <- data.frame(
+  relationship = c("Communication"),
+  data_type = c("one-mode"),
+  definition = c("Communication ties between individuals."),
+  stringsAsFactors = FALSE
+)
+
 cocaine_smuggling <- list(
   metadata = list(
     title       = "Cocaine Smuggling Networks",
@@ -116,6 +123,7 @@ cocaine_smuggling <- list(
     abstract    = .abstract
   ),
   bibtex = .bibtex,
+  codebook = .codebook,
   network = .network
 )
 

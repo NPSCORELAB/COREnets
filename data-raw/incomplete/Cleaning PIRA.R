@@ -19,7 +19,7 @@ listed_nets <- purrr::map(files, read_csv) %>%
   map(., COREnets::to_matrix) %>%
   map(., COREnets::to_graph) %>%
   imap_dfr(., ~.x %>%
-           set.edge.attribute(., name="procedence",
+           set.edge.attribute(., name="time",
                               value=str_extract(.y,
                                                 pattern = "PERIOD\\d")) %>%
         get.data.frame("edges"))
@@ -43,7 +43,7 @@ desc <- "Data is on active Provisional IRA (hereafter PIRA) members between 1970
 Data also includes sociological information of members, such as gender, age, marital status, recruiting age, education (that is, attending university), brigade memberships, non-/violent characteristics, role-related characteristics—senior leader, IED constructor, IED planter, and gunman—and task-related characteristics (that is, foreign operation tasks, and involvement n bank robbery, kidnapping, hijacking, and drugs).
 This data was downloaded from UCINET's site (https://sites.google.com/site/ucinetsoftware/datasets) on 05-01-2019."
 
-# Anabaptists list:
-noordin_top_complete_one_mode <- list(nodes=listed_attr, edges=listed_nets, name=name, desc=desc)
+# PIRA list:
+pira <- list(nodes=listed_attr, edges=listed_nets, name=name, desc=desc)
 
-usethis::use_data(noordin_top_complete_one_mode, overwrite = TRUE)
+usethis::use_data(pira, overwrite = TRUE)
