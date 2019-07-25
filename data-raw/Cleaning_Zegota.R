@@ -5,18 +5,28 @@ library(COREnets)
 library(readxl)
 
 # Source: DA 4600 Tracking and Disrupting Dark Networks
-# Paper: 
+# Paper: FOUO NPS Library
 # Citation:
 
 # read edges data ==============================================================
 file <- "datasets/Zegota/Edge Lists.xlsx"
 
 edges_df <- file %>%
-  readxl::read_excel(sheet = "Networks") %>%
-  as_tibble() %>%  
-  rename(id = ...1,
-         name = ACTOR)
-
+  readxl::excel_sheets() %>%
+  purrr::discard(stringr::str_detect, pattern = "Networks") %>%
+  purrr::discard(stringr::str_detect, pattern = "Attributes") %>%
+  purrr::discard(stringr::str_detect, pattern = "Actors") %>%
+  purrr::set_names() %>%
+  purrr::imap_dfr(
+    ~ readxl::read_excel(path = file, sheet = .x) %>%
+      as_tibble() %>%
+      gather("relationship", "targets", -source) %>%
+      dplyr::mutate(relationship = .y,
+                    targets = as.numeric(targets))
+  ) %>%
+  rename(id = source) %>%
+  na.omit()
+  
 # edit edges data ==============================================================
 # import variables for recoding (all variables came from the codebook):
 ids_organizations <- read_csv("datasets/Zegota/resistance_organizations.csv")
@@ -40,38 +50,25 @@ regions           <- setNames(as.character(ids_regions$name),
   na.omit()
   
 # actor names:
-ids_names <- edges_df %>%
-  select(id, name)
+ids_names <- readxl::read_excel(path = file, sheet = "Networks") %>%
+  select(...1, ACTOR) %>%
+  rename(id=...1, name=ACTOR)
 ids <- setNames(as.character(ids_names$name),
                               ids_names$id)
 
 # transform data:
 edges_df <- edges_df %>%
-  select(id,
-         Friendship,
-         `Operational Contacts`,
-         Kinship,
-         Organizations,
-         Roles,
-         `Zegota Cells`,
-         `Zegota Roles`,
-         Regions) %>%
-  gather("relationship", "targets", -id) %>%
-  mutate(targets = str_split(targets, pattern = ",")) %>%
-  unnest() %>%
-  drop_na() %>%
-  mutate(targets = as.character(as.numeric(targets)),
-         mode    = if_else(relationship %in% c("Friendship",
-                                               "Operational Contacts",
-                                               "Kinship"),
+  mutate(mode    = if_else(relationship %in% c("Zegota Friendship Network",
+                                               "Zegota Operational Contacts",
+                                               "Zegota Kinship Network"),
                            "One-mode",
                            "Two-mode"),
          recoded = case_when(mode         == "One-mode"      ~ recode(targets, !!!ids),
-                             relationship == "Organizations" ~ recode(targets, !!!organizations),
-                             relationship == "Roles"         ~ recode(targets, !!!roles),
+                             relationship == "Zegota Organizations" ~ recode(targets, !!!organizations),
+                             relationship == "Organizational Roles"         ~ recode(targets, !!!roles),
                              relationship == "Zegota Cells"  ~ recode(targets, !!!cells),
-                             relationship == "Zegota Roles"  ~ recode(targets, !!!roles),
-                             relationship == "Regions"       ~ recode(targets, !!!regions)
+                             relationship == "Zegota Internal Roles"  ~ recode(targets, !!!roles),
+                             relationship == "Zegota Regions"       ~ recode(targets, !!!regions)
                              )
 
          ) %>%
@@ -83,13 +80,11 @@ edges_df <- edges_df %>%
 
 # NOTE: Relationships need to be subset so as to match the analysis in paper.
 # As such we remove the two-mode relationships:
-edges_df <- edges_df %>%
-  filter(mode == "One-mode") %>%
-  select(from, to, relationships)
+# edges_df <- edges_df %>%
+#   filter(mode == "One-mode") %>%
+#   select(from, to, relationships)
 
 # read nodes data ==============================================================
-file <- "datasets/Zegota/Edge Lists.xlsx"
-
 nodes_df <- file %>%
   readxl::read_excel(sheet = "Attributes") %>%
   as_tibble() %>%  
@@ -146,6 +141,18 @@ nodes_df <- nodes_df %>%
 
 
 # build igraph object ==========================================================
+nodes_temp <- edges_df %>%
+  igraph::graph_from_data_frame() %>%
+  igraph::get.data.frame("vertices") %>%
+  mutate(node_type = case_when(name %in% ids           == TRUE ~ "people",
+                               name %in% roles         == TRUE ~ "roles",
+                               name %in% organizations == TRUE ~ "organizations",
+                               name %in% cells         == TRUE ~ "organizations",
+                               name %in% regions       == TRUE ~ "locations"))
+
+nodes_df <- nodes_temp %>%
+  left_join(nodes_df, by = "name")
+
 g <- igraph::graph_from_data_frame(
   d = edges_df,
   directed = FALSE,
@@ -158,7 +165,7 @@ g <- igraph::graph_from_data_frame(
     is_directed  = igraph::is_directed(g),
     is_weighted  = igraph::is_weighted(g),
     is_multiplex = igraph::any_multiple(g),
-    node_type    = "people",
+    node_type    = c("people", "roles", "organizations", "locations"),
     is_two_mode  = igraph::is_bipartite(g),
     is_dynamic   = FALSE,
     are_nodes_spatial = inherits(igraph::as_data_frame(g,
@@ -175,15 +182,30 @@ g <- igraph::graph_from_data_frame(
 .abstract <- "From 1942 to 1945, Zegota served as an underground organization of Polish resistance in German-occupied Poland. While, the individual organizations that make up this network were developed to provide security, gather food, coordinate excapes, rescue children, provide education, and counter anti-Jewish propaganda to name a few, until the formation of Zegota in 1942 none served to aid Jews. The authors of this research focused on how Zegota synchronized the efforts of multiple organizations to achieve a particular goal."
 
 .codebook <- data.frame(
-    relationship = c("Friendship",
-                     "Kinship",
-                     "Operational Contacts"),
+    relationship = c("Zegota Friendship Network",
+                     "Zegota Kinship Network",
+                     "Zegota Operational Contacts",
+                     "Organizational Roles",
+                     "Zegota Cells",
+                     "Zegota Internal Roles",
+                     "Zegota Organizations",
+                     "Zegota Regions"),
     data_type = c("one-mode",
                   "one-mode",
-                  "one-mode"),
+                  "one-mode",
+                  "two-mode",
+                  "two-mode",
+                  "two-mode",
+                  "two-mode",
+                  "two-mode"),
     definition = c("Not defined by the authors, but noted as 'indicative of trust between actors'.",
                    "Such as brother, brother-in-law, nephew and marriages.",
-                   "Not defined by the authors."),
+                   "Not defined by the authors. Ties people to people.",
+                   "Not defined by the authors. Ties people to roles (e.g., founder, leader, etc.).",
+                   "Not defined by the authors. Ties people to organizations internal to Zegota (e.g., Anti-szmalcownik Cell, Child welfare Cell, etc.).",
+                   "Not defined by the authors. Ties people to roles (e.g., founder, leader, etc.).",
+                   "Not defined by the authors. Ties people to organizations external to Zegota (e.g., Allied Forces and Leaders, Armia Krajowa (Home Army), etc.).",
+                   "Not defined by the authors. Ties people to regions (e.g., Aushwitz, United States, etc.)."),
     stringsAsFactors = FALSE
   )
 
