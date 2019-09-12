@@ -212,7 +212,7 @@ generate_graph_metadata <- function(igraph_graph) {
       ),
       edges_metadata = list(
         edges_count = ecount(igraph_graph),
-        are_edges_spatial =  inherits(igraph::as_data_frame(g,
+        edges_spatial =  inherits(igraph::as_data_frame(g,
                                                             what = "edges"),
                                       "sf")
       ),
