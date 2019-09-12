@@ -13,31 +13,37 @@ files <- list.files(path="datasets/London Gang/",
 
 # read adjacency matrix ========================================================
 edges <- files %>%
-  purrr::discard(stringr::str_detect, pattern = "_ATTR.csv") %>%
+  purrr::discard(stringr::str_detect,
+                 pattern = "_ATTR.csv") %>%
   read_csv() %>%
   COREnets::to_matrix() %>%
-  graph_from_adjacency_matrix(weighted = TRUE, mode = "undirected") %>%
+  igraph::graph_from_adjacency_matrix(weighted = TRUE,
+                                      mode = "undirected") %>%
   get.data.frame("edges") %>%
-  # The extracted weights represent types of ties
-  mutate(relationships = weight,
-         relationships = case_when(relationships == 1 ~ "Hang Out Together",
-                                   relationships == 2 ~ "Co-Offend Together",
-                                   relationships == 3 ~ "Co-Offend Together, Serious Crime",
-                                   relationships == 4 ~ "Co-Offend Together, Seriour Crime, Kin"))
+  # The extracted weights represent edge types
+  mutate(type      = weight,
+         edge_type = case_when(type == 1 ~ "Hang Out Together",
+                               type == 2 ~ "Co-Offend Together",
+                               type == 3 ~ "Co-Offend Together, Serious Crime",
+                               type == 4 ~ "Co-Offend Together, Seriour Crime, Kin"),
+         from_class = "people",
+         to_class   = "people"
+         ) %>%
+  select(from, to, from_class, to_class, type, edge_type)
 
 # read attribute table =========================================================
 nodes <- files %>%
   purrr::keep(stringr::str_detect, pattern = "_ATTR.csv") %>%
   read_csv() %>%
   as_tibble() %>%
-  rename(name = X1)
-
-# recode attribute table =======================================================
-nodes <- nodes %>%
-  mutate(hr_birthplace = case_when(Birthplace == 1 ~ "West Africa",
-                                Birthplace == 2 ~ "Caribbean",
-                                Birthplace == 3 ~ "United Kingdom",
-                                Birthplace == 4 ~ "East Africa"))
+  rename(name = X1) %>%
+  mutate(node_class    = "people",
+         # Recode attributes for human readability -----------------------------
+         hr_birthplace = case_when(Birthplace == 1 ~ "West Africa",
+                                   Birthplace == 2 ~ "Caribbean",
+                                   Birthplace == 3 ~ "United Kingdom",
+                                   Birthplace == 4 ~ "East Africa")
+         )
 
 # Note 17 June 2019 ============================================================
 # Though the dataset was downloaded from UCINet's site there are issues with the
@@ -49,29 +55,12 @@ nodes <- nodes %>%
 
 # build igraph object ==========================================================
 g <- igraph::graph_from_data_frame(
-  d = edges,
+  d        = edges,
   directed = FALSE,
   vertices = nodes
 )
 
 # build final dataset ==========================================================
-.network <- list(
-  metadata = list(
-    is_directed  = igraph::is_directed(g),
-    is_weighted  = igraph::is_weighted(g),
-    is_multiplex = igraph::any_multiple(g),
-    node_type    = "people",
-    is_two_mode  = igraph::is_bipartite(g),
-    is_dynamic   = FALSE,
-    are_nodes_spatial = inherits(igraph::as_data_frame(g,
-                                                       what = "vertices"), "sf"),
-    are_edges_spatial =  inherits(igraph::as_data_frame(g,
-                                                        what = "edges"), "sf")
-  ),
-  node_table = as_tibble(igraph::as_data_frame(g, what = "vertices")),
-  edge_table = as_tibble(igraph::as_data_frame(g, what = "edges"))
-)
-
 .introduction <- "This dataset is on co-offending individuals in a London-based
 inner-city street gang from 2005 to 2009. Data comes from anonymized police
 arrests and convition data for confirmed members of the gang."
@@ -100,7 +89,7 @@ activities is dominated by ethnicity."
 )
 
 .codebook <- data.frame(
-  `Tie Value` = c("1",
+  `Edge Type` = c("1",
                   "2",
                   "3",
                   "4"),
@@ -115,19 +104,31 @@ activities is dominated by ethnicity."
   stringsAsFactors = FALSE
 )
 
+.metadata <- list(
+  title        = "London Gang",
+  name         = "london_gang",
+  tags         = c("street gangs",
+                   "crime",
+                   "homophily",
+                   "heterogeneity",
+                   "ethnicity"),
+  introduction = .introduction,
+  abstract     = .abstract,
+  codebook     = .codebook,
+  bibtex       = .bibtex,
+  paper_link   = "https://journals.sagepub.com/doi/figure/10.1177/1477370812447738?")
+
+.network <- list(
+  metadata = unnest_edge_types(g, "edge_type") %>%
+    purrr::map(~.x %>%
+                 generate_graph_metadata),
+  node_table = as_tibble(igraph::as_data_frame(g, what = "vertices")),
+  edge_table = as_tibble(igraph::as_data_frame(g, what = "edges"))
+)
+
 london_gang <- list(
-  metadata = list(
-    title       = "London Gang",
-    name        = "london_gang",
-    category    = "criminal",
-    tags        = c("street gangs", "crime", "homophily", "heterogeneity",
-                    "ethnicity"),
-    description = .introduction,
-    abstract    = .abstract
-  ),
-  metadata      = .bibtex,
-  codebook      = .codebook,
-  network       = .network
+  metadata = .metadata,
+  network  = .network
 )
 
 usethis::use_data(london_gang, overwrite = TRUE)
