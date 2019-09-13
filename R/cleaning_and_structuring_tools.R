@@ -205,24 +205,26 @@ generate_graph_metadata <- function(igraph_graph) {
       graph_metadata = list(
         is_bimodal   = igraph::is_bipartite(igraph_graph),
         is_directed  = igraph::is_directed(igraph_graph),
+        is_dynamic   = test_dynamic(igraph_graph),
         is_multiplex = igraph::any_multiple(igraph_graph),
         is_weighted  = igraph::is_weighted(igraph_graph),
         has_loops    = test_loops(igraph_graph),
         has_isolates = test_isolates(igraph_graph)
       ),
       edges_metadata = list(
-        edges_count = ecount(igraph_graph),
-        edges_spatial =  inherits(igraph::as_data_frame(g,
-                                                            what = "edges"),
-                                      "sf")
+        count       = ecount(igraph_graph),
+        are_dynamic = test_dynamic(igraph_graph),
+        are_spatial = inherits(igraph::as_data_frame(g,
+                                                     what = "edges"),
+                               "sf")
       ),
       nodes_metadata = list(
-        nodes_count         = vcount(igraph_graph),
-        nodes_classes       = get_node_classes(igraph_graph),
-        nodes_classes_count = length(get_node_classes(igraph_graph)),
-        nodes_spatial       = inherits(igraph::as_data_frame(igraph_graph,
-                                                             what = "vertices"),
-                                       "sf")
+        count         = vcount(igraph_graph),
+        classes       = get_node_classes(igraph_graph),
+        classes_count = length(get_node_classes(igraph_graph)),
+        are_spatial   = inherits(igraph::as_data_frame(igraph_graph,
+                                                       what = "vertices"),
+                                 "sf")
       )
       )
     )
@@ -299,5 +301,20 @@ get_node_classes <- function(igraph_graph, from_class = "from_class", to_class =
   # Return
   classes
 }
+
+#' @title Testing for Dynamic Edges
+#'
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @importFrom igraph is_igraph edge_attr
+#'
+test_dynamic <- function(igraph_graph) {
+  if (!is_igraph(igraph_graph)) {
+    stop("Graph provided is not and igraph object.",
+         call. = FALSE)
+  }
+  atts <- names(igraph::edge_attr(igraph_graph))
+  "edge_time" %in% atts
+  }
 
 

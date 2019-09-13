@@ -119,11 +119,11 @@ activities is dominated by ethnicity."
   paper_link   = "https://journals.sagepub.com/doi/figure/10.1177/1477370812447738?")
 
 .network <- list(
-  metadata = unnest_edge_types(g, "edge_type") %>%
+  net_metadata = unnest_edge_types(g, "edge_type") %>%
     purrr::map(~.x %>%
                  generate_graph_metadata),
-  node_table = as_tibble(igraph::as_data_frame(g, what = "vertices")),
-  edge_table = as_tibble(igraph::as_data_frame(g, what = "edges"))
+  nodes_table = igraph::as_data_frame(g, what = "vertices"),
+  edges_table = igraph::as_data_frame(g, what = "edges")
 )
 
 london_gang <- list(

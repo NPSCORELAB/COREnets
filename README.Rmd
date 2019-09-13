@@ -1,7 +1,7 @@
 ---
 output: 
   github_document:
-    html_preview: false
+    html_preview: true
 always_allow_html: yes
 editor_options: 
   chunk_output_type: console
@@ -10,10 +10,14 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   fig.align = "center",
-  comment = "#>",
-  message = FALSE,
-  warning = FALSE
+  comment   = "#>",
+  collapse  = TRUE
 )
+
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE)
 ```
 
 # COREnets
@@ -36,113 +40,166 @@ devtools::install_github("NPSCORELAB/COREnets")
 
 `COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
 
-```{r}
+```{r, eval = FALSE}
 library(COREnets)
-anabaptists <- COREnets::anabaptists
+COREnets::london_gang
 ```
 
-Each data object is a nested list with three levels:
+Each data object contains two main lists of information, the `metadata` and `network` lists:
 
 ```{r}
-names(anabaptists)
+names(COREnets::london_gang)
+class(COREnets::london_gang$metadata)
+class(COREnets::london_gang$network)
 ```
 
-  1. The `metadata` contains information on the dataset:
+### `metadata`
+
+The `metadata` list contains the following fields of information on the dataset:
+
 ```{r, echo=F}
 library(tidyverse)
+
 metadata <- tibble::tibble(
   Field = c(
     "title",
     "name",
-    "category",
     "tags",
-    "description"
+    "introduction",
+    "abstract",
+    "codebook",
+    "bibtex",
+    "paper_link"
   ),
   Type = c(
     "character",
     "character",
     "character",
+    "character",
+    "character",
+    "data.frame",
     "character",
     "character"
   ),
   Definition = c(
-    "A formal title for the dataset for external uses.",
+    "A formal title for the dataset as presented by other databases or the author.",
     "An informal dataset label for internal use.",
-    "An internal classification for the type dataset, based on one of the following: <br>
-    - Religious <br>
-    - Terrorirsm <br>
-    - Criminal <br>
-    - Other",
-    "An atomic vector of key words assinged to the piece of data.",
-    "A brief definition of the dataset in regards to the type of data, collection, etc."
+    "An internal classification assinged to the dataset.",
+    "A brief definition of the dataset to include the type of data, collection, etc.",
+    "A brief summary of ...",
+    "A data table used for gathering and storing relationships and their definitions.",
+    "The citation for the dataset in bibtex format. Some datasets may have mupltiple entries.",
+    "Hyperlink(s) to publications linked to the dataset."
   )
 )
 metadata %>%
-  knitr::kable(format = "html", escape = FALSE) %>%
+  knitr::kable(format = "pandoc", escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = c("bordered"))
 ```
+
+### `network`
+
+The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each dataset is slightly different, this list is segmented into three entries:
   
-  2. The `bibtex_data` the data fields required to generate a [bibtex citation](https://verbosus.com/bibtex-style-examples.html). Note that the some datasets will have mutiple citation entries.
-  3. The `network` field contains a list of meta data and both the node and edges tables required to generate a network graph:
+  - `net_metadata`: A list of lists each containing information on the different edge types contained in the edgelist. The following fields are included, as an individual nested lists, for each edge type subgraph:
   
-  - `net_metadata`: A list of descriptive information on the type of network:
 ```{r, echo=FALSE}
-net_metadata <- tibble::tibble(
+net_metadata <- data.frame(
   Field = c(
-    "node_type",
-    "edge_type",
-    "modes",
-    "directed",
-    "weighted",
-    "multiplex",
-    "dynamic",
-    "spatial"
+    # graph_metadata
+    "is_bimodal",
+    "is_directed",
+    "is_dynamic",
+    "is_multiplex",
+    "is_weighted",
+    "has_isolates",
+    "has_loops",
+    # edges_metadata
+    "count",
+    "are_spartial",
+    "are_dynamic",
+    # nodes_metadata
+    "count",
+    "classes",
+    "classes_count",
+    "are_spatial"
   ),
   Type = c(
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    # edges_metadata
+    "numeric",
+    "logical",
+    "logical",
+    # nodes_metadata
+    "numeric",
     "character",
-    "character",
-    "double",
-    "logical",
-    "logical",
-    "logical",
-    "logical",
+    "numeric",
     "logical"
   ),
   Definition = c(
-    "Description of the node class.",
-    "Description of the edge.",
-    "A number denoting one or two mode networks.",
+    "A logial denoting wheter or not the edge type yields a bipartite graph.",
     "A logical denoting whether the network edges are directed or not.",
+    "A logical denoting whether the edges are dynamic or not.",
+    "A logical denoting whether or not the network is made up of multiple parallel edges.",
     "A logical denoting whether or not the edges are weighted.",
-    "A logical denoting whether or not the network is made up of multiple layers.",
-    "A logical denoting whether or not the network changes with time.",
-    "	A logical denoting whether or not the network vertices or edges are associated with a geographic feature."
+    "A logical which defines if the graph contains isolates or not.",
+    "A logical defining the presence or absence of self-loops.",
+    # edges_metadata
+    "A number corresponding to the number of edges.",
+    "A logical denoting wheter or not the edges have spatial features.",
+    "A logial denoting whether or not the edges have temporal features (e.g., timestamps).",
+    # nodes_metadata
+    "A number corresponding to the number of nodes.",
+    "A character vector with the node classes.",
+    "A number correspoding to the number of node classes.",
+    "A logical denoting whether or not the nodes have spatial features."
   )
 )
 
 net_metadata %>%
   knitr::kable(format = "html", escape = FALSE) %>%
-  kableExtra::kable_styling(bootstrap_options = c("bordered"))
-```
-  
-  - `node_table`: A `data.frame` containg node attributes. A unique identifier for each node in the `edge_table` should be present in the `name` variable.
-```{r}
-head(anabaptists$network$node_table)
+  kableExtra::kable_styling("striped", full_width = TRUE) %>%
+  kableExtra::group_rows("graph_metadata",
+                         1, 7,
+                         label_row_css = "background-color: #666; color: #fff;") %>%
+  kableExtra::group_rows("edges_metadata",
+                         8, 10,
+                         label_row_css = "background-color: #666; color: #fff;") %>%
+  kableExtra::group_rows("nodes_metadata",
+                         11, 14,
+                         label_row_css = "background-color: #666; color: #fff;") %>%
+  kableExtra::footnote(general = "Groups in this table represent independent lists.",
+                       title_format = "underline")
 ```
 
-  - `edge_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
+  - `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
 ```{r}
-head(anabaptists$network$edge_table)
+COREnets::london_gang$network$edges_table %>%
+  glimpse()
+```
+  
+  - `nodes_table`:  A `data.frame` containg node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable.
+```{r}
+COREnets::london_gang$network$nodes_table %>%
+  glimpse()
 ```
 
 
 ## Generating Networks 
 
-Each network in the package contains the necessary edges and nodes tables to generate network objects with `igraph`:
+Each network in the package contains the necessary edges and nodes tables to generate network objects with **igraph**. For instance:
 
 ```{r}
-net <- igraph::graph_from_data_frame(COREnets::anabaptists$network$edge_table,
-                                     directed = COREnets::anabaptists$network$metadata$directed,
-                                     vertices = COREnets::anabaptists$network$node_table)
+net <- igraph::graph_from_data_frame(d        = COREnets::london_gang$network$edges_table,
+                                     directed = FALSE, 
+                                     vertices = COREnets::london_gang$network$nodes_table)
 net
 ```
+
+
