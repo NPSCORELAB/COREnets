@@ -27,4 +27,3 @@ rsconnect/
 .Rproj.user
 .DS_Store
 # Ignore raw datasets
-datasets/
