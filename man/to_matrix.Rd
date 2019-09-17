@@ -4,12 +4,12 @@
 \alias{to_matrix}
 \title{From Dataframe to Adjacency or Incidence Matrix}
 \usage{
-to_matrix(.df, .rownames = 1)
+to_matrix(df, rownames = 1)
 }
 \arguments{
-\item{.df, }{A `df` produced by the `read_xlsx` function.}
+\item{df, }{A `df` produced by the `read_xlsx` function.}
 
-\item{.rownames, }{A column value for the row that will be reassigned as 
+\item{rownames, }{A column value for the row that will be reassigned as 
 rownames and then removed from the data frame.}
 }
 \description{

@@ -17,4 +17,5 @@ Imports:
     purrr,
     tibble,
     tidyselect
-
+Suggests: 
+    testthat

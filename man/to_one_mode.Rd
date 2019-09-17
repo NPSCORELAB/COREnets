@@ -4,10 +4,10 @@
 \alias{to_one_mode}
 \title{Transform to one-mode}
 \usage{
-to_one_mode(.g, project = "rows", ...)
+to_one_mode(g, project = "rows", ...)
 }
 \arguments{
-\item{.g, }{An `igraph` object produced by the `to_graph` function.}
+\item{g, }{An `igraph` object produced by the `to_graph` function.}
 
 \item{project, }{Projection type for igraph to extract. "rows" will extract a 
 one-mode matrix of rows-to-rows, while "columns" will extract a one-mode 

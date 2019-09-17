@@ -1,0 +1,1 @@
+This dataset is on co-offending individuals in a London-based inner-city street gang from 2005 to 2009. Data comes from anonymized police arrests and convition data for confirmed members of the gang.

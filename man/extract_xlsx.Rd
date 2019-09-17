@@ -7,7 +7,7 @@
 listed_df <- get_xlsx("datasets/Afghan Tribal Networks.xlsx")
 }
 \arguments{
-\item{.path, }{A path to the workbook with multiple relational and 
+\item{path, }{A path to the workbook with multiple relational and 
 non-relational network data.}
 }
 \description{
