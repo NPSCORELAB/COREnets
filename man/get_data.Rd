@@ -4,7 +4,7 @@
 \alias{get_data}
 \title{Get Data}
 \usage{
-get_data(dataset)
+get_data(dataset, quietly = TRUE)
 }
 \arguments{
 \item{dataset, }{the name of the dataset desired.}
