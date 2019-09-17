@@ -9,7 +9,6 @@
 #'
 #' @export
 get_data <- function(dataset, quietly = TRUE) {
-  
   if (!is.character(dataset) | length(dataset) != 1L) {
     stop("The dataset argument must be a scalar character.",
          call. = FALSE)
@@ -18,7 +17,8 @@ get_data <- function(dataset, quietly = TRUE) {
   file_path <- sprintf("inst/datasets/%s/%s.R", dataset, dataset)
   
   if (!file.exists(file_path)) {
-    stop("Can't find file: ", file_path)
+    stop("Can't find file: ", file_path, 
+         call. = FALSE)
   }
   
   foo <- parse(
