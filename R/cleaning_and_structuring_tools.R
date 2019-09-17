@@ -177,7 +177,7 @@ unnest_edge_types <- function(igraph_graph, edge_type_attr_name) {
   listed_graphs <- lapply(types,
          function(x) subgraph.edges(igraph_graph,
                                     eids = which(
-                                      E(igraph_graph)$edge_type %in% x)
+                                      igraph::E(igraph_graph)$edge_type %in% x)
                                     )
          )
   listed_graphs
@@ -213,18 +213,23 @@ generate_graph_metadata <- function(igraph_graph) {
       ),
       edges_metadata = list(
         count       = ecount(igraph_graph),
-        are_dynamic = test_dynamic(igraph_graph),
-        are_spatial = inherits(igraph::as_data_frame(g,
-                                                     what = "edges"),
-                               "sf")
+        are_dynamic = test_dynamic(igraph_graph)
+        
+        # TODO g? 
+        # TODO igraph can't return sf objects
+        # are_spatial = inherits(igraph::as_data_frame(g,
+                                                     # what = "edges"),
+                               # "sf")
       ),
       nodes_metadata = list(
         count         = vcount(igraph_graph),
         classes       = get_node_classes(igraph_graph),
-        classes_count = length(get_node_classes(igraph_graph)),
-        are_spatial   = inherits(igraph::as_data_frame(igraph_graph,
-                                                       what = "vertices"),
-                                 "sf")
+        classes_count = length(get_node_classes(igraph_graph))
+        
+        # TODO igraph can't retrun sf objects
+        # are_spatial   = inherits(igraph::as_data_frame(igraph_graph,
+                                                       # what = "vertices"),
+                                 # "sf")
       )
       )
     )

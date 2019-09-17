@@ -1,7 +1,7 @@
 
-library(igraph)
-library(tidyverse)
-library(COREnets)
+# library(igraph)
+# library(tidyverse)
+# library(COREnets)
 
 # paper: https://journals.sagepub.com/doi/figure/10.1177/1477370812447738?
 
@@ -15,36 +15,40 @@ files <- list.files(path="inst/datasets/london_gang/",
 edges <- files %>%
   purrr::discard(stringr::str_detect,
                  pattern = "_ATTR.csv") %>%
-  read_csv() %>%
+  readr::read_csv() %>%
   COREnets::to_matrix() %>%
   igraph::graph_from_adjacency_matrix(weighted = TRUE,
                                       mode = "undirected") %>%
-  get.data.frame("edges") %>%
+  igraph::get.data.frame("edges") %>%
   # The extracted weights represent edge types
-  mutate(type      = weight,
-         edge_type = case_when(type == 1 ~ "Hang Out Together",
-                               type == 2 ~ "Co-Offend Together",
-                               type == 3 ~ "Co-Offend Together, Serious Crime",
-                               type == 4 ~ "Co-Offend Together, Seriour Crime, Kin"),
-         from_class = "people",
-         to_class   = "people"
-         ) %>%
-  select(from, to, from_class, to_class, type, edge_type)
+  dplyr::mutate(
+    type = weight,
+    edge_type = dplyr::case_when(
+      type == 1 ~ "Hang Out Together",
+      type == 2 ~ "Co-Offend Together",
+      type == 3 ~ "Co-Offend Together, Serious Crime",
+      type == 4 ~ "Co-Offend Together, Seriour Crime, Kin"),
+    from_class = "people",
+    to_class   = "people"
+  ) %>%
+  dplyr::select(from, to, from_class, to_class, type, edge_type)
 
 # read attribute table =========================================================
 nodes <- files %>%
   purrr::keep(stringr::str_detect,
               pattern = "_ATTR.csv") %>%
-  read_csv() %>%
-  as_tibble() %>%
-  rename(name = X1) %>%
-  mutate(node_class    = "people",
-         # Recode attributes for human readability -----------------------------
-         hr_birthplace = case_when(Birthplace == 1 ~ "West Africa",
-                                   Birthplace == 2 ~ "Caribbean",
-                                   Birthplace == 3 ~ "United Kingdom",
-                                   Birthplace == 4 ~ "East Africa")
-         )
+  readr::read_csv() %>%
+  tibble::as_tibble() %>%
+  dplyr::rename(name = X1) %>%
+  dplyr::mutate(
+    node_class    = "people",
+    # Recode attributes for human readability -----------------------------
+    hr_birthplace = dplyr::case_when(
+      Birthplace == 1 ~ "West Africa",
+      Birthplace == 2 ~ "Caribbean",
+      Birthplace == 3 ~ "United Kingdom",
+      Birthplace == 4 ~ "East Africa")
+  )
 
 # Note 17 June 2019 ============================================================
 # Though the dataset was downloaded from UCINet's site there are issues with the
@@ -118,11 +122,9 @@ activities is dominated by ethnicity."
   codebook     = .codebook,
   bibtex       = .bibtex,
   paper_link   = "https://journals.sagepub.com/doi/figure/10.1177/1477370812447738?")
-
 .network <- list(
   net_metadata = unnest_edge_types(g, "edge_type") %>%
-    purrr::map(~.x %>%
-                 generate_graph_metadata),
+    purrr::map(generate_graph_metadata),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")
 )
