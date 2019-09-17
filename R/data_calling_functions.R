@@ -21,7 +21,6 @@ get_data <- function(dataset, quietly = TRUE) {
     stop("Can't find file: ", file_path)
   }
   
-  
   foo <- parse(
     text = readLines(file_path, warn = FALSE)
   )
