@@ -3,6 +3,8 @@
 export(RT_extract)
 export(extract_xlsx)
 export(generate_graph_metadata)
+export(get_data)
+export(list_data_sources)
 export(test_isolates)
 export(test_loops)
 export(to_graph)
