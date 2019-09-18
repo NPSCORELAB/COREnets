@@ -42,8 +42,8 @@ to_matrix <- function(df, rownames = 1) {
 #' one-mode matrix of rows-to-rows, while "columns" will extract a one-mode 
 #' matrix of colums-to-columns.
 #'
-to_one_mode <- function(g, project = "rows", ...) {
-  if (!is.igraph(g)) {
+to_one_mode <- function(g, project = "rows") {
+  if (!igraph::is.igraph(g)) {
     stop("Object provided is not an igraph object, try again.",
          call. = FALSE)
   }
@@ -80,9 +80,6 @@ to_one_mode <- function(g, project = "rows", ...) {
 #'
 #' @param path, A path to the workbook with multiple relational and 
 #' non-relational network data.
-#' 
-#' @usage 
-#' listed_df <- get_xlsx("datasets/Afghan Tribal Networks.xlsx")
 #' 
 extract_xlsx <- function(path) {
   if (!endsWith(basename(path), "xlsx")) {

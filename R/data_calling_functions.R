@@ -36,6 +36,24 @@ get_data <- function(dataset, quietly = TRUE) {
   }
 }
 
+#' @title Read Data Description
+#' 
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param dataset, the name of the dataset desired.
+#' 
+#' @export
+get_description <- function(dataset) {
+  if (!is.character(dataset) | length(dataset) != 1L) {
+    stop("The dataset argument must be a scalar character.",
+         call. = FALSE)
+  }
+  file_path <- sprintf("inst/datasets/%s/description.txt", dataset)
+  
+  readLines(file_path,
+            warn = FALSE)
+}
+
 #' @title List Available Data
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}

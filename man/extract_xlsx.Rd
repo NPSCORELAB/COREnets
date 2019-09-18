@@ -4,7 +4,7 @@
 \alias{extract_xlsx}
 \title{Read Multiple Tables from Excels}
 \usage{
-listed_df <- get_xlsx("datasets/Afghan Tribal Networks.xlsx")
+extract_xlsx(path)
 }
 \arguments{
 \item{path, }{A path to the workbook with multiple relational and 

@@ -6,6 +6,11 @@
 \usage{
 get_codebook_fields(codebook, wanted_edge_type)
 }
+\arguments{
+\item{codebook, }{A `data.frame` with metedata fields for each `edge_type`}
+
+\item{wanted_edge_type, }{A `character` matching a value in the `edge_type` variable in the codebook}
+}
 \description{
 Return Metadata Fields from Codebook
 }

@@ -103,6 +103,9 @@ generate_graph_metadata <- function(g, codebook) {
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #' 
+#' @param codebook, A `data.frame` with metedata fields for each `edge_type` 
+#' @param wanted_edge_type, A `character` matching a value in the `edge_type` variable in the codebook
+#' 
 get_codebook_fields <- function(codebook, wanted_edge_type) {
   if (!is.character(wanted_edge_type)) {
     stop("The edge_type argument provided is not a string.",
@@ -128,6 +131,8 @@ get_codebook_fields <- function(codebook, wanted_edge_type) {
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #' 
+#' @param g, An `igraph` object. 
+#' 
 test_loops <- function(g) {
   if (!igraph::is_igraph(g)) {
     stop("Graph provided is not and igraph object.",
@@ -141,6 +146,8 @@ test_loops <- function(g) {
 #' @title Testing for Isolates
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#'
+#' @param g, An `igraph` object. 
 #' 
 test_isolates <- function(g) {
   if (!igraph::is_igraph(g)) {
@@ -157,6 +164,10 @@ test_isolates <- function(g) {
 #' @title Testing for Isolates
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param g, An `igraph` object.
+#' @param from_class, A string pointer to variable containing the node class for the `from` column
+#' @param to_class, A string pointer to variable containing the node class for the `to` column
 #'
 get_node_classes <- function(g, from_class = "from_class", to_class = "to_class") {
   if (!igraph::is_igraph(g)) {
@@ -186,6 +197,8 @@ get_node_classes <- function(g, from_class = "from_class", to_class = "to_class"
 #' @title Testing for Dynamic Edges
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param g, An `igraph` object.
 #'
 test_dynamic <- function(g) {
   if (!igraph::is_igraph(g)) {

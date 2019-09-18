@@ -4,7 +4,7 @@
 \alias{to_one_mode}
 \title{Transform to one-mode}
 \usage{
-to_one_mode(g, project = "rows", ...)
+to_one_mode(g, project = "rows")
 }
 \arguments{
 \item{g, }{An `igraph` object produced by the `to_graph` function.}

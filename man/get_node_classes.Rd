@@ -6,6 +6,13 @@
 \usage{
 get_node_classes(g, from_class = "from_class", to_class = "to_class")
 }
+\arguments{
+\item{g, }{An `igraph` object.}
+
+\item{from_class, }{A string pointer to variable containing the node class for the `from` column}
+
+\item{to_class, }{A string pointer to variable containing the node class for the `to` column}
+}
 \description{
 Testing for Isolates
 }

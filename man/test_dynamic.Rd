@@ -6,6 +6,9 @@
 \usage{
 test_dynamic(g)
 }
+\arguments{
+\item{g, }{An `igraph` object.}
+}
 \description{
 Testing for Dynamic Edges
 }

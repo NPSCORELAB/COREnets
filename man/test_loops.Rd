@@ -6,6 +6,9 @@
 \usage{
 test_loops(g)
 }
+\arguments{
+\item{g, }{An `igraph` object.}
+}
 \description{
 Testing for Loops
 }

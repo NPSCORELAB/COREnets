@@ -6,6 +6,9 @@
 \usage{
 test_isolates(g)
 }
+\arguments{
+\item{g, }{An `igraph` object.}
+}
 \description{
 Testing for Isolates
 }

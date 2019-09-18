@@ -8,8 +8,8 @@ df       <- data.frame(from       = c("a", "a", "b"),
                        edge_type  = c("foo", "foo", "bar")
                        )
 g        <- igraph::graph_from_data_frame(df)
-listed_g <- COREnets::unnest_edge_types(g              = g,
-                                        edge_type_name = "edge_type")
+listed_g <- COREnets:::unnest_edge_types(g              = g,
+                                         edge_type_name = "edge_type")
 codebook <- data.frame(
   `edge_type` = c("foo",
                   "bar"),
@@ -53,14 +53,14 @@ test_that("unnest_edge_types() works", {
 test_that("get_codebook_fields() works", {
   # Returns data.frame?
   expect_s3_class(
-    get_codebook_fields(
+    COREnets:::get_codebook_fields(
       codebook,
       "foo"),
     "data.frame")
   # Returns expected headers?
   expect_equal(
     names(
-      get_codebook_fields(
+      COREnets:::get_codebook_fields(
         codebook,
         "foo")
       ),
@@ -74,7 +74,7 @@ test_that("get_codebook_fields() works", {
   # Returns expected dims?
   expect_equal(
     dim(
-      get_codebook_fields(
+      COREnets:::get_codebook_fields(
         codebook,
         "foo")
       ),
@@ -83,7 +83,7 @@ test_that("get_codebook_fields() works", {
   )
   # Returns expected types?
   expect_equal(
-    sapply(get_codebook_fields(
+    sapply(COREnets:::get_codebook_fields(
       codebook,
       "foo"),
       typeof),
@@ -100,7 +100,7 @@ test_that("generate_graph_metadata() works", {
   # Is the output a list?
   expect_type(
     purrr::map(listed_g,
-           ~ generate_graph_metadata(.x,
+           ~ COREnets:::generate_graph_metadata(.x,
                                      codebook = codebook)),
     "list")
   # Each item on that is three in lenght?
@@ -108,7 +108,7 @@ test_that("generate_graph_metadata() works", {
     length(
       purrr::map(
         listed_g,
-        ~ generate_graph_metadata(.x,
+        ~ COREnets:::generate_graph_metadata(.x,
                                  codebook = codebook))[[1]][[1]])
     ,
     3)
@@ -117,7 +117,7 @@ test_that("generate_graph_metadata() works", {
     names(
       purrr::map(
         listed_g,
-        ~ generate_graph_metadata(.x,
+        ~ COREnets:::generate_graph_metadata(.x,
                                   codebook = codebook))[[1]][[1]]
       ),
     c("graph_metadata",
@@ -129,7 +129,7 @@ test_that("generate_graph_metadata() works", {
     sapply(
       purrr::map(
         listed_g,
-        ~ generate_graph_metadata(.x,
+        ~ COREnets:::generate_graph_metadata(.x,
                                   codebook = codebook))[[1]][[1]][["graph_metadata"]],
       typeof),
     c(is_bimodal   = "logical",
@@ -144,7 +144,7 @@ test_that("generate_graph_metadata() works", {
     sapply(
       purrr::map(
         listed_g,
-        ~ generate_graph_metadata(.x,
+        ~ COREnets:::generate_graph_metadata(.x,
                                   codebook = codebook))[[1]][[1]][["edges_metadata"]],
       typeof),
     c(count       = "double",
@@ -155,7 +155,7 @@ test_that("generate_graph_metadata() works", {
     sapply(
       purrr::map(
         listed_g,
-        ~ generate_graph_metadata(.x,
+        ~ COREnets:::generate_graph_metadata(.x,
                                   codebook = codebook))[[1]][[1]][["nodes_metadata"]],
       typeof),
     c(count         = "integer",
@@ -166,10 +166,10 @@ test_that("generate_graph_metadata() works", {
 
 test_that("test_loops() works", {
   expect_true(
-    test_loops(g)
+    COREnets:::test_loops(g)
     )
   expect_false(
-    test_loops(
+    COREnets:::test_loops(
       igraph::simplify(g, remove.loops = TRUE)
     )
     )
@@ -177,13 +177,13 @@ test_that("test_loops() works", {
 
 test_that("test_isolates() works", {
   expect_true(
-    test_isolates(
+    COREnets:::test_isolates(
       igraph::add_vertices(g,
                            1,
                            name = "d")
       )
   )
   expect_false(
-    test_isolates(g)
+    COREnets:::test_isolates(g)
   )
 })
