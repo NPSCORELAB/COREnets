@@ -44,16 +44,16 @@ class(london_gang$network)
 
 The `metadata` list contains the following fields of information on the dataset:
 
-| Field        | Type       | Definition                                                                               |
-|:-------------|:-----------|:-----------------------------------------------------------------------------------------|
-| title        | character  | A formal title for the dataset as presented by other databases or the author.            |
-| name         | character  | An informal dataset label for internal use.                                              |
-| tags         | character  | An internal classification assinged to the dataset.                                      |
-| introduction | character  | A brief definition of the dataset to include the type of data, collection, etc.          |
-| abstract     | character  | A brief summary of ...                                                                   |
-| codebook     | data.frame | A data table used for gathering and storing relationships and their definitions.         |
-| bibtex       | character  | The citation for the dataset in bibtex format. Some datasets may have mupltiple entries. |
-| paper\_link  | character  | Hyperlink(s) to publications linked to the dataset.                                      |
+| Field       | Type       | Definition                                                                               |
+|:------------|:-----------|:-----------------------------------------------------------------------------------------|
+| title       | character  | A formal title for the dataset as presented by other databases or the author.            |
+| name        | character  | An informal dataset label for internal use.                                              |
+| tags        | character  | An internal classification assinged to the dataset.                                      |
+| description | character  | A brief definition of the dataset to include the type of data, collection, etc.          |
+| abstract    | character  | A brief summary of ...                                                                   |
+| codebook    | data.frame | A data table used for gathering and storing relationships and their definitions.         |
+| bibtex      | character  | The citation for the dataset in bibtex format. Some datasets may have mupltiple entries. |
+| paper\_link | character  | Hyperlink(s) to publications linked to the dataset.                                      |
 
 ### `network`
 
@@ -209,12 +209,12 @@ net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
                                      directed = FALSE, 
                                      vertices = london_gang$network$nodes_table)
 net
-#> IGRAPH dfe8b11 UN-- 54 315 -- 
+#> IGRAPH 8efa5f1 UN-- 54 315 -- 
 #> + attr: name (v/c), Age (v/n), Birthplace (v/n), Residence (v/n),
 #> | Arrests (v/n), Convictions (v/n), Prison (v/n), Music (v/n),
 #> | Ranking (v/n), node_class (v/c), hr_birthplace (v/c), from_class
 #> | (e/c), to_class (e/c), type (e/n), edge_type (e/c)
-#> + edges from dfe8b11 (vertex names):
+#> + edges from 8efa5f1 (vertex names):
 #>  [1] 1--2  1--3  1--4  1--5  1--6  1--7  1--8  1--9  1--10 1--11 1--12
 #> [12] 1--17 1--18 1--20 1--21 1--22 1--23 1--25 1--27 1--28 1--29 1--43
 #> [23] 1--45 1--46 1--51 2--3  2--6  2--7  2--8  2--9  2--10 2--11 2--12

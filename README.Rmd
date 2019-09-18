@@ -67,7 +67,7 @@ metadata <- tibble::tibble(
     "title",
     "name",
     "tags",
-    "introduction",
+    "description",
     "abstract",
     "codebook",
     "bibtex",
