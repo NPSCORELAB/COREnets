@@ -112,7 +112,7 @@ test_that("generate_graph_metadata() works", {
                                  codebook = codebook))[[1]][[1]])
     ,
     3)
-  # Names of the three listed items match expected schema:
+  # List names match expectations?
   expect_equal(
     names(
       purrr::map(

@@ -71,17 +71,7 @@ g <- igraph::graph_from_data_frame(
 .abstract <- readLines("inst/datasets/london_gang/abstract.txt",
                        warn = FALSE)
 
-.bibtex <- c(
-  "@Article{londongang_2012,
-  title   = {Ethnic Heterogeneity in the Activity and Structure of a Black Street Gang.}, 
-  volume  = {9},
-  issue   = {3},
-  journal = {European Journal of Criminology.}, 
-  author  = {Grund, T. and Densley, J.}, 
-  year    = {2012},
-  pages   = {388-406},
-  }"
-)
+.bibtex <- bibtex::read.bib("inst/datasets/london_gang/refs.bib")
 
 .codebook <- data.frame(
   `edge_type` = c("Hang Out Together",

@@ -21,10 +21,11 @@ unnest_edge_types <- function(g, edge_type_name) {
   types <- unique(igraph::edge_attr(graph = g,
                                     name  = edge_type_name)
   )
-  listed_graphs <- lapply(types,
-                          function(x) igraph::subgraph.edges(g,
-                                                             eids = which(
-                                                               igraph::E(g)$edge_type %in% x)
+  listed_graphs <- lapply(
+    types,
+    function(x) igraph::subgraph.edges(g,
+                                       eids = which(
+                                         igraph::E(g)$edge_type %in% x)
                           )
   )
   listed_graphs

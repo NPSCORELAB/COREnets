@@ -2,11 +2,11 @@ Package: COREnets
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Christopher",
+           family = "Callaghan",
            role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph).
+           email = "cjcallag@nps.edu")
+Description: A collection of network data for learning purposes.
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
@@ -16,6 +16,8 @@ Imports:
     igraph,
     purrr,
     tibble,
-    tidyselect
+    tidyselect,
+    bibtex,
+    dplyr
 Suggests: 
     testthat

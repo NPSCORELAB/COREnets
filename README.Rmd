@@ -22,6 +22,8 @@ knitr::opts_chunk$set(
 
 # COREnets
 
+[![Build Status](https://travis-ci.org/NPSCORELAB/COREnets.svg?branch=master)](https://travis-ci.org/NPSCORELAB/COREnets)
+
 ## Installation
 
   1. Install `devtools` if you haven't already.
@@ -38,19 +40,19 @@ devtools::install_github("NPSCORELAB/COREnets")
 
 ## Using the Package to Access Data
 
-`COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
+`COREnets` contains a series of network datasets that can be accessed using the `get_data` function:
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 library(COREnets)
-COREnets::london_gang
+london_gang <- COREnets::get_data("london_gang")
 ```
 
 Each data object contains two main lists of information, the `metadata` and `network` lists:
 
 ```{r}
-names(COREnets::london_gang)
-class(COREnets::london_gang$metadata)
-class(COREnets::london_gang$network)
+names(london_gang)
+class(london_gang$metadata)
+class(london_gang$network)
 ```
 
 ### `metadata`
@@ -179,14 +181,16 @@ net_metadata %>%
 ```
 
   - `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
+  
 ```{r}
-COREnets::london_gang$network$edges_table %>%
+london_gang$network$edges_table %>%
   glimpse()
 ```
   
   - `nodes_table`:  A `data.frame` containg node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable.
+  
 ```{r}
-COREnets::london_gang$network$nodes_table %>%
+london_gang$network$nodes_table %>%
   glimpse()
 ```
 
@@ -196,9 +200,9 @@ COREnets::london_gang$network$nodes_table %>%
 Each network in the package contains the necessary edges and nodes tables to generate network objects with **igraph**. For instance:
 
 ```{r}
-net <- igraph::graph_from_data_frame(d        = COREnets::london_gang$network$edges_table,
+net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
                                      directed = FALSE, 
-                                     vertices = COREnets::london_gang$network$nodes_table)
+                                     vertices = london_gang$network$nodes_table)
 net
 ```
 

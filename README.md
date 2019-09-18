@@ -2,6 +2,8 @@
 COREnets
 ========
 
+[![Build Status](https://travis-ci.org/NPSCORELAB/COREnets.svg?branch=master)](https://travis-ci.org/NPSCORELAB/COREnets)
+
 Installation
 ------------
 
@@ -20,21 +22,21 @@ devtools::install_github("NPSCORELAB/COREnets")
 Using the Package to Access Data
 --------------------------------
 
-`COREnets` contains a series of network datasets that can be accessed using explicit namespace access:
+`COREnets` contains a series of network datasets that can be accessed using the `get_data` function:
 
 ``` r
 library(COREnets)
-COREnets::london_gang
+london_gang <- COREnets::get_data("london_gang")
 ```
 
 Each data object contains two main lists of information, the `metadata` and `network` lists:
 
 ``` r
-names(COREnets::london_gang)
+names(london_gang)
 #> [1] "metadata" "network"
-class(COREnets::london_gang$metadata)
+class(london_gang$metadata)
 #> [1] "list"
-class(COREnets::london_gang$network)
+class(london_gang$network)
 #> [1] "list"
 ```
 
@@ -260,7 +262,7 @@ A logical denoting whether or not the nodes have spatial features.
 -   `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
 
 ``` r
-COREnets::london_gang$network$edges_table %>%
+london_gang$network$edges_table %>%
   glimpse()
 #> Observations: 315
 #> Variables: 6
@@ -275,7 +277,7 @@ COREnets::london_gang$network$edges_table %>%
 -   `nodes_table`: A `data.frame` containg node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable.
 
 ``` r
-COREnets::london_gang$network$nodes_table %>%
+london_gang$network$nodes_table %>%
   glimpse()
 #> Observations: 54
 #> Variables: 11
@@ -298,16 +300,16 @@ Generating Networks
 Each network in the package contains the necessary edges and nodes tables to generate network objects with **igraph**. For instance:
 
 ``` r
-net <- igraph::graph_from_data_frame(d        = COREnets::london_gang$network$edges_table,
+net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
                                      directed = FALSE, 
-                                     vertices = COREnets::london_gang$network$nodes_table)
+                                     vertices = london_gang$network$nodes_table)
 net
-#> IGRAPH da935fb UN-- 54 315 -- 
+#> IGRAPH 7732d7a UN-- 54 315 -- 
 #> + attr: name (v/c), Age (v/n), Birthplace (v/n), Residence (v/n),
 #> | Arrests (v/n), Convictions (v/n), Prison (v/n), Music (v/n),
 #> | Ranking (v/n), node_class (v/c), hr_birthplace (v/c), from_class
 #> | (e/c), to_class (e/c), type (e/n), edge_type (e/c)
-#> + edges from da935fb (vertex names):
+#> + edges from 7732d7a (vertex names):
 #>  [1] 1--2  1--3  1--4  1--5  1--6  1--7  1--8  1--9  1--10 1--11 1--12
 #> [12] 1--17 1--18 1--20 1--21 1--22 1--23 1--25 1--27 1--28 1--29 1--43
 #> [23] 1--45 1--46 1--51 2--3  2--6  2--7  2--8  2--9  2--10 2--11 2--12
