@@ -26,13 +26,13 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-  1. Install `devtools` if you haven't already.
+  A. Install `devtools` if you haven't already.
 
 ```{r, eval=FALSE}
 install.packages("devtools")
 ```
 
-  2. Install the package using `devtools`.
+  B. Install the package using `devtools`.
   
 ```{r, eval=FALSE}
 devtools::install_github("NPSCORELAB/COREnets")
@@ -40,7 +40,7 @@ devtools::install_github("NPSCORELAB/COREnets")
 
 ## Using the Package to Access Data
 
-`COREnets` contains a series of network datasets that can be accessed using the `get_data` function:
+**{COREnets}** contains a series of network datasets that can be accessed using the `get_data` function:
 
 ```{r, eval = TRUE}
 library(COREnets)
@@ -95,7 +95,7 @@ metadata <- tibble::tibble(
   )
 )
 metadata %>%
-  knitr::kable(format = "pandoc", escape = FALSE) %>%
+  knitr::kable(format = "pandoc", escape = TRUE) %>%
   kableExtra::kable_styling(bootstrap_options = c("bordered"))
 ```
 
@@ -103,10 +103,28 @@ metadata %>%
 
 The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each dataset is slightly different, this list is segmented into three entries:
   
-  - `net_metadata`: A list of lists each containing information on the different edge types contained in the edgelist. The following fields are included, as an individual nested lists, for each edge type subgraph:
-  
+  - `net_metadata`: A list of lists each containing information on the different edge types contained in the edgelist. The following list are included as individual nested items for each edge type subgraph, each contain a variety of fields:
 ```{r, echo=FALSE}
 net_metadata <- data.frame(
+  List  = c(
+    # graph_metadata
+    "graph_metadata",
+    "graph_metadata",
+    "graph_metadata",
+    "graph_metadata",
+    "graph_metadata",
+    "graph_metadata",
+    "graph_metadata",
+    # edges_metadata
+    "edges_metadata",
+    "edges_metadata",
+    "edges_metadata",
+    # nodes_metadata
+    "nodes_metadata",
+    "nodes_metadata",
+    "nodes_metadata",
+    "nodes_metadata"
+  ),
   Field = c(
     # graph_metadata
     "is_bimodal",
@@ -165,20 +183,11 @@ net_metadata <- data.frame(
 )
 
 net_metadata %>%
-  knitr::kable(format = "html", escape = FALSE) %>%
-  kableExtra::kable_styling("striped", full_width = TRUE) %>%
-  kableExtra::group_rows("graph_metadata",
-                         1, 7,
-                         label_row_css = "background-color: #666; color: #fff;") %>%
-  kableExtra::group_rows("edges_metadata",
-                         8, 10,
-                         label_row_css = "background-color: #666; color: #fff;") %>%
-  kableExtra::group_rows("nodes_metadata",
-                         11, 14,
-                         label_row_css = "background-color: #666; color: #fff;") %>%
-  kableExtra::footnote(general = "Groups in this table represent independent lists.",
-                       title_format = "underline")
+  knitr::kable(format = "markdown",
+               escape = TRUE,
+               row.names = FALSE)
 ```
+
 
   - `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
   

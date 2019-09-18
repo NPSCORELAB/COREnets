@@ -7,13 +7,13 @@ COREnets
 Installation
 ------------
 
-1.  Install `devtools` if you haven't already.
+A. Install `devtools` if you haven't already.
 
 ``` r
 install.packages("devtools")
 ```
 
-1.  Install the package using `devtools`.
+B. Install the package using `devtools`.
 
 ``` r
 devtools::install_github("NPSCORELAB/COREnets")
@@ -22,7 +22,7 @@ devtools::install_github("NPSCORELAB/COREnets")
 Using the Package to Access Data
 --------------------------------
 
-`COREnets` contains a series of network datasets that can be accessed using the `get_data` function:
+**{COREnets}** contains a series of network datasets that can be accessed using the `get_data` function:
 
 ``` r
 library(COREnets)
@@ -59,206 +59,111 @@ The `metadata` list contains the following fields of information on the dataset:
 
 The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each dataset is slightly different, this list is segmented into three entries:
 
--   `net_metadata`: A list of lists each containing information on the different edge types contained in the edgelist. The following fields are included, as an individual nested lists, for each edge type subgraph:
+-   `net_metadata`: A list of lists each containing information on the different edge types contained in the edgelist. The following list are included as individual nested items for each edge type subgraph, each contain a variety of fields:
 
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<table>
+<colgroup>
+<col width="12%" />
+<col width="11%" />
+<col width="8%" />
+<col width="67%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-Field
-</th>
-<th style="text-align:left;">
-Type
-</th>
-<th style="text-align:left;">
-Definition
-</th>
+<tr class="header">
+<th align="left">List</th>
+<th align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Definition</th>
 </tr>
 </thead>
 <tbody>
-<tr grouplength="7">
-<td colspan="3" style="background-color: #666; color: #fff;">
-<strong>graph\_metadata</strong>
-</td>
+<tr class="odd">
+<td align="left">graph_metadata</td>
+<td align="left">is_bimodal</td>
+<td align="left">logical</td>
+<td align="left">A logial denoting wheter or not the edge type yields a bipartite graph.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-is\_bimodal
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logial denoting wheter or not the edge type yields a bipartite graph.
-</td>
+<tr class="even">
+<td align="left">graph_metadata</td>
+<td align="left">is_directed</td>
+<td align="left">logical</td>
+<td align="left">A logical denoting whether the network edges are directed or not.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-is\_directed
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical denoting whether the network edges are directed or not.
-</td>
+<tr class="odd">
+<td align="left">graph_metadata</td>
+<td align="left">is_dynamic</td>
+<td align="left">logical</td>
+<td align="left">A logical denoting whether the edges are dynamic or not.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-is\_dynamic
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical denoting whether the edges are dynamic or not.
-</td>
+<tr class="even">
+<td align="left">graph_metadata</td>
+<td align="left">is_multiplex</td>
+<td align="left">logical</td>
+<td align="left">A logical denoting whether or not the network is made up of multiple parallel edges.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-is\_multiplex
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical denoting whether or not the network is made up of multiple parallel edges.
-</td>
+<tr class="odd">
+<td align="left">graph_metadata</td>
+<td align="left">is_weighted</td>
+<td align="left">logical</td>
+<td align="left">A logical denoting whether or not the edges are weighted.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-is\_weighted
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical denoting whether or not the edges are weighted.
-</td>
+<tr class="even">
+<td align="left">graph_metadata</td>
+<td align="left">has_isolates</td>
+<td align="left">logical</td>
+<td align="left">A logical which defines if the graph contains isolates or not.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-has\_isolates
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical which defines if the graph contains isolates or not.
-</td>
+<tr class="odd">
+<td align="left">graph_metadata</td>
+<td align="left">has_loops</td>
+<td align="left">logical</td>
+<td align="left">A logical defining the presence or absence of self-loops.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-has\_loops
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical defining the presence or absence of self-loops.
-</td>
+<tr class="even">
+<td align="left">edges_metadata</td>
+<td align="left">count</td>
+<td align="left">numeric</td>
+<td align="left">A number corresponding to the number of edges.</td>
 </tr>
-<tr grouplength="3">
-<td colspan="3" style="background-color: #666; color: #fff;">
-<strong>edges\_metadata</strong>
-</td>
+<tr class="odd">
+<td align="left">edges_metadata</td>
+<td align="left">are_spartial</td>
+<td align="left">logical</td>
+<td align="left">A logical denoting wheter or not the edges have spatial features.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-count
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-A number corresponding to the number of edges.
-</td>
+<tr class="even">
+<td align="left">edges_metadata</td>
+<td align="left">are_dynamic</td>
+<td align="left">logical</td>
+<td align="left">A logial denoting whether or not the edges have temporal features (e.g., timestamps).</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-are\_spartial
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical denoting wheter or not the edges have spatial features.
-</td>
+<tr class="odd">
+<td align="left">nodes_metadata</td>
+<td align="left">count</td>
+<td align="left">numeric</td>
+<td align="left">A number corresponding to the number of nodes.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-are\_dynamic
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logial denoting whether or not the edges have temporal features (e.g., timestamps).
-</td>
+<tr class="even">
+<td align="left">nodes_metadata</td>
+<td align="left">classes</td>
+<td align="left">character</td>
+<td align="left">A character vector with the node classes.</td>
 </tr>
-<tr grouplength="4">
-<td colspan="3" style="background-color: #666; color: #fff;">
-<strong>nodes\_metadata</strong>
-</td>
+<tr class="odd">
+<td align="left">nodes_metadata</td>
+<td align="left">classes_count</td>
+<td align="left">numeric</td>
+<td align="left">A number correspoding to the number of node classes.</td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-count
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-A number corresponding to the number of nodes.
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-classes
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-A character vector with the node classes.
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-classes\_count
-</td>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-A number correspoding to the number of node classes.
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-are\_spatial
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-A logical denoting whether or not the nodes have spatial features.
-</td>
+<tr class="even">
+<td align="left">nodes_metadata</td>
+<td align="left">are_spatial</td>
+<td align="left">logical</td>
+<td align="left">A logical denoting whether or not the nodes have spatial features.</td>
 </tr>
 </tbody>
-<tfoot>
-<tr>
-<td style="padding: 0; border: 0;" colspan="100%">
-<span style="text-decoration: underline;">Note: </span>
-</td>
-</tr>
-<tr>
-<td style="padding: 0; border: 0;" colspan="100%">
-<sup></sup> Groups in this table represent independent lists.
-</td>
-</tr>
-</tfoot>
 </table>
+
 -   `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
 
 ``` r
@@ -304,12 +209,12 @@ net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
                                      directed = FALSE, 
                                      vertices = london_gang$network$nodes_table)
 net
-#> IGRAPH 7732d7a UN-- 54 315 -- 
+#> IGRAPH dfe8b11 UN-- 54 315 -- 
 #> + attr: name (v/c), Age (v/n), Birthplace (v/n), Residence (v/n),
 #> | Arrests (v/n), Convictions (v/n), Prison (v/n), Music (v/n),
 #> | Ranking (v/n), node_class (v/c), hr_birthplace (v/c), from_class
 #> | (e/c), to_class (e/c), type (e/n), edge_type (e/c)
-#> + edges from 7732d7a (vertex names):
+#> + edges from dfe8b11 (vertex names):
 #>  [1] 1--2  1--3  1--4  1--5  1--6  1--7  1--8  1--9  1--10 1--11 1--12
 #> [12] 1--17 1--18 1--20 1--21 1--22 1--23 1--25 1--27 1--28 1--29 1--43
 #> [23] 1--45 1--46 1--51 2--3  2--6  2--7  2--8  2--9  2--10 2--11 2--12
