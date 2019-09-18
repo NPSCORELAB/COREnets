@@ -1,6 +1,7 @@
 
-library(tidyverse)
-library(igraph)
+# Load pipes:
+`%>%` <- magrittr::`%>%`
+`!!!` <- rlang::`!!!`
 
 # paper: https://apps.dtic.mil/dtic/tr/fulltext/u2/a632471.pdf
 
@@ -26,25 +27,37 @@ kv_bases <- c(
 )
 
 # read "raw" data ==============================================================
-init_attrs <- read_csv("datasets/Anabaptist Attributes.csv")
+init_attrs <- readr::read_csv("inst/datasets/anabaptists/Anabaptist Attributes.csv")
 
 # clean node attributes ========================================================
 groups_attr <- init_attrs %>%
-  rename(name = X1) %>% 
-  mutate(is_anabaptist = Anabaptist == 1) %>% 
+  dplyr::rename(name = X1) %>% 
+  dplyr::mutate(is_anabaptist = Anabaptist == 1) %>% 
   # keep name and group cols
-  select(name, is_anabaptist, Melchiorite, `Swiss Brethren`, `Other Anabaptist`,
-         Lutheran, Reformed, `Other Protestant`, Denck, Hut, Hutterite) %>% 
+  dplyr::select(name,
+                is_anabaptist,
+                Melchiorite,
+                `Swiss Brethren`,
+                `Other Anabaptist`,
+                Lutheran,
+                Reformed,
+                `Other Protestant`,
+                Denck,
+                Hut,
+                Hutterite) %>% 
   # melt data frame
-  gather(group, val, -name, -is_anabaptist) %>% 
+  tidyr::gather(group,
+                val,
+                -name,
+                -is_anabaptist) %>% 
   # keep "TRUE" rows
-  filter(val == 1) %>% 
+  dplyr::filter(val == 1) %>% 
   # drop "TRUE"/"FALSE" column
-  select(-val)
+  dplyr::select(-val)
 
 nodes_df <- init_attrs %>% 
   # use "better" names
-  rename(
+  dplyr::rename(
     name                 = X1,
     violence_sanctioning = Violence,            # paper: p. 47
     apocalyptic          = Apocalyptic,         # paper: p. 47
@@ -53,48 +66,57 @@ nodes_df <- init_attrs %>%
     based_in             = `Operate #`,
     munster_rebel        = `Münster Rebellion`
   ) %>% 
-  # NOTE 02 - July - 2019: removed this to keep data in original format ========
-  # select(
-  #   -c(Anabaptist, Melchiorite, `Swiss Brethren`, `Other Anabaptist`,
-  #      Lutheran, Reformed, `Other Protestant`, Denck, Hut, Hutterite,
-  #      Tradition) # `Tradition` is the same as `group`
-  # ) %>% 
-  # coerce binary vars to correct type
-  # mutate_at(vars(starts_with("is_")), as.logical) %>% 
-  # recode categorical variables
-  # End of NOTE ================================================================
-  mutate(hr_origin               = recode(origin, !!!kv_origins),
-         hr_based_in             = recode(based_in, !!!kv_bases),
-         is_violence_sanctioning = ifelse(violence_sanctioning == 1, TRUE, FALSE),
-         is_apocalyptic          = ifelse(apocalyptic == 1, TRUE, FALSE),
-         is_believer_baptist     = ifelse(believer_baptist == 1, TRUE, FALSE),
-         is_munster_rebel        = ifelse(munster_rebel == 1, TRUE, FALSE)) %>%
+  dplyr::mutate(hr_origin               = dplyr::recode(origin,
+                                                        !!!kv_origins),
+                hr_based_in             = dplyr::recode(based_in,
+                                                        !!!kv_bases),
+                is_violence_sanctioning = dplyr::if_else(violence_sanctioning == 1,
+                                                         TRUE,
+                                                         FALSE),
+                is_apocalyptic          = dplyr::if_else(apocalyptic == 1,
+                                                         TRUE,
+                                                         FALSE),
+                is_believer_baptist     = dplyr::if_else(believer_baptist == 1,
+                                                         TRUE,
+                                                         FALSE),
+                is_munster_rebel        = dplyr::if_else(munster_rebel == 1,
+                                                         TRUE,
+                                                         FALSE),
+                node_class              = "people"
+                ) %>%
   # attach attribute containing all groups
-  left_join(groups_attr, by = "name") %>%
-  mutate(hr_group = group) %>%
+  dplyr::left_join(groups_attr,
+                   by = "name"
+                   ) %>%
+  dplyr::mutate(hr_group = group
+                ) %>%
   # reorder columns
-  select(name,
-         # Original variables ==================================================
+  dplyr::select(name, node_class,
+         # Original variables --------------------------------------------------
          believer_baptist, violence_sanctioning, munster_rebel, apocalyptic,
          Anabaptist, Melchiorite, `Swiss Brethren`, Denck, Hut, Hutterite,
          `Other Anabaptist`, Lutheran, Reformed, `Other Protestant`, Tradition,
          origin, based_in,
-         # Human readable variables ============================================
+         # Human readable variables --------------------------------------------
          hr_origin, hr_based_in, hr_group, is_violence_sanctioning, 
          is_apocalyptic, is_believer_baptist, is_munster_rebel, is_anabaptist
          ) 
 
 # pull edges from pajek file
-edges_df <- igraph::read_graph("datasets/Anabaptist Leaders.net",
+edges_df <- igraph::read_graph("inst/datasets/anabaptists/Anabaptist Leaders.net",
                                format = "paj") %>%
   igraph::as_data_frame() %>% 
-  select(-weight) %>% 
+  dplyr::select(-weight) %>% 
   # fix name that doesn't match
-  mutate_all(~ if_else(. == "Boekbinder", "Gerrit Boekbinder", .)) %>% 
+  dplyr::mutate_all(~ dplyr::if_else(. == "Boekbinder", "Gerrit Boekbinder", .)) %>% 
   # pajek file is tracking edges in both directions, but it's supposed to be
   # undirected
-  distinct() %>% 
-  rename(source = from, target = to)
+  dplyr::distinct() %>% 
+  dplyr::mutate(edge_type  = "Face-to-Face Meeting",
+                from_class = "people",
+                to_class   = "people") %>%
+  dplyr::select(from, to, from_class, to_class, edge_type,
+                dplyr::everything())
 
 # build igraph object ==========================================================
 g <- igraph::graph_from_data_frame(
@@ -104,86 +126,51 @@ g <- igraph::graph_from_data_frame(
 )
 
 # build final dataset ==========================================================
-.network <- list(
-  metadata = list(
-    is_directed  = igraph::is_directed(g),
-    is_weighted  = igraph::is_weighted(g),
-    is_multiplex = igraph::any_multiple(g),
-    node_type    = "people",
-    is_two_mode  = igraph::is_bipartite(g),
-    is_dynamic   = FALSE,
-    are_nodes_spatial = inherits(igraph::as_data_frame(g,
-                                                       what = "vertices"), "sf"),
-    are_edges_spatial =  inherits(igraph::as_data_frame(g,
-                                                        what = "edges"), "sf")
-  ),
-  node_table = as_tibble(igraph::as_data_frame(g, what = "vertices")),
-  edge_table = as_tibble(igraph::as_data_frame(g, what = "edges"))
-)
+.description <- readLines("inst/datasets/anabaptists/description.txt",
+                          warn = FALSE)
 
-.introduction <- "This dataset examines social networks between early Anabaptist 
-leaders. Together with the dataset on the beliefs of early Anabaptist leaders 
-and groups, it can be used to examine the diffusion of theology and ideas among 
-early Anabaptist leaders."
+.abstract <- readLines("inst/datasets/anabaptists/abstract.txt",
+                       warn = FALSE)
 
-.abstract <- "Religiously motivated violence is and always will be a relevant 
-topic. To address and effectively counter contemporary violent groups, it is 
-important to investigate similar historic groups. This thesis attempts to answer 
-the research question: 'During the Radical Reformation, why did some Anabaptist 
-groups accept the use of violence while others did not, and how did the movement 
-evolve to pacifism?' To answer this question, this study utilizes a mixed 
-methodology of case study analysis and social network analysis of Anabaptist 
-leaders during the 16th century. This thesis argues that violent ideology is 
-largely a function of three factors: charismatic leadership, isolation, and 
-apocalypticism. The interaction of these factors led to the emergence of 
-Anabaptist groups that embraced the use of violence. However, groups' internal 
-characteristics can also lead them away from violence. In the case of the 
-Anabaptists, social proximity assisted leaders with a counter-message to speak 
-effectively to violent ultra-radical factions. The goal of this thesis is to 
-identify characteristics of religious groups that may signal the potential for 
-future violence, while also providing insight into which leaders may be capable 
-of re-directing groups that have become violent."
+.bibtex <- bibtex::read.bib("inst/datasets/anabaptists/refs.bib")
 
 .codebook <- data.frame(
-    relationship = c("Face-to-Face Meeting"),
-    data_type = c("one-mode"),
-    definition = c("Ties indicate that the two actors met one another at some point in time or were in conversation with one another. In many cases, the leaders worked together, or went to school together. In other cases, they opposed one another in debates and were at total odds with one another. The importance of looking at ties, regardless of sentiment, is that this data set provides a better understanding as to who had access to different ideas throughout the overall network, and who was isolated."),
-    stringsAsFactors = FALSE
-  )
+  `edge_type` = c("Face-to-Face Meeting"),
+  is_bimodal  = c(FALSE),
+  is_directed = c(FALSE),
+  is_dynamic  = c(FALSE),
+  is_weighted = c(FALSE),
+  definition  = c("Ties indicate that the two actors met one another at some point in time or were in conversation with one another. In many cases, the leaders worked together, or went to school together. In other cases, they opposed one another in debates and were at total odds with one another. The importance of looking at ties, regardless of sentiment, is that this data set provides a better understanding as to who had access to different ideas throughout the overall network, and who was isolated."),
+  stringsAsFactors = FALSE
+)
 
-.bibtex <- c(
-  "@Article{anabaptists_matthews_edmonds_wildman_nunn_2013,
-  title   = {Cultural inheritance or cultural diffusion of religious violence? A quantitative case study of the Radical Reformation}, 
-  volume  = {3}, 
-  DOI     = {10.1080/2153599x.2012.707388}, 
-  number  = {1}, 
-  journal = {Religion, Brain & Behavior}, 
-  author  = {Matthews, Luke J. and Edmonds, Jeffrey and Wildman, Wesley J. and Nunn, Charles L.}, 
-  year    = {2013},
-  pages   = {3-15},
-  }",
+.metadata <- list(
+  title        = "Anabaptist Leadership Network",
+  name         = "anabaptists",
+  tags         = c("Anabaptists",
+                   "religious violence",
+                   "charismatic leadership",
+                   "isolation",
+                   "apocalypticism"),
+  description  = .description,
+  abstract     = .abstract,
+  codebook     = .codebook,
+  bibtex       = .bibtex,
+  paper_link   = "https://apps.dtic.mil/dtic/tr/fulltext/u2/a632471.pdf")
 
-  "@MastersThesis{anabaptists_mcLaughlin_2015,
-  author  = {McLaughlin, John M.}, 
-  title   = {Anabaptist Leadership Network},
-  year    = {2015},
-  school  = {Naval Postgraduate School},
-  address = {1 University Circle, Monterey, CA 93943},
-  }"
+.network <- list(
+  net_metadata = COREnets:::unnest_edge_types(g = g,
+                                              edge_type_name = "edge_type") %>%
+    purrr::map(~ .x %>%
+                 COREnets:::generate_graph_metadata(codebook = .codebook)
+    ),
+  nodes_table = igraph::as_data_frame(g, what = "vertices"),
+  edges_table = igraph::as_data_frame(g, what = "edges")
 )
 
 anabaptists <- list(
-  metadata = list(
-    title       = "Anabaptist Leadership Network",
-    name        = "anabaptists",
-    category    = "religious",
-    tags        = "religion",
-    description = .introduction,
-    abstract    = .abstract
-  ),
-  bibtex = .bibtex,
-  codebook = .codebook,
-  network = .network
+  metadata = .metadata,
+  network  = .network
 )
 
-usethis::use_data(anabaptists, overwrite = TRUE)
+anabaptists

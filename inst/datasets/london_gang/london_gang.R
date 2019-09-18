@@ -119,7 +119,7 @@ g <- igraph::graph_from_data_frame(
   net_metadata = COREnets:::unnest_edge_types(g = g,
                                              edge_type_name = "edge_type") %>%
     purrr::map(~ .x %>%
-               generate_graph_metadata(codebook = .codebook)
+                 COREnets:::generate_graph_metadata(codebook = .codebook)
                ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

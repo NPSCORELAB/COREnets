@@ -28,6 +28,7 @@ Imports:
     tidyselect,
     bibtex,
     dplyr,
-    magrittr
+    magrittr,
+    tidyr
 Suggests: 
     testthat
