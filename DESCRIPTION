@@ -31,7 +31,6 @@ Imports:
     magrittr,
     tidyr,
     readr,
-    testthat,
     stringr
 Suggests: 
     testthat
