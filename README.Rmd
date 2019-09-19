@@ -47,6 +47,12 @@ library(COREnets)
 london_gang <- COREnets::get_data("london_gang")
 ```
 
+In order to lookup the available datasets use the `list_data_sources` function:
+
+```{r}
+COREnets::list_data_sources()
+```
+
 Each data object contains two main lists of information, the `metadata` and `network` lists:
 
 ```{r}

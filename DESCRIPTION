@@ -29,6 +29,9 @@ Imports:
     bibtex,
     dplyr,
     magrittr,
-    tidyr
+    tidyr,
+    readr,
+    testthat,
+    stringr
 Suggests: 
     testthat

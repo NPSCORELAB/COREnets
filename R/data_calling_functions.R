@@ -6,6 +6,7 @@
 #' @author Brendan Knapp, \email{brendan.knapp@@nps.edu}
 #'
 #' @param dataset, the name of the dataset desired.
+#' @param quietly, logical determining how to handle unusual conditions.
 #'
 #' @export
 get_data <- function(dataset, quietly = TRUE) {

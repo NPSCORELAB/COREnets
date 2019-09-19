@@ -27,7 +27,7 @@ kv_bases <- c(
 )
 
 # read "raw" data ==============================================================
-init_attrs <- readr::read_csv("inst/datasets/anabaptists/Anabaptist Attributes.csv")
+init_attrs <- readr::read_csv("inst/datasets/anabaptists/Anabaptist_Attributes.csv")
 
 # clean node attributes ========================================================
 groups_attr <- init_attrs %>%
@@ -103,7 +103,7 @@ nodes_df <- init_attrs %>%
          ) 
 
 # pull edges from pajek file
-edges_df <- igraph::read_graph("inst/datasets/anabaptists/Anabaptist Leaders.net",
+edges_df <- igraph::read_graph("inst/datasets/anabaptists/Anabaptist_Leaders.net",
                                format = "paj") %>%
   igraph::as_data_frame() %>% 
   dplyr::select(-weight) %>% 

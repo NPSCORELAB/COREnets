@@ -8,6 +8,8 @@ get_data(dataset, quietly = TRUE)
 }
 \arguments{
 \item{dataset, }{the name of the dataset desired.}
+
+\item{quietly, }{logical determining how to handle unusual conditions.}
 }
 \description{
 `get_data` returns a `list` with metadata and network 

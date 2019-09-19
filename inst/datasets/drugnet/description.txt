@@ -1,0 +1,1 @@
+These data represent a network of drug users in Hartford.  Ties are directed and represent acquaintanceship. The network is a result of two years of ethnographic observations of people's drug habits. 
