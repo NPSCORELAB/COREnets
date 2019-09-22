@@ -14,11 +14,11 @@ edges <- edges_path %>%
   igraph::graph_from_adjacency_matrix(mode = "directed") %>%
   igraph::get.data.frame("edges") %>%
   dplyr::mutate(
-    edge_type  = "Acquaintanceship",
+    edge_class  = "Acquaintanceship",
     from_class = "person",
     to_class   = "person"
   ) %>%
-  dplyr::select(from, to, from_class, to_class, edge_type,
+  dplyr::select(from, to, from_class, to_class, edge_class,
                 dplyr::everything())
 
 # read attribute table =========================================================
@@ -68,7 +68,7 @@ g <- igraph::graph_from_data_frame(
 .bibtex <- bibtex::read.bib("inst/datasets/drugnet/refs.bib")
 
 .codebook <- data.frame(
-  `edge_type` = c("Acquaintanceship"),
+  `edge_class` = c("Acquaintanceship"),
   is_bimodal  = c(FALSE),
   is_directed = c(TRUE),
   is_dynamic  = c(FALSE),
@@ -77,7 +77,7 @@ g <- igraph::graph_from_data_frame(
   stringsAsFactors = FALSE
 )
 
-.metadata <- list(
+.reference <- list(
   title        = "Drugnet",
   name         = "drugnet",
   tags         = c("drug users",
@@ -92,8 +92,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://search.proquest.com/docview/211193699?OpenUrlRefId=info:xri/sid:primo&accountid=12702")
 
 .network <- list(
-  net_metadata = COREnets:::unnest_edge_types(g = g,
-                                              edge_type_name = "edge_type") %>%
+  metadata   = COREnets:::unnest_edge_class(g = g,
+                                              edge_class_name = "edge_class") %>%
+    purrr::set_names(unique(igraph::edge_attr(
+      graph = g,
+      name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
                  COREnets:::generate_graph_metadata(codebook = .codebook)
     ),
@@ -102,8 +105,8 @@ g <- igraph::graph_from_data_frame(
 )
 
 drugnet <- list(
-  metadata = .metadata,
-  network  = .network
+  reference = .reference,
+  network   = .network
 )
 
 drugnet

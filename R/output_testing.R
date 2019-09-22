@@ -4,36 +4,41 @@ test_output <- function(output) {
     stop("The output to test must be a list with a lenght = 2.",
          call. = FALSE)
   }
-  metadata_test   <- check_metadata(output)
-  edge_names_test <- check_edge_names_metadata(output)
-  ### TODO GRAPH TEST WILL GO HERE
-  edges_test      <- check_edges_table(output)
-  nodes_test      <- check_nodes_table(output)
+  reference_test    <- check_reference(output)
+  edge_classes_test <- check_edge_classes(output)
+  metadata_test     <- check_metadata(output)
+  edges_table_test  <- check_edges_table(output)
+  nodes_table_test  <- check_nodes_table(output)
   
-  if(!all(metadata_test)){
+  if(!all(reference_test)){
     print("ERROR: TDB 1")
   }
-  message("No metadata fields missing!")
+  message("No reference fields missing!")
   
-  if(!all(edge_names_test)){
+  if(!all(edge_classes_test)){
     print("ERROR: TDB 2")
   }
-  message("No missing metadata lists for the edges provided!")
+  message("All required edge_classes are present in metadata and codebook.")
   
-  if(!all(edges_test)){
+  if(!all(metadata_test)){
     print("ERROR: TDB 3")
   }
-  message("All required edges fields are present and vector types are valid!")
+  message("All metadata fields present for each edge_class!")
   
-  if(!all(nodes_test)){
+  if(!all(edges_table_test)){
     print("ERROR: TDB 4")
+  }
+  message("All required edge fields are present and vector types are valid!")
+  
+  if(!all(nodes_table_test)){
+    print("ERROR: TDB 5")
   }
   message("All required nodes fields are present and vector types are valid!")
 }
 
-check_metadata <- function(output) {
-  if (!"metadata" %in% names(output)) {
-    stop("The input provided does not include an element named 'metadata'",
+check_reference <- function(output) {
+  if (!"reference" %in% names(output)) {
+    stop("The input provided does not include an element named 'reference'",
          call. = FALSE)
   }
   
@@ -48,35 +53,35 @@ check_metadata <- function(output) {
     paper_link  = is.character
   )
   
-  if (!all(names(tests) %in% names(output[["metadata"]])) ) {
-    stop("Expected names do not match in the metadata.",
+  if (!all(names(tests) %in% names(output[["reference"]])) ) {
+    stop("Expected field names do not match in the reference.",
          call. = FALSE)
   }
   
-  checked_types <- vapply(names(output[["metadata"]]),
+  checked_types <- vapply(names(output[["reference"]]),
                         function(x) tests[[x]](
-                          output[["metadata"]][[x]]
+                          output[["reference"]][[x]]
                           ),
                         logical(1L)
                         )
   checked_types
 }
 
-check_edge_names_metadata <- function(output) {
+check_edge_classes <- function(output) {
   if (!"network" %in% names(output)) {
     stop("The input provided does not include an element named 'network'",
          call. = FALSE)
   }
-  if (!"net_metadata" %in% names(output[["network"]])) {
-    stop("There is no 'net_metadata' object within the 'network' element.",
+  if (!"metadata" %in% names(output[["network"]])) {
+    stop("There is no 'metadata' object within the 'network' element.",
     call. = FALSE)
   }
   
-  edge_types <- output[["metadata"]][["codebook"]][["edge_type"]]
+  edge_types <- output[["reference"]][["codebook"]][["edge_class"]]
   
   checked_edge_lists <- vapply(
-    .map_chr(output[["network"]][["net_metadata"]],
-             names),
+    .map_chr(output[["network"]][["metadata"]],
+             "[[", 1),
     function(x) x %in% edge_types,
     logical(1L)
     )
@@ -84,56 +89,43 @@ check_edge_names_metadata <- function(output) {
   checked_edge_lists
 }
 
-# TODO finish the edge_type_metadata test
-# check_edge_type_metadata <- function(output) {
-#   if ("network" %!in% names(output)) {
-#     stop("The input provided does not include an element named 'network'",
-#          call. = FALSE)
-#   }
-#   if ("net_metadata" %!in% names(output[["network"]])) {
-#     stop("There is no 'net_metadata' object within the 'network' element.",
-#          call. = FALSE)
-#   }
-#   graph_tests <- list(
-#     is_bimodal   = is.logical,
-#     is_directed  = is.logical,
-#     is_dynamic   = is.logical,
-#     is_weighted  = is.logical,
-#     has_loops    = is.logical,
-#     has_isolates = is.logical
-#   )
-#   edges_tests <- list(
-#     count       = is.numeric,
-#     are_dynamic = is.logical
-#   )
-#   nodes_tests <- list(
-#     count         = is.numeric,
-#     classes       = is.character,
-#     classes_count = is.numeric
-#   ) 
-# }
-# ###
-# edge_types <- lapply(test[["network"]][["net_metadata"]],
-#                      names)
-# lapply(edge_types,
-#        function(x) sapply(x,
-#                           match(x, test))
-#        )
-# 
-# lapply(test[["network"]][["net_metadata"]],
-#        function(x) vapply(
-#          .map_chr(test[["network"]][["net_metadata"]],
-#                   names),
-#          function(y) graph_tests[[y]](
-#            test[["network"]][["net_metadata"]][[x]][[1]][[y]]
-#          ),
-#          logical(1L)
-#          )
-#        )
-# test[["network"]][["net_metadata"]][[]][["Hang Out Together"]]
-# 
-# 
-# 
+check_metadata <- function(output) {
+  if (!"network" %in% names(output)) {
+    stop("The input provided does not include an element named 'network'",
+         call. = FALSE)
+  }
+  if (!"metadata" %in% names(output[["network"]])) {
+    stop("There is no 'metadata' object within the 'network' element.",
+         call. = FALSE)
+  }
+  edge_class_tests <- list(
+    edge_class   = is.character,
+    is_bimodal   = is.logical,
+    is_directed  = is.logical,
+    is_dynamic   = is.logical,
+    is_weighted  = is.logical,
+    has_loops    = is.logical,
+    has_isolates = is.logical,
+    edge_count   = is.numeric,
+    node_count   = is.numeric,
+    node_classes = is.numeric
+    )
+  
+  
+  checked_edge_class_metadata <- vapply(
+    names(output[["network"]][["metadata"]]),
+    function(x) vapply(
+      names(output[["network"]][["metadata"]][[x]]),
+      function (y) edge_class_tests[[y]](
+        output[["network"]][["metadata"]][[x]][[y]]
+      ),
+      logical(1L)
+    ),
+    logical(10L)
+  )
+
+  checked_edge_class_metadata
+}
 
 check_edges_table <- function(output) {
   if (!"network" %in% names(output)) {
@@ -150,7 +142,7 @@ check_edges_table <- function(output) {
     to         = is.character,
     from_class = is.character,
     to_class   = is.character,
-    edge_type  = is.character  
+    edge_class = is.character  
     )
   
   if (!all(names(tests) %in% names(output[["network"]][["edges_table"]]))) {

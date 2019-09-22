@@ -2,30 +2,30 @@
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #' 
-#' @description `unnest_edge_types` extracts subnetworks based on the edge_type.
+#' @description `unnest_edge_classs` extracts subnetworks based on the edge_class.
 #'
 #' @param g, An igraph object.
-#' @param edge_type_name, String denoting edge type variable.
+#' @param edge_class_name, String denoting edge type variable.
 #' 
-unnest_edge_types <- function(g, edge_type_name) {
+unnest_edge_class <- function(g, edge_class_name) {
   
   if (!igraph::is_igraph(g)) {
     stop("Graph provided is not and igraph object.",
          call. = FALSE)
   }
-  if (!is.character(edge_type_name) || edge_type_name %!in% names(igraph::edge.attributes(g))) {
-    stop("edge_type_attr_name must as string and a valid edge attribute for the graph object.",
+  if (!is.character(edge_class_name) || !edge_class_name %in% names(igraph::edge.attributes(g))) {
+    stop("edge_class_attr_name must as string and a valid edge attribute for the graph object.",
          call. = FALSE)
   }
   
   types <- unique(igraph::edge_attr(graph = g,
-                                    name  = edge_type_name)
+                                    name  = edge_class_name)
   )
   listed_graphs <- lapply(
     types,
     function(x) igraph::subgraph.edges(g,
                                        eids = which(
-                                         igraph::E(g)$edge_type %in% x)
+                                         igraph::E(g)$edge_class %in% x)
                           )
   )
   listed_graphs
@@ -36,7 +36,7 @@ unnest_edge_types <- function(g, edge_type_name) {
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #'
 #' @param g, An `igraph` object.
-#' @param codebook, A `data.frame` with metedata fields for each `edge_type` 
+#' @param codebook, A `data.frame` with metedata fields for each `edge_class` 
 #' in the graph object.
 #'               
 generate_graph_metadata <- function(g, codebook) {
@@ -50,65 +50,42 @@ generate_graph_metadata <- function(g, codebook) {
   }
   
   fields <- get_codebook_fields(codebook = codebook,
-                                wanted_edge_type = unique(
+                                wanted_edge_class = unique(
                                   igraph::edge_attr(
                                     graph = g,
-                                    name  = "edge_type")
+                                    name  = "edge_class")
                                   )
                                 )
   
   metadata <- list(
-    list(
-      graph_metadata = list(
-        is_bimodal   = fields[["is_bimodal"]],
-        is_directed  = fields[["is_directed"]],
-        is_dynamic   = fields[["is_dynamic"]],
-        is_weighted  = fields[["is_weighted"]],
-        has_loops    = test_loops(g),
-        has_isolates = test_isolates(g)
-      ),
-      edges_metadata = list(
-        count       = igraph::ecount(g),
-        are_dynamic = fields[["is_dynamic"]]
-        
-        # TODO g? 
-        # TODO igraph can't return sf objects
-        # are_spatial = inherits(igraph::as_data_frame(g,
-        # what = "edges"),
-        # "sf")
-      ),
-      nodes_metadata = list(
-        count         = igraph::vcount(g),
-        classes       = get_node_classes(g),
-        classes_count = length(get_node_classes(g))
-        
-        # TODO igraph can't retrun sf objects
-        # are_spatial   = inherits(igraph::as_data_frame(g,
-        # what = "vertices"),
-        # "sf")
-      )
-    )
-  )
-  names(metadata) <- unique(
-    igraph::edge_attr(
+    edge_class   = unique(igraph::edge_attr(
       graph = g,
-      name  = "edge_type")
-  )
+      name  = "edge_class")),
+    is_bimodal   = fields[["is_bimodal"]],
+    is_directed  = fields[["is_directed"]],
+    is_dynamic   = fields[["is_dynamic"]],
+    is_weighted  = fields[["is_weighted"]],
+    has_loops    = test_loops(g),
+    has_isolates = test_isolates(g),
+    edge_count   = as.numeric(igraph::ecount(g)),
+    node_count   = as.numeric(igraph::vcount(g)),
+    node_classes = as.numeric(length(get_node_classes(g)))
+    )
+  
   # Returns
   metadata
 }
-
 
 #' @title Return Metadata Fields from Codebook
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #' 
-#' @param codebook, A `data.frame` with metedata fields for each `edge_type` 
-#' @param wanted_edge_type, A `character` matching a value in the `edge_type` variable in the codebook
+#' @param codebook, A `data.frame` with metedata fields for each `edge_class` 
+#' @param wanted_edge_class, A `character` matching a value in the `edge_class` variable in the codebook
 #' 
-get_codebook_fields <- function(codebook, wanted_edge_type) {
-  if (!is.character(wanted_edge_type)) {
-    stop("The edge_type argument provided is not a string.",
+get_codebook_fields <- function(codebook, wanted_edge_class) {
+  if (!is.character(wanted_edge_class)) {
+    stop("The edge_class argument provided is not a string.",
          call. = FALSE)
   }
   if (!is.data.frame(codebook)) {
@@ -116,7 +93,7 @@ get_codebook_fields <- function(codebook, wanted_edge_type) {
          call. = FALSE)
   }
   
-  filtered_codebook <- codebook[codebook[["edge_type"]] == wanted_edge_type, ]
+  filtered_codebook <- codebook[codebook[["edge_class"]] == wanted_edge_class, ]
   
   if (NROW(filtered_codebook) != 1) {
     stop("Returned filtered_codebook contains unexpected number of rows.",
@@ -174,11 +151,11 @@ get_node_classes <- function(g, from_class = "from_class", to_class = "to_class"
     stop("Graph provided is not and igraph object.",
          call. = FALSE)
   }
-  if (!is.character(from_class) || from_class %!in% names(igraph::edge.attributes(g))) {
+  if (!is.character(from_class) || !from_class %in% names(igraph::edge.attributes(g))) {
     stop("from_class must as string and a valid edge attribute for the graph object.",
          call. = FALSE)
   }
-  if (!is.character(to_class) || to_class %!in% names(igraph::edge.attributes(g))) {
+  if (!is.character(to_class) || !to_class %in% names(igraph::edge.attributes(g))) {
     stop("to_class must as string and a valid edge attribute for the graph object.",
          call. = FALSE)
   }

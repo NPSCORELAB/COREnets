@@ -9,7 +9,7 @@ generate_graph_metadata(g, codebook)
 \arguments{
 \item{g, }{An `igraph` object.}
 
-\item{codebook, }{A `data.frame` with metedata fields for each `edge_type` 
+\item{codebook, }{A `data.frame` with metedata fields for each `edge_class` 
 in the graph object.}
 }
 \description{

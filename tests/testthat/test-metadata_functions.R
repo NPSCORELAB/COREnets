@@ -5,13 +5,13 @@ df       <- data.frame(from       = c("a", "a", "b"),
                        to         = c("a", "b", "c"),
                        from_class = "agent",
                        to_class   = "agent",
-                       edge_type  = c("foo", "foo", "bar")
+                       edge_class = c("foo", "foo", "bar")
                        )
 g        <- igraph::graph_from_data_frame(df)
-listed_g <- COREnets:::unnest_edge_types(g              = g,
-                                         edge_type_name = "edge_type")
+listed_g <- COREnets:::unnest_edge_class(g              = g,
+                                         edge_class_name = "edge_class")
 codebook <- data.frame(
-  `edge_type` = c("foo",
+  `edge_class` = c("foo",
                   "bar"),
   is_bimodal  = c(FALSE,
                   TRUE),
@@ -27,7 +27,7 @@ codebook <- data.frame(
 )
 
 # --- Tests ---
-test_that("unnest_edge_types() works", {
+test_that("unnest_edge_classs() works", {
   # Output is list?
   expect_type(listed_g,
               "list")
@@ -40,9 +40,9 @@ test_that("unnest_edge_types() works", {
         length(listed_g)
         )
     )
-  # Contains edge_type field?
+  # Contains edge_class field?
   expect_true(
-    "edge_type" %in% names(
+    "edge_class" %in% names(
       igraph::edge_attr(
         listed_g[[1]]
         )
@@ -64,7 +64,7 @@ test_that("get_codebook_fields() works", {
         codebook,
         "foo")
       ),
-    c("edge_type",
+    c("edge_class",
       "is_bimodal",
       "is_directed",
       "is_dynamic",
@@ -87,7 +87,7 @@ test_that("get_codebook_fields() works", {
       codebook,
       "foo"),
       typeof),
-    c(edge_type   = "character",
+    c(edge_class   = "character",
       is_bimodal  = "logical",
       is_directed = "logical",
       is_dynamic  = "logical",
@@ -103,64 +103,53 @@ test_that("generate_graph_metadata() works", {
            ~ COREnets:::generate_graph_metadata(.x,
                                      codebook = codebook)),
     "list")
-  # Each item on that is three in lenght?
+  # Each element is 10 in length?
   expect_equal(
     length(
       purrr::map(
         listed_g,
         ~ COREnets:::generate_graph_metadata(.x,
-                                 codebook = codebook))[[1]][[1]])
+                                 codebook = codebook))[[1]])
     ,
-    3)
+    10)
   # List names match expectations?
   expect_equal(
     names(
       purrr::map(
         listed_g,
         ~ COREnets:::generate_graph_metadata(.x,
-                                  codebook = codebook))[[1]][[1]]
+                                  codebook = codebook))[[1]]
       ),
-    c("graph_metadata",
-      "edges_metadata",
-      "nodes_metadata")
+    c("edge_class",
+      "is_bimodal",
+      "is_directed",
+      "is_dynamic",
+      "is_weighted",
+      "has_loops",
+      "has_isolates",
+      "edge_count",
+      "node_count",
+      "node_classes"
+      )
     )
-  # Names of those graph_metadata match expectation?
+  # Names of fields match type expectation?
   expect_equal(
     sapply(
       purrr::map(
         listed_g,
         ~ COREnets:::generate_graph_metadata(.x,
-                                  codebook = codebook))[[1]][[1]][["graph_metadata"]],
+                                  codebook = codebook))[[1]],
       typeof),
-    c(is_bimodal   = "logical",
+    c(edge_class   = "character",
+      is_bimodal   = "logical",
       is_directed  = "logical",
       is_dynamic   = "logical",
       is_weighted  = "logical",
       has_loops    = "logical",
-      has_isolates = "logical")
-  )
-  # Names of those edges_metadata match expectation?
-  expect_equal(
-    sapply(
-      purrr::map(
-        listed_g,
-        ~ COREnets:::generate_graph_metadata(.x,
-                                  codebook = codebook))[[1]][[1]][["edges_metadata"]],
-      typeof),
-    c(count       = "double",
-      are_dynamic = "logical")
-  )
-  # Names of those nodes_metadata match expectation?
-  expect_equal(
-    sapply(
-      purrr::map(
-        listed_g,
-        ~ COREnets:::generate_graph_metadata(.x,
-                                  codebook = codebook))[[1]][[1]][["nodes_metadata"]],
-      typeof),
-    c(count         = "integer",
-      classes       = "character",
-      classes_count = "integer")
+      has_isolates = "logical",
+      edge_count   = "double",
+      node_count   = "double",
+      node_classes = "double")
   )
 })
 

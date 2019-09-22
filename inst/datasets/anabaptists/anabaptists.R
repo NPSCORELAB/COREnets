@@ -112,10 +112,10 @@ edges_df <- igraph::read_graph("inst/datasets/anabaptists/Anabaptist_Leaders.net
   # pajek file is tracking edges in both directions, but it's supposed to be
   # undirected
   dplyr::distinct() %>% 
-  dplyr::mutate(edge_type  = "Face-to-Face Meeting",
+  dplyr::mutate(edge_class  = "Face-to-Face Meeting",
                 from_class = "people",
                 to_class   = "people") %>%
-  dplyr::select(from, to, from_class, to_class, edge_type,
+  dplyr::select(from, to, from_class, to_class, edge_class,
                 dplyr::everything())
 
 # build igraph object ==========================================================
@@ -135,7 +135,7 @@ g <- igraph::graph_from_data_frame(
 .bibtex <- bibtex::read.bib("inst/datasets/anabaptists/refs.bib")
 
 .codebook <- data.frame(
-  `edge_type` = c("Face-to-Face Meeting"),
+  `edge_class` = c("Face-to-Face Meeting"),
   is_bimodal  = c(FALSE),
   is_directed = c(FALSE),
   is_dynamic  = c(FALSE),
@@ -144,7 +144,7 @@ g <- igraph::graph_from_data_frame(
   stringsAsFactors = FALSE
 )
 
-.metadata <- list(
+.reference <- list(
   title        = "Anabaptist Leadership Network",
   name         = "anabaptists",
   tags         = c("Anabaptists",
@@ -159,8 +159,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://apps.dtic.mil/dtic/tr/fulltext/u2/a632471.pdf")
 
 .network <- list(
-  net_metadata = COREnets:::unnest_edge_types(g = g,
-                                              edge_type_name = "edge_type") %>%
+  metadata    = COREnets:::unnest_edge_class(g = g,
+                                              edge_class_name = "edge_class") %>%
+    purrr::set_names(unique(igraph::edge_attr(
+      graph = g,
+      name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
                  COREnets:::generate_graph_metadata(codebook = .codebook)
     ),
@@ -169,7 +172,7 @@ g <- igraph::graph_from_data_frame(
 )
 
 anabaptists <- list(
-  metadata = .metadata,
+  reference = .reference,
   network  = .network
 )
 

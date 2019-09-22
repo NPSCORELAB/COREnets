@@ -22,7 +22,7 @@ edges <- files %>%
   # The extracted weights represent edge types
   dplyr::mutate(
     type = weight,
-    edge_type = dplyr::case_when(
+    edge_class = dplyr::case_when(
       type == 1 ~ "Hang Out Together",
       type == 2 ~ "Co-Offend Together",
       type == 3 ~ "Co-Offend Together, Serious Crime",
@@ -30,7 +30,7 @@ edges <- files %>%
     from_class = "people",
     to_class   = "people"
   ) %>%
-  dplyr::select(from, to, from_class, to_class, type, edge_type)
+  dplyr::select(from, to, from_class, to_class, type, edge_class)
 
 # read attribute table =========================================================
 nodes <- files %>%
@@ -74,7 +74,7 @@ g <- igraph::graph_from_data_frame(
 .bibtex <- bibtex::read.bib("inst/datasets/london_gang/refs.bib")
 
 .codebook <- data.frame(
-  `edge_type` = c("Hang Out Together",
+  `edge_class` = c("Hang Out Together",
                   "Co-Offend Together",
                   "Co-Offend Together, Serious Crime",
                   "Co-Offend Together, Seriour Crime, Kin"),
@@ -101,7 +101,7 @@ g <- igraph::graph_from_data_frame(
   stringsAsFactors = FALSE
 )
 
-.metadata <- list(
+.reference <- list(
   title        = "London Gang",
   name         = "london_gang",
   tags         = c("street gangs",
@@ -116,8 +116,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://journals.sagepub.com/doi/figure/10.1177/1477370812447738?")
 
 .network <- list(
-  net_metadata = COREnets:::unnest_edge_types(g = g,
-                                             edge_type_name = "edge_type") %>%
+  metadata   = COREnets:::unnest_edge_class(g = g,
+                                            edge_class_name = "edge_class") %>%
+    purrr::set_names(unique(igraph::edge_attr(
+      graph = g,
+      name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
                  COREnets:::generate_graph_metadata(codebook = .codebook)
                ),
@@ -126,8 +129,8 @@ g <- igraph::graph_from_data_frame(
 )
 
 london_gang <- list(
-  metadata = .metadata,
-  network  = .network
+  reference = .reference,
+  network   = .network
 )
 
 london_gang

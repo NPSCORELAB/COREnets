@@ -4,12 +4,12 @@
 \alias{get_codebook_fields}
 \title{Return Metadata Fields from Codebook}
 \usage{
-get_codebook_fields(codebook, wanted_edge_type)
+get_codebook_fields(codebook, wanted_edge_class)
 }
 \arguments{
-\item{codebook, }{A `data.frame` with metedata fields for each `edge_type`}
+\item{codebook, }{A `data.frame` with metedata fields for each `edge_class`}
 
-\item{wanted_edge_type, }{A `character` matching a value in the `edge_type` variable in the codebook}
+\item{wanted_edge_class, }{A `character` matching a value in the `edge_class` variable in the codebook}
 }
 \description{
 Return Metadata Fields from Codebook
