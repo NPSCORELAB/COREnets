@@ -1,4 +1,9 @@
-
+#' @title Testing for Expected Structures
+#'
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param output, A `list` object returned from the `get_data()` function.
+#'
 test_output <- function(output) {
   if (!is.list(output) | length(output) != 2L) {
     stop("The output to test must be a list with a lenght = 2.",
@@ -10,32 +15,102 @@ test_output <- function(output) {
   edges_table_test  <- check_edges_table(output)
   nodes_table_test  <- check_nodes_table(output)
   
-  if(!all(reference_test)){
-    print("ERROR: TDB 1")
+  if(!all(reference_test)) {
+   warning(
+     "Element(s): ",
+     paste(
+       names(
+         which(
+           !reference_test
+           )
+         ),
+       collapse = " "
+       ),
+     " did not pass the check_reference() test."
+     )
   }
-  message("No reference fields missing!")
+  message("check_reference(): All 'reference' fields present and types are accurate.")
   
   if(!all(edge_classes_test)){
-    print("ERROR: TDB 2")
+    warning(
+      "Element(s): ",
+      paste(
+        names(
+          which(
+            !edge_classes_test
+          )
+        ),
+        collapse = " "
+      ),
+      " did not pass the check_edges_classes() test."
+    )
   }
-  message("All required edge_classes are present in metadata and codebook.")
+  message("check_edges_classes(): Required 'edge_classes' are present in metadata and codebook.")
   
   if(!all(metadata_test)){
-    print("ERROR: TDB 3")
+    error_metadata <- unlist(
+      apply(metadata_test,
+            2,
+            function(x) names(
+              which(
+                !x
+                )
+              )
+            )
+      )
+    warning("Element(s): ",
+            paste(
+              paste(
+                names(error_metadata),
+                error_metadata,
+                sep = ": ",
+                collapse = "; "),
+              collapse = " "
+            ),
+            " did not pass the check_metadata() test.")
+    
   }
-  message("All metadata fields present for each edge_class!")
+  message("check_metadata(): All metadata fields present for expected edge classes.")
   
   if(!all(edges_table_test)){
-    print("ERROR: TDB 4")
+    warning(
+      "Element(s): ",
+      paste(
+        names(
+          which(
+            !edges_table_test
+          )
+        ),
+        collapse = " "
+      ),
+      " did not pass the check_edges_table() test."
+    )
   }
-  message("All required edge fields are present and vector types are valid!")
+  message("check_edges_table(): All 'edges_table' elements are present and types are as expected.")
   
   if(!all(nodes_table_test)){
-    print("ERROR: TDB 5")
+    warning(
+      "Element(s): ",
+      paste(
+        names(
+          which(
+            !nodes_table_test
+          )
+        ),
+        collapse = " "
+      ),
+      " did not pass the check_nodes_table() test."
+    )
   }
-  message("All required nodes fields are present and vector types are valid!")
+  message("check_nodes_table(): All 'nodes_table' elements are present and types are as expected.")
 }
 
+#' @title Check `reference` element 
+#'
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param output, A `list` object returned from the `get_data()` function.
+#'
 check_reference <- function(output) {
   if (!"reference" %in% names(output)) {
     stop("The input provided does not include an element named 'reference'",
@@ -67,6 +142,14 @@ check_reference <- function(output) {
   checked_types
 }
 
+#' @title Check edge classes
+#' 
+#' @description Check matching edge classes against codebook
+#'
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param output, A `list` object returned from the `get_data()` function.
+#'
 check_edge_classes <- function(output) {
   if (!"network" %in% names(output)) {
     stop("The input provided does not include an element named 'network'",
@@ -89,6 +172,14 @@ check_edge_classes <- function(output) {
   checked_edge_lists
 }
 
+#' @title Check `metadata` elements
+#' 
+#' @description Checks metadata for each edge class 
+#'
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param output, A `list` object returned from the `get_data()` function.
+#'
 check_metadata <- function(output) {
   if (!"network" %in% names(output)) {
     stop("The input provided does not include an element named 'network'",
@@ -127,6 +218,14 @@ check_metadata <- function(output) {
   checked_edge_class_metadata
 }
 
+#' @title Check `edges_table`
+#' 
+#' @description Checks `edges_table` element for column and content types.
+#' 
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param output, A `list` object returned from the `get_data()` function.
+#'
 check_edges_table <- function(output) {
   if (!"network" %in% names(output)) {
     stop("The input provided does not include an element named 'network'",
@@ -160,6 +259,14 @@ check_edges_table <- function(output) {
   checked_types
 }
 
+#' @title Check `nodes_table`
+#' 
+#' @description Checks `nodes_table` element for column and content types.
+#' 
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' 
+#' @param output, A `list` object returned from the `get_data()` function.
+#' 
 check_nodes_table <- function(output) {
   if (!"network" %in% names(output)) {
     stop("The input provided does not include an element named 'network'",
