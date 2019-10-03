@@ -48,8 +48,8 @@ Each data object contains two main lists of information, the `reference` and `ne
 ``` r
 names(london_gang)
 #> [1] "reference" "network"
-class(london_gang$metadata)
-#> [1] "NULL"
+class(london_gang$reference)
+#> [1] "list"
 class(london_gang$network)
 #> [1] "list"
 ```
@@ -187,12 +187,12 @@ net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
                                      directed = FALSE, 
                                      vertices = london_gang$network$nodes_table)
 net
-#> IGRAPH 8d0bcf6 UN-- 54 315 -- 
+#> IGRAPH cb50695 UN-- 54 315 -- 
 #> + attr: name (v/c), Age (v/n), Birthplace (v/n), Residence (v/n),
 #> | Arrests (v/n), Convictions (v/n), Prison (v/n), Music (v/n),
 #> | Ranking (v/n), node_class (v/c), hr_birthplace (v/c), from_class
 #> | (e/c), to_class (e/c), type (e/n), edge_class (e/c)
-#> + edges from 8d0bcf6 (vertex names):
+#> + edges from cb50695 (vertex names):
 #>  [1] 1--2  1--3  1--4  1--5  1--6  1--7  1--8  1--9  1--10 1--11 1--12
 #> [12] 1--17 1--18 1--20 1--21 1--22 1--23 1--25 1--27 1--28 1--29 1--43
 #> [23] 1--45 1--46 1--51 2--3  2--6  2--7  2--8  2--9  2--10 2--11 2--12

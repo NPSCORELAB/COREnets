@@ -57,7 +57,7 @@ Each data object contains two main lists of information, the `reference` and `ne
 
 ```{r}
 names(london_gang)
-class(london_gang$metadata)
+class(london_gang$reference)
 class(london_gang$network)
 ```
 
