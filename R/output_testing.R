@@ -103,6 +103,8 @@ test_output <- function(output) {
     )
   }
   message("check_nodes_table(): All 'nodes_table' elements are present and types are as expected.")
+  
+  output
 }
 
 #' @title Check `reference` element 
@@ -163,7 +165,7 @@ check_edge_classes <- function(output) {
   edge_types <- output[["reference"]][["codebook"]][["edge_class"]]
   
   checked_edge_lists <- vapply(
-    .map_chr(output[["network"]][["metadata"]],
+    COREnets:::.map_chr(output[["network"]][["metadata"]],
              "[[", 1),
     function(x) x %in% edge_types,
     logical(1L)

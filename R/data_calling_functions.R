@@ -7,9 +7,10 @@
 #'
 #' @param dataset, the name of the dataset desired.
 #' @param quietly, logical determining how to handle unusual conditions.
+#' @param test, a logical determining whether or not to run internal tests.
 #'
 #' @export
-get_data <- function(dataset, quietly = TRUE) {
+get_data <- function(dataset, quietly = TRUE, test = TRUE) {
   if (!is.character(dataset) | length(dataset) != 1L) {
     stop("The dataset argument must be a scalar character.",
          call. = FALSE)
@@ -27,13 +28,21 @@ get_data <- function(dataset, quietly = TRUE) {
   )
   
   if (quietly) {
-    withCallingHandlers(
+    out <- withCallingHandlers(
       eval(foo),
       message = function(m) invokeRestart("muffleMessage"),
       warning = function(w) invokeRestart("muffleWarning")
     )
   } else {
-    eval(foo)
+    out <- eval(foo)
+  }
+  
+  if(test) {
+    suppressMessages(
+      COREnets:::test_output(output = out)
+      )
+  } else {
+    out
   }
 }
 

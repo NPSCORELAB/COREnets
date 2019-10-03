@@ -1,0 +1,1 @@
+Two networks at different times, 2006 and 2015, of FIFA Standing Committee membership. This dataset was procurred from UCINET's site and is described as "overt networks with covert elements". The initial data was reconstructed by Gemma Edwards using FIFA's Committee 2006 activity report.

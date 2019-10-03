@@ -29,6 +29,37 @@ to_matrix <- function(df, rownames = 1) {
   df
 }
 
+#' @title Read Matrix
+#'
+#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#'
+#' @param file, the name of the file which the data are to be read from.
+#' @param sep, the field separator character.
+#' @param top_left_corner a regex to test whether or not to automatically assign row and column names.
+#'
+read_matrix <- function(file, sep = ",", top_left_corner = "^\\s*?$") {
+  if (!file.exists(file)) {
+    stop("Provided file does not exist.",
+         call. = FALSE)
+  }
+  
+  lines <- readLines(con = file)
+  mat <- do.call(rbind,
+          strsplit(
+            lines,
+            split = sep,
+            fixed = TRUE
+            )
+  )
+  if (grepl(top_left_corner, strsplit(lines[1], ",")[[1]][1])) {
+    colnames(mat) <- mat[1,]
+    rownames(mat) <- mat[,1]
+    mat           <- mat[-1,-1] 
+  }
+  
+  mat
+  }
+
 #' @title Transform to one-mode
 #' 
 #' @description `to_one_mode` takes in an `igraph` object, tests if bipartite,

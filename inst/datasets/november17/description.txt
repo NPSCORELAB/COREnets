@@ -1,0 +1,1 @@
+Using data observed from open source publications, the authors derived network data on the social network of the Greek terrorist group November17 (N17). The present data set represents a reconstruction of the data presented in the original paper, Inferring missing links in partially observed social network, put together by the UCINET team.

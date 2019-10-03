@@ -4,12 +4,14 @@
 \alias{get_data}
 \title{Get Data}
 \usage{
-get_data(dataset, quietly = TRUE)
+get_data(dataset, quietly = TRUE, test = TRUE)
 }
 \arguments{
 \item{dataset, }{the name of the dataset desired.}
 
 \item{quietly, }{logical determining how to handle unusual conditions.}
+
+\item{test, }{a logical determining whether or not to run internal tests.}
 }
 \description{
 `get_data` returns a `list` with metadata and network 
