@@ -34,7 +34,9 @@ edges <- lapply(files, COREnets:::read_matrix) %>%
 g <- igraph::graph_from_data_frame(
   d = edges,
   directed = FALSE
-  )
+  ) %>%
+  igraph::set.vertex.attribute(name  = "node_class",
+                               value = "person")
 
 # build final dataset ==================================================================
 .description <- readLines("inst/datasets/fifa/description.txt",

@@ -22,27 +22,41 @@ devtools::install_github("NPSCORELAB/COREnets")
 Using the Package to Access Data
 --------------------------------
 
-**{COREnets}** contains a series of network datasets that can be accessed using the `get_data` function:
+**{COREnets}** contains a series of network data sets that can be accessed using the `get_data` function:
 
 ``` r
 library(COREnets)
 london_gang <- COREnets::get_data("london_gang")
 ```
 
-Each data object contains two main lists of information, the `metadata` and `network` lists:
+In order to look up the available data sets use the `list_data_sources` function:
+
+``` r
+COREnets::list_data_sources()
+#>  [1] "anabaptists"                   "cocaine_smuggling_acero"      
+#>  [3] "cocaine_smuggling_jake"        "cocaine_smuggling_juanes"     
+#>  [5] "cocaine_smuggling_mambo"       "drugnet"                      
+#>  [7] "fifa"                          "harry_potter_death_eaters"    
+#>  [9] "harry_potter_dumbledores_army" "london_gang"                  
+#> [11] "montreal_street_gangs"         "noordin_139"                  
+#> [13] "november17"                    "siren"                        
+#> [15] "zegota"
+```
+
+Each data object contains two main lists of information, the `reference` and `network` lists:
 
 ``` r
 names(london_gang)
-#> [1] "metadata" "network"
+#> [1] "reference" "network"
 class(london_gang$metadata)
-#> [1] "list"
+#> [1] "NULL"
 class(london_gang$network)
 #> [1] "list"
 ```
 
-### `metadata`
+### `reference`
 
-The `metadata` list contains the following fields of information on the dataset:
+The `reference` list contains the following fields of information on the data set:
 
 | Field       | Type       | Definition                                                                               |
 |:------------|:-----------|:-----------------------------------------------------------------------------------------|
@@ -57,20 +71,18 @@ The `metadata` list contains the following fields of information on the dataset:
 
 ### `network`
 
-The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each dataset is slightly different, this list is segmented into three entries:
+The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each data set is slightly different, this list is segmented into three entries:
 
--   `net_metadata`: A list of lists each containing information on the different edge types contained in the edgelist. The following list are included as individual nested items for each edge type subgraph, each contain a variety of fields:
+-   `metadata`: A list of lists each containing information on the different edge types contained in the edge list. The following list are included as individual nested items for each edge type sub-graph, each contain a variety of fields:
 
 <table>
 <colgroup>
 <col width="12%" />
-<col width="11%" />
-<col width="8%" />
-<col width="67%" />
+<col width="10%" />
+<col width="77%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">List</th>
 <th align="left">Field</th>
 <th align="left">Type</th>
 <th align="left">Definition</th>
@@ -78,93 +90,59 @@ The `network` list contains all the relevant data to generate a sociogram and co
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">graph_metadata</td>
+<td align="left">edge_class</td>
+<td align="left">character</td>
+<td align="left">A string matching the name of an edge class in the codebook.</td>
+</tr>
+<tr class="even">
 <td align="left">is_bimodal</td>
 <td align="left">logical</td>
 <td align="left">A logial denoting wheter or not the edge type yields a bipartite graph.</td>
 </tr>
-<tr class="even">
-<td align="left">graph_metadata</td>
+<tr class="odd">
 <td align="left">is_directed</td>
 <td align="left">logical</td>
 <td align="left">A logical denoting whether the network edges are directed or not.</td>
 </tr>
-<tr class="odd">
-<td align="left">graph_metadata</td>
+<tr class="even">
 <td align="left">is_dynamic</td>
 <td align="left">logical</td>
 <td align="left">A logical denoting whether the edges are dynamic or not.</td>
 </tr>
-<tr class="even">
-<td align="left">graph_metadata</td>
-<td align="left">is_multiplex</td>
-<td align="left">logical</td>
-<td align="left">A logical denoting whether or not the network is made up of multiple parallel edges.</td>
-</tr>
 <tr class="odd">
-<td align="left">graph_metadata</td>
 <td align="left">is_weighted</td>
 <td align="left">logical</td>
 <td align="left">A logical denoting whether or not the edges are weighted.</td>
 </tr>
 <tr class="even">
-<td align="left">graph_metadata</td>
 <td align="left">has_isolates</td>
 <td align="left">logical</td>
 <td align="left">A logical which defines if the graph contains isolates or not.</td>
 </tr>
 <tr class="odd">
-<td align="left">graph_metadata</td>
 <td align="left">has_loops</td>
 <td align="left">logical</td>
 <td align="left">A logical defining the presence or absence of self-loops.</td>
 </tr>
 <tr class="even">
-<td align="left">edges_metadata</td>
-<td align="left">count</td>
-<td align="left">numeric</td>
+<td align="left">edge_count</td>
+<td align="left">double</td>
 <td align="left">A number corresponding to the number of edges.</td>
 </tr>
 <tr class="odd">
-<td align="left">edges_metadata</td>
-<td align="left">are_spartial</td>
-<td align="left">logical</td>
-<td align="left">A logical denoting wheter or not the edges have spatial features.</td>
-</tr>
-<tr class="even">
-<td align="left">edges_metadata</td>
-<td align="left">are_dynamic</td>
-<td align="left">logical</td>
-<td align="left">A logial denoting whether or not the edges have temporal features (e.g., timestamps).</td>
-</tr>
-<tr class="odd">
-<td align="left">nodes_metadata</td>
-<td align="left">count</td>
-<td align="left">numeric</td>
+<td align="left">node_count</td>
+<td align="left">double</td>
 <td align="left">A number corresponding to the number of nodes.</td>
 </tr>
 <tr class="even">
-<td align="left">nodes_metadata</td>
-<td align="left">classes</td>
-<td align="left">character</td>
-<td align="left">A character vector with the node classes.</td>
-</tr>
-<tr class="odd">
-<td align="left">nodes_metadata</td>
-<td align="left">classes_count</td>
-<td align="left">numeric</td>
-<td align="left">A number correspoding to the number of node classes.</td>
-</tr>
-<tr class="even">
-<td align="left">nodes_metadata</td>
-<td align="left">are_spatial</td>
-<td align="left">logical</td>
-<td align="left">A logical denoting whether or not the nodes have spatial features.</td>
+<td align="left">node_classes</td>
+<td align="left">double</td>
+<td align="left">A number corresponding to the number of node classes included for each edge class.</td>
 </tr>
 </tbody>
 </table>
 
--   `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
+-   `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`). In addition to the `from` and `to` variables the data include a class variable for each (`from_class` and `to_class`).
 
 ``` r
 london_gang$network$edges_table %>%
@@ -176,10 +154,10 @@ london_gang$network$edges_table %>%
 #> $ from_class <chr> "people", "people", "people", "people", "people", "pe…
 #> $ to_class   <chr> "people", "people", "people", "people", "people", "pe…
 #> $ type       <dbl> 1, 1, 2, 1, 1, 2, 3, 2, 2, 3, 1, 1, 1, 2, 2, 3, 1, 1,…
-#> $ edge_type  <chr> "Hang Out Together", "Hang Out Together", "Co-Offend …
+#> $ edge_class <chr> "Hang Out Together", "Hang Out Together", "Co-Offend …
 ```
 
--   `nodes_table`: A `data.frame` containg node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable.
+-   `nodes_table`: A `data.frame` contain node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable. In addition, a `node_class` observation is included for each node.
 
 ``` r
 london_gang$network$nodes_table %>%
@@ -209,12 +187,12 @@ net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
                                      directed = FALSE, 
                                      vertices = london_gang$network$nodes_table)
 net
-#> IGRAPH 8efa5f1 UN-- 54 315 -- 
+#> IGRAPH 8d0bcf6 UN-- 54 315 -- 
 #> + attr: name (v/c), Age (v/n), Birthplace (v/n), Residence (v/n),
 #> | Arrests (v/n), Convictions (v/n), Prison (v/n), Music (v/n),
 #> | Ranking (v/n), node_class (v/c), hr_birthplace (v/c), from_class
-#> | (e/c), to_class (e/c), type (e/n), edge_type (e/c)
-#> + edges from 8efa5f1 (vertex names):
+#> | (e/c), to_class (e/c), type (e/n), edge_class (e/c)
+#> + edges from 8d0bcf6 (vertex names):
 #>  [1] 1--2  1--3  1--4  1--5  1--6  1--7  1--8  1--9  1--10 1--11 1--12
 #> [12] 1--17 1--18 1--20 1--21 1--22 1--23 1--25 1--27 1--28 1--29 1--43
 #> [23] 1--45 1--46 1--51 2--3  2--6  2--7  2--8  2--9  2--10 2--11 2--12

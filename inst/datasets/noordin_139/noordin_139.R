@@ -173,8 +173,6 @@ meetings <- c(
   "Meeting 19",
   "Meeting 20"
 )
-
-
 edges_recode <- c(
   "Organizations (Orgs)" = "Organizations (Orgs)",
   "2a Education (Schools)" = "Education (Schools)",
@@ -193,14 +191,14 @@ edges_recode <- c(
   )
 
 # read edges data ==============================================================
-edges <- readxl::excel_sheets("inst/datasets/noordin_139/Noordin 139 Data.xlsx") %>%
+edges <- readxl::excel_sheets("inst/datasets/noordin_139/Noordin_139_Data.xlsx") %>%
   purrr::discard(stringr::str_detect,
                  pattern = "Attributes") %>%
   purrr::set_names() %>%
   lapply(function(x) {
     mat <- COREnets:::to_matrix(
       readxl::read_excel(
-        path = "inst/datasets/noordin_139/Noordin 139 Data.xlsx",
+        path = "inst/datasets/noordin_139/Noordin_139_Data.xlsx",
         sheet = x)
       )
     if(NCOL(mat) == NROW(mat)) {
@@ -255,10 +253,10 @@ edges <- edges %>%
   )
 
 # read attribute data ==========================================================
-attrs <- readxl::excel_sheets("inst/datasets/noordin_139/Noordin 139 Data.xlsx") %>%
+attrs <- readxl::excel_sheets("inst/datasets/noordin_139/Noordin_139_Data.xlsx") %>%
   purrr::keep(stringr::str_detect, pattern = "Attributes") %>%
   purrr::map_dfr(
-    ~ readxl::read_excel(path = "inst/datasets/noordin_139/Noordin 139 Data.xlsx",
+    ~ readxl::read_excel(path = "inst/datasets/noordin_139/Noordin_139_Data.xlsx",
                          sheet = .x) %>%
       dplyr::as_tibble()
     )
@@ -485,9 +483,21 @@ nodes <- nodes %>%
     # Defined as the 79 individuals listed in the appendix of the 2006 ICG 
     # Report, “Noordin’s Networks”
     original_79 = `Original 79`,
-    is_orginal_79 = ifelse(`Original 79` == 0, FALSE, TRUE)
+    is_orginal_79 = ifelse(`Original 79` == 0, FALSE, TRUE),
+    node_class    = "people",
+    node_class    = dplyr::case_when(
+      name %in% insurgent_organizations   ~ "organization",
+      name %in% schools                   ~ "organization",
+      name %in% training_events           ~ "event",
+      name %in% businesses                ~ "organization",
+      name %in% operations                ~ "event",
+      name %in% mosques                   ~ "organization",
+      name %in% logistical_locations      ~ "location",
+      name %in% logistical_function       ~ "resource",
+      name %in% meetings                  ~ "event"
+    )
   ) %>%
-  dplyr::select(name,
+  dplyr::select(name, node_class,
          # Original variables ==================================================
          education_level, contact_w_people, military_training,
          nationality, current_status_per_icg_article, current_status_updated,

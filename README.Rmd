@@ -40,20 +40,20 @@ devtools::install_github("NPSCORELAB/COREnets")
 
 ## Using the Package to Access Data
 
-**{COREnets}** contains a series of network datasets that can be accessed using the `get_data` function:
+**{COREnets}** contains a series of network data sets that can be accessed using the `get_data` function:
 
 ```{r, eval = TRUE}
 library(COREnets)
 london_gang <- COREnets::get_data("london_gang")
 ```
 
-In order to lookup the available datasets use the `list_data_sources` function:
+In order to look up the available data sets use the `list_data_sources` function:
 
 ```{r}
 COREnets::list_data_sources()
 ```
 
-Each data object contains two main lists of information, the `metadata` and `network` lists:
+Each data object contains two main lists of information, the `reference` and `network` lists:
 
 ```{r}
 names(london_gang)
@@ -61,9 +61,9 @@ class(london_gang$metadata)
 class(london_gang$network)
 ```
 
-### `metadata`
+### `reference`
 
-The `metadata` list contains the following fields of information on the dataset:
+The `reference` list contains the following fields of information on the data set:
 
 ```{r, echo=F}
 library(tidyverse)
@@ -107,84 +107,46 @@ metadata %>%
 
 ### `network`
 
-The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each dataset is slightly different, this list is segmented into three entries:
+The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each data set is slightly different, this list is segmented into three entries:
   
-  - `net_metadata`: A list of lists each containing information on the different edge types contained in the edgelist. The following list are included as individual nested items for each edge type subgraph, each contain a variety of fields:
+  - `metadata`: A list of lists each containing information on the different edge types contained in the edge list. The following list are included as individual nested items for each edge type sub-graph, each contain a variety of fields:
 ```{r, echo=FALSE}
 net_metadata <- data.frame(
-  List  = c(
-    # graph_metadata
-    "graph_metadata",
-    "graph_metadata",
-    "graph_metadata",
-    "graph_metadata",
-    "graph_metadata",
-    "graph_metadata",
-    "graph_metadata",
-    # edges_metadata
-    "edges_metadata",
-    "edges_metadata",
-    "edges_metadata",
-    # nodes_metadata
-    "nodes_metadata",
-    "nodes_metadata",
-    "nodes_metadata",
-    "nodes_metadata"
-  ),
   Field = c(
-    # graph_metadata
+    "edge_class",
     "is_bimodal",
     "is_directed",
     "is_dynamic",
-    "is_multiplex",
     "is_weighted",
     "has_isolates",
     "has_loops",
-    # edges_metadata
-    "count",
-    "are_spartial",
-    "are_dynamic",
-    # nodes_metadata
-    "count",
-    "classes",
-    "classes_count",
-    "are_spatial"
+    "edge_count",
+    "node_count",
+    "node_classes"
   ),
   Type = c(
-    "logical",
-    "logical",
-    "logical",
-    "logical",
-    "logical",
-    "logical",
-    "logical",
-    # edges_metadata
-    "numeric",
-    "logical",
-    "logical",
-    # nodes_metadata
-    "numeric",
     "character",
-    "numeric",
-    "logical"
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    "logical",
+    "double",
+    "double",
+    "double"
   ),
   Definition = c(
+    "A string matching the name of an edge class in the codebook.", 
     "A logial denoting wheter or not the edge type yields a bipartite graph.",
     "A logical denoting whether the network edges are directed or not.",
     "A logical denoting whether the edges are dynamic or not.",
-    "A logical denoting whether or not the network is made up of multiple parallel edges.",
     "A logical denoting whether or not the edges are weighted.",
     "A logical which defines if the graph contains isolates or not.",
     "A logical defining the presence or absence of self-loops.",
-    # edges_metadata
     "A number corresponding to the number of edges.",
-    "A logical denoting wheter or not the edges have spatial features.",
-    "A logial denoting whether or not the edges have temporal features (e.g., timestamps).",
-    # nodes_metadata
     "A number corresponding to the number of nodes.",
-    "A character vector with the node classes.",
-    "A number correspoding to the number of node classes.",
-    "A logical denoting whether or not the nodes have spatial features."
+    "A number corresponding to the number of node classes included for each edge class."
   )
 )
 
@@ -195,14 +157,14 @@ net_metadata %>%
 ```
 
 
-  - `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`).
+  - `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`). In addition to the `from` and `to` variables the data include a class variable for each (`from_class` and `to_class`). 
   
 ```{r}
 london_gang$network$edges_table %>%
   glimpse()
 ```
   
-  - `nodes_table`:  A `data.frame` containg node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable.
+  - `nodes_table`:  A `data.frame` contain node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable. In addition, a `node_class` observation is included for each node.
   
 ```{r}
 london_gang$network$nodes_table %>%

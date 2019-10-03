@@ -5,7 +5,7 @@
 # paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3389503
 
 # read adjacency matrices ======================================================
-edges <- COREnets:::read_matrix("inst/datasets/harry_potter_death_eaters/Death Eaters Snape.csv") %>%
+edges <- COREnets:::read_matrix("inst/datasets/harry_potter_death_eaters/Death_Eaters_Snape.csv") %>%
   igraph::graph_from_adjacency_matrix(mode = "undirected",
                                       weighted = TRUE) %>%
   igraph::get.data.frame("edges") %>%
