@@ -26,13 +26,13 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-  A. Install `devtools` if you haven't already.
+First, if you haven't done so, install `devtools`:.
 
 ```{r, eval=FALSE}
 install.packages("devtools")
 ```
 
-  B. Install the package using `devtools`.
+Proceed to install `{COREnets}` from Github:
   
 ```{r, eval=FALSE}
 devtools::install_github("NPSCORELAB/COREnets")
@@ -44,7 +44,7 @@ devtools::install_github("NPSCORELAB/COREnets")
 
 ```{r, eval = TRUE}
 library(COREnets)
-london_gang <- COREnets::get_data("london_gang")
+drugnet <- COREnets::get_data("drugnet")
 ```
 
 In order to look up the available data sets use the `list_data_sources` function:
@@ -53,12 +53,18 @@ In order to look up the available data sets use the `list_data_sources` function
 COREnets::list_data_sources()
 ```
 
+Get a brief description of the data set:
+
+```{r}
+COREnets::get_description("noordin_139")
+```
+
 Each data object contains two main lists of information, the `reference` and `network` lists:
 
 ```{r}
-names(london_gang)
-class(london_gang$reference)
-class(london_gang$network)
+names(drugnet)
+class(drugnet$reference)
+class(drugnet$network)
 ```
 
 ### `reference`
@@ -160,26 +166,26 @@ net_metadata %>%
   - `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`). In addition to the `from` and `to` variables the data include a class variable for each (`from_class` and `to_class`). 
   
 ```{r}
-london_gang$network$edges_table %>%
+drugnet$network$edges_table %>%
   glimpse()
 ```
   
   - `nodes_table`:  A `data.frame` contain node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable. In addition, a `node_class` observation is included for each node.
   
 ```{r}
-london_gang$network$nodes_table %>%
+drugnet$network$nodes_table %>%
   glimpse()
 ```
 
 
 ## Generating Networks 
 
-Each network in the package contains the necessary edges and nodes tables to generate network objects with **igraph**. For instance:
+Each network in the package contains the necessary edges and nodes tables to generate network objects with **{igraph}**. For instance:
 
 ```{r}
-net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
+net <- igraph::graph_from_data_frame(d        = drugnet$network$edges_table,
                                      directed = FALSE, 
-                                     vertices = london_gang$network$nodes_table)
+                                     vertices = drugnet$network$nodes_table)
 net
 ```
 

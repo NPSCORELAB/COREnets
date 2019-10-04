@@ -7,13 +7,13 @@ COREnets
 Installation
 ------------
 
-A. Install `devtools` if you haven't already.
+First, if you haven't done so, install `devtools`:.
 
 ``` r
 install.packages("devtools")
 ```
 
-B. Install the package using `devtools`.
+Proceed to install `{COREnets}` from Github:
 
 ``` r
 devtools::install_github("NPSCORELAB/COREnets")
@@ -26,7 +26,7 @@ Using the Package to Access Data
 
 ``` r
 library(COREnets)
-london_gang <- COREnets::get_data("london_gang")
+drugnet <- COREnets::get_data("drugnet")
 ```
 
 In order to look up the available data sets use the `list_data_sources` function:
@@ -43,14 +43,21 @@ COREnets::list_data_sources()
 #> [15] "zegota"
 ```
 
+Get a brief description of the data set:
+
+``` r
+COREnets::get_description("noordin_139")
+#> [1] "These data were drawn primarily from 'Terrorism in Indonesia: Noordin's Networks,' a publication of the International Crisis Group (2006) and include relational data on the 79 individuals listed in Appendix C of that publication. "
+```
+
 Each data object contains two main lists of information, the `reference` and `network` lists:
 
 ``` r
-names(london_gang)
+names(drugnet)
 #> [1] "reference" "network"
-class(london_gang$reference)
+class(drugnet$reference)
 #> [1] "list"
-class(london_gang$network)
+class(drugnet$network)
 #> [1] "list"
 ```
 
@@ -145,58 +152,54 @@ The `network` list contains all the relevant data to generate a sociogram and co
 -   `edges_table`: A `data.frame` that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (`from`) and another column of nodes that are the target of the connection (`to`). In addition to the `from` and `to` variables the data include a class variable for each (`from_class` and `to_class`).
 
 ``` r
-london_gang$network$edges_table %>%
+drugnet$network$edges_table %>%
   glimpse()
-#> Observations: 315
-#> Variables: 6
-#> $ from       <chr> "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"…
-#> $ to         <chr> "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "…
-#> $ from_class <chr> "people", "people", "people", "people", "people", "pe…
-#> $ to_class   <chr> "people", "people", "people", "people", "people", "pe…
-#> $ type       <dbl> 1, 1, 2, 1, 1, 2, 3, 2, 2, 3, 1, 1, 1, 2, 2, 3, 1, 1,…
-#> $ edge_class <chr> "Hang Out Together", "Hang Out Together", "Co-Offend …
+#> Observations: 337
+#> Variables: 5
+#> $ from       <chr> "1", "1", "2", "2", "3", "4", "4", "5", "6", "7", "7"…
+#> $ to         <chr> "2", "10", "1", "10", "7", "7", "211", "134", "152", …
+#> $ from_class <chr> "person", "person", "person", "person", "person", "pe…
+#> $ to_class   <chr> "person", "person", "person", "person", "person", "pe…
+#> $ edge_class <chr> "Acquaintanceship", "Acquaintanceship", "Acquaintance…
 ```
 
 -   `nodes_table`: A `data.frame` contain node non-relational characteristics. A unique identifier for each node in the `edge_table` should be present in the `name` variable. In addition, a `node_class` observation is included for each node.
 
 ``` r
-london_gang$network$nodes_table %>%
+drugnet$network$nodes_table %>%
   glimpse()
-#> Observations: 54
-#> Variables: 11
-#> $ name          <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",…
-#> $ Age           <dbl> 20, 20, 19, 21, 24, 25, 20, 21, 20, 23, 21, 25, 21…
-#> $ Birthplace    <dbl> 1, 2, 2, 2, 2, 3, 4, 1, 1, 1, 1, 3, 3, 3, 3, 3, 2,…
-#> $ Residence     <dbl> 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,…
-#> $ Arrests       <dbl> 16, 16, 12, 8, 11, 17, 8, 15, 9, 12, 16, 5, 19, 23…
-#> $ Convictions   <dbl> 4, 7, 4, 1, 3, 10, 1, 6, 3, 4, 8, 3, 9, 9, 9, 7, 8…
-#> $ Prison        <dbl> 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0,…
-#> $ Music         <dbl> 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0,…
-#> $ Ranking       <dbl> 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4,…
-#> $ node_class    <chr> "people", "people", "people", "people", "people", …
-#> $ hr_birthplace <chr> "West Africa", "Caribbean", "Caribbean", "Caribbea…
+#> Observations: 293
+#> Variables: 8
+#> $ name         <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", …
+#> $ node_class   <chr> "people", "people", "people", "people", "people", "…
+#> $ Gender       <dbl> 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ Ethnicity    <dbl> 1, 1, 1, 1, 3, 3, 1, 3, 1, 3, 3, 2, 2, 2, 2, 3, 3, …
+#> $ HasTie       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ hr_ethnicity <chr> "White/Other", "White/Other", "White/Other", "White…
+#> $ hr_gender    <chr> "Male", "Male", "Male", "Female", "Male", "Male", "…
+#> $ hr_has_tie   <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRU…
 ```
 
 Generating Networks
 -------------------
 
-Each network in the package contains the necessary edges and nodes tables to generate network objects with **igraph**. For instance:
+Each network in the package contains the necessary edges and nodes tables to generate network objects with **{igraph}**. For instance:
 
 ``` r
-net <- igraph::graph_from_data_frame(d        = london_gang$network$edges_table,
+net <- igraph::graph_from_data_frame(d        = drugnet$network$edges_table,
                                      directed = FALSE, 
-                                     vertices = london_gang$network$nodes_table)
+                                     vertices = drugnet$network$nodes_table)
 net
-#> IGRAPH cb50695 UN-- 54 315 -- 
-#> + attr: name (v/c), Age (v/n), Birthplace (v/n), Residence (v/n),
-#> | Arrests (v/n), Convictions (v/n), Prison (v/n), Music (v/n),
-#> | Ranking (v/n), node_class (v/c), hr_birthplace (v/c), from_class
-#> | (e/c), to_class (e/c), type (e/n), edge_class (e/c)
-#> + edges from cb50695 (vertex names):
-#>  [1] 1--2  1--3  1--4  1--5  1--6  1--7  1--8  1--9  1--10 1--11 1--12
-#> [12] 1--17 1--18 1--20 1--21 1--22 1--23 1--25 1--27 1--28 1--29 1--43
-#> [23] 1--45 1--46 1--51 2--3  2--6  2--7  2--8  2--9  2--10 2--11 2--12
-#> [34] 2--13 2--14 2--16 2--18 2--21 2--22 2--23 2--25 2--28 2--29 2--30
-#> [45] 2--31 2--38 3--4  3--5  3--6  3--7  3--8  3--9  3--10 3--12 3--13
+#> IGRAPH 4a519a0 UN-- 293 337 -- 
+#> + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity
+#> | (v/n), HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c),
+#> | hr_has_tie (v/l), from_class (e/c), to_class (e/c), edge_class
+#> | (e/c)
+#> + edges from 4a519a0 (vertex names):
+#>  [1] 1 --2   1 --10  1 --2   2 --10  3 --7   4 --7   4 --211 5 --134
+#>  [9] 6 --152 3 --7   4 --7   7 --9   8 --107 8 --117 1 --9   2 --9  
+#> [17] 7 --9   1 --10  2 --10  11--135 11--220 12--89  13--216 14--24 
+#> [25] 14--52  10--16  16--19  17--64  17--79  18--55  18--104 18--165
+#> [33] 18--19  20--64  20--182 16--21  21--22  21--22  22--64  22--107
 #> + ... omitted several edges
 ```
