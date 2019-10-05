@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/NPSCORELAB/COREnets?branch=master&svg=true)](https://ci.appveyor.com/project/NPSCORELAB/COREnets)
 [![Travis-CI Build Status](https://travis-ci.org/NPSCORELAB/COREnets.svg?branch=master)](https://travis-ci.org/NPSCORELAB/COREnets)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0)
-[![Depends](https://img.shields.io/badge/Depends-GNU_R>=3.1-blue.svg)](https://www.r-project.org/)
+[![Depends](https://img.shields.io/badge/Depends-GNU_R>=3.2-blue.svg)](https://www.r-project.org/)
 [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/NPSCORELAB/COREnets.svg)](https://github.com/NPSCORELAB/COREnets)
 [![HitCount](http://hits.dwyl.io/NPSCORELAB/COREnets.svg)](http://hits.dwyl.io/NPSCORELAB/COREnets)
 <!-- badges: end -->
