@@ -7,9 +7,9 @@
 generate_graph_metadata(g, codebook)
 }
 \arguments{
-\item{g, }{An `igraph` object.}
+\item{g, }{An \code{igraph} object.}
 
-\item{codebook, }{A `data.frame` with metedata fields for each `edge_class` 
+\item{codebook, }{A \code{data.frame} with metedata fields for each \code{edge_class}
 in the graph object.}
 }
 \description{
@@ -18,3 +18,4 @@ Generate COREnets Graph Metadata
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

@@ -1,3 +1,5 @@
+#' @keywords internal
+#' 
 #' @title Unnest Igraph Object by Edge Type
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -31,6 +33,7 @@ unnest_edge_class <- function(g, edge_class_name) {
   listed_graphs
 }
 
+#' @keywords internal
 #' @title Generate COREnets Graph Metadata
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -76,6 +79,7 @@ generate_graph_metadata <- function(g, codebook) {
   metadata
 }
 
+#' @keywords internal
 #' @title Return Metadata Fields from Codebook
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -104,6 +108,7 @@ get_codebook_fields <- function(codebook, wanted_edge_class) {
 }
 
 
+#' @keywords internal
 #' @title Testing for Loops
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -120,6 +125,7 @@ test_loops <- function(g) {
 }
 
 
+#' @keywords internal
 #' @title Testing for Isolates
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -138,6 +144,7 @@ test_isolates <- function(g) {
 }
 
 
+#' @keywords internal
 #' @title Testing for Isolates
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -171,6 +178,8 @@ get_node_classes <- function(g, from_class = "from_class", to_class = "to_class"
   classes
 }
 
+
+#' @keywords internal
 #' @title Testing for Dynamic Edges
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}

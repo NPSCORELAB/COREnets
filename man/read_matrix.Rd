@@ -11,7 +11,7 @@ read_matrix(file, sep = ",", top_left_corner = "^\\\\s*?$")
 
 \item{sep, }{the field separator character.}
 
-\item{top_left_corner}{a regex to test whether or not to automatically assign row and column names.}
+\item{top_left_corner}{a RegEx to test whether or not to automatically assign row and column names.}
 }
 \description{
 Read Matrix
@@ -19,3 +19,4 @@ Read Matrix
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

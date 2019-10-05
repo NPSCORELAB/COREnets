@@ -7,17 +7,18 @@
 to_one_mode(g, project = "rows")
 }
 \arguments{
-\item{g, }{An `igraph` object produced by the `to_graph` function.}
+\item{g, }{An \code{igraph} object produced by the \code{to_graph} function.}
 
-\item{project, }{Projection type for igraph to extract. "rows" will extract a 
-one-mode matrix of rows-to-rows, while "columns" will extract a one-mode 
+\item{project, }{Projection type for igraph to extract. "rows" will extract a
+one-mode matrix of rows-to-rows, while "columns" will extract a one-mode
 matrix of colums-to-columns.}
 }
 \description{
-`to_one_mode` takes in an `igraph` object, tests if bipartite,
+\code{to_one_mode} takes in an \code{igraph} object, tests if bipartite,
 and proceeds to project the network. This evaluation can be also conducted on
 one-mode networks, yet no action will occur.`
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

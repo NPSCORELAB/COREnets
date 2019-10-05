@@ -27,7 +27,9 @@ kv_bases <- c(
 )
 
 # read "raw" data ==============================================================
-init_attrs <- readr::read_csv("inst/datasets/anabaptists/Anabaptist_Attributes.csv")
+init_attrs <- .corenets_read_csv(
+  .corenets_sys_file("datasets/anabaptists/Anabaptist_Attributes.csv")
+)
 
 # clean node attributes ========================================================
 groups_attr <- init_attrs %>%
@@ -58,13 +60,13 @@ groups_attr <- init_attrs %>%
 nodes_df <- init_attrs %>% 
   # use "better" names
   dplyr::rename(
-    name                 = X1,
-    violence_sanctioning = Violence,            # paper: p. 47
-    apocalyptic          = Apocalyptic,         # paper: p. 47
-    believer_baptist     = `Believers Baptism`, # paper: p. 2
-    origin               = `Origin #`,
-    based_in             = `Operate #`,
-    munster_rebel        = `Münster Rebellion`
+    name                 = "X1",
+    violence_sanctioning = "Violence",          # paper: p. 47
+    apocalyptic          = "Apocalyptic",       # paper: p. 47
+    believer_baptist     = "Believers Baptism", # paper: p. 2
+    origin               = "Origin #",
+    based_in             = "Operate #",
+    munster_rebel        = "M\u00FCnster Rebellion"
   ) %>% 
   dplyr::mutate(hr_origin               = dplyr::recode(origin,
                                                         !!!kv_origins),
@@ -103,8 +105,9 @@ nodes_df <- init_attrs %>%
          ) 
 
 # pull edges from pajek file
-edges_df <- igraph::read_graph("inst/datasets/anabaptists/Anabaptist_Leaders.net",
-                               format = "paj") %>%
+edges_df <- igraph::read_graph(
+  .corenets_sys_file("datasets/anabaptists/Anabaptist_Leaders.net"),
+  format = "paj") %>%
   igraph::as_data_frame() %>% 
   dplyr::select(-weight) %>% 
   # fix name that doesn't match
@@ -126,13 +129,17 @@ g <- igraph::graph_from_data_frame(
 )
 
 # build final dataset ==========================================================
-.description <- readLines("inst/datasets/anabaptists/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/anabaptists/description.txt"),
+)
 
-.abstract <- readLines("inst/datasets/anabaptists/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/anabaptists/abstract.txt")
+)
 
-.bibtex <- bibtex::read.bib("inst/datasets/anabaptists/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/anabaptists/refs.bib")
+)
 
 .codebook <- data.frame(
   `edge_class` = c("Face-to-Face Meeting"),
@@ -159,13 +166,12 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://apps.dtic.mil/dtic/tr/fulltext/u2/a632471.pdf")
 
 .network <- list(
-  metadata    = COREnets:::unnest_edge_class(g = g,
-                                              edge_class_name = "edge_class") %>%
+  metadata    = unnest_edge_class(g = g, edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+                 generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

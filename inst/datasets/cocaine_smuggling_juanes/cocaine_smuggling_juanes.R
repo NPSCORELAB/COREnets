@@ -1,8 +1,24 @@
 `%>%` <- magrittr::`%>%`
 
+.codebook <- data.frame(
+  `edge_class` = "person-to-person",
+  is_bimodal  = FALSE,
+  is_directed = FALSE,
+  is_dynamic  = FALSE,
+  is_weighted = TRUE,
+  definition  = "Undirected valued relationship for actors, mainly of the same family.",
+  stringsAsFactors = FALSE
+)
+
+
 # read edges data ==============================================================
-edges <- COREnets:::read_matrix("inst/datasets/cocaine_smuggling_juanes/COCAINE_JUANES.csv") %>%
-  igraph::graph_from_adjacency_matrix() %>%
+edges <- COREnets:::read_matrix(
+  .corenets_sys_file("datasets/cocaine_smuggling_juanes/COCAINE_JUANES.csv") 
+  ) %>%
+  igraph::graph_from_adjacency_matrix(
+    mode = if (.codebook$is_directed) "directed" else "undirected",
+    weighted = .codebook$is_weighted
+  ) %>%
   igraph::get.data.frame(what = "edges") %>%
   dplyr::mutate(
     edge_class = "person-to-person",
@@ -21,23 +37,18 @@ g <- igraph::graph_from_data_frame(
                                value = "person")
 
 # build final dataset ==========================================================
-.description <- readLines("inst/datasets/cocaine_smuggling_juanes/description.txt",
-                          warn = FALSE)
-
-.abstract <- readLines("inst/datasets/cocaine_smuggling_juanes/abstract.txt",
-                       warn = FALSE)
-
-.bibtex <- bibtex::read.bib("inst/datasets/cocaine_smuggling_juanes/refs.bib")
-
-.codebook <- data.frame(
-  `edge_class` = c("person-to-person"),
-  is_bimodal  = c(FALSE),
-  is_directed = c(FALSE),
-  is_dynamic  = c(FALSE),
-  is_weighted = c(FALSE),
-  definition  = c("Undirected valued relationship for actors, mainly of the same family."),
-  stringsAsFactors = FALSE
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/cocaine_smuggling_juanes/description.txt")
 )
+
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/cocaine_smuggling_juanes/abstract.txt")
+)
+
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/cocaine_smuggling_juanes/refs.bib")
+)
+
 
 .reference <- list(
   title        = "Cocaine Smuggling Operation JUANES",

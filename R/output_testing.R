@@ -1,3 +1,4 @@
+#' @keywords internal
 #' @title Testing for Expected Structures
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -107,6 +108,8 @@ test_output <- function(output) {
   output
 }
 
+
+#' @keywords internal
 #' @title Check `reference` element 
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
@@ -144,6 +147,8 @@ check_reference <- function(output) {
   checked_types
 }
 
+
+#' @keywords internal
 #' @title Check edge classes
 #' 
 #' @description Check matching edge classes against codebook
@@ -165,7 +170,7 @@ check_edge_classes <- function(output) {
   edge_types <- output[["reference"]][["codebook"]][["edge_class"]]
   
   checked_edge_lists <- vapply(
-    COREnets:::.map_chr(output[["network"]][["metadata"]],
+    .map_chr(output[["network"]][["metadata"]],
              "[[", 1),
     function(x) x %in% edge_types,
     logical(1L)
@@ -174,6 +179,8 @@ check_edge_classes <- function(output) {
   checked_edge_lists
 }
 
+
+#' @keywords internal
 #' @title Check `metadata` elements
 #' 
 #' @description Checks metadata for each edge class 
@@ -220,6 +227,8 @@ check_metadata <- function(output) {
   checked_edge_class_metadata
 }
 
+
+#' @keywords internal
 #' @title Check `edges_table`
 #' 
 #' @description Checks `edges_table` element for column and content types.
@@ -261,6 +270,8 @@ check_edges_table <- function(output) {
   checked_types
 }
 
+
+#' @keywords internal
 #' @title Check `nodes_table`
 #' 
 #' @description Checks `nodes_table` element for column and content types.
