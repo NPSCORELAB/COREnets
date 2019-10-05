@@ -1,8 +1,25 @@
 `%>%` <- magrittr::`%>%`
 
+
+.codebook <- data.frame(
+  `edge_class` = "person-to-person",
+  is_bimodal  = FALSE,
+  is_directed = FALSE,
+  is_dynamic  = FALSE,
+  is_weighted = TRUE,
+  definition  = c("Undirected valued relationship for actors, mainly of the same family."),
+  stringsAsFactors = FALSE
+)
+
+
 # read edges data ==============================================================
-edges <- COREnets:::read_matrix("inst/datasets/cocaine_smuggling_mambo/COCAINE_MAMBO.csv") %>%
-  igraph::graph_from_adjacency_matrix() %>%
+edges <- read_matrix(
+  .corenets_sys_file("datasets/cocaine_smuggling_mambo/COCAINE_MAMBO.csv")
+  ) %>%
+  igraph::graph_from_adjacency_matrix(
+    mode = if (.codebook$is_directed) "directed" else "undirected",
+    weighted = .codebook$is_weighted
+  ) %>%
   igraph::get.data.frame(what = "edges") %>%
   dplyr::mutate(
     edge_class = "person-to-person",
@@ -21,23 +38,19 @@ g <- igraph::graph_from_data_frame(
                                value = "person")
 
 # build final dataset ==========================================================
-.description <- readLines("inst/datasets/cocaine_smuggling_mambo/description.txt",
-                          warn = FALSE)
-
-.abstract <- readLines("inst/datasets/cocaine_smuggling_mambo/abstract.txt",
-                       warn = FALSE)
-
-.bibtex <- bibtex::read.bib("inst/datasets/cocaine_smuggling_mambo/refs.bib")
-
-.codebook <- data.frame(
-  `edge_class` = c("person-to-person"),
-  is_bimodal  = c(FALSE),
-  is_directed = c(FALSE),
-  is_dynamic  = c(FALSE),
-  is_weighted = c(FALSE),
-  definition  = c("Undirected valued relationship for actors, mainly of the same family."),
-  stringsAsFactors = FALSE
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/cocaine_smuggling_mambo/description.txt")
 )
+
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/cocaine_smuggling_mambo/abstract.txt")
+)
+
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/cocaine_smuggling_mambo/refs.bib")
+)
+
+
 
 .reference <- list(
   title        = "Cocaine Smuggling Operation MAMBO",
@@ -51,13 +64,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://sites.google.com/site/ucinetsoftware/datasets/covert-networks/cocainesmuggling")
 
 .network <- list(
-  metadata   = COREnets:::unnest_edge_class(g = g,
-                                            edge_class_name = "edge_class") %>%
+  metadata   = unnest_edge_class(g = g, edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
-    purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+    purrr::map(~ .x %>% generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

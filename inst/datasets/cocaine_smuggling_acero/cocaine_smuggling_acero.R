@@ -1,8 +1,10 @@
 `%>%` <- magrittr::`%>%`
 
 # read edges data ==============================================================
-edges <- COREnets:::read_matrix("inst/datasets/cocaine_smuggling_acero/COCAINE_ACERO.csv") %>%
-  igraph::graph_from_adjacency_matrix() %>%
+edges <- COREnets:::read_matrix(
+  .corenets_sys_file("datasets/cocaine_smuggling_acero/COCAINE_ACERO.csv")
+  ) %>%
+  igraph::graph_from_adjacency_matrix(mode = "undirected") %>%
   igraph::get.data.frame(what = "edges") %>%
   dplyr::mutate(
     edge_class = "person-to-person",
@@ -21,13 +23,17 @@ g <- igraph::graph_from_data_frame(
                                value = "person")
 
 # build final dataset ==========================================================
-.description <- readLines("inst/datasets/cocaine_smuggling_acero/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/cocaine_smuggling_acero/description.txt")
+)
 
-.abstract <- readLines("inst/datasets/cocaine_smuggling_acero/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/cocaine_smuggling_acero/abstract.txt")
+)
 
-.bibtex <- bibtex::read.bib("inst/datasets/cocaine_smuggling_acero/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/cocaine_smuggling_acero/refs.bib")
+)
 
 .codebook <- data.frame(
   `edge_class` = c("person-to-person"),

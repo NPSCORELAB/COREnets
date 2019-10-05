@@ -3,30 +3,37 @@
 #' @description `get_data` returns a `list` with metadata and network 
 #' object required to generate a sociogram.
 #'
-#' @author Brendan Knapp, \email{brendan.knapp@@nps.edu}
+#' @template author-bk
 #'
-#' @param dataset, the name of the dataset desired.
-#' @param quietly, logical determining how to handle unusual conditions.
-#' @param test, a logical determining whether or not to run internal tests.
+#' @param dataset `<character>` Name of the desired data set.
+#' @param quietly, `<logical>` Determines how to handle unusual conditions.
+#' @param test `<logical>` Whether or not to run internal tests.
+#' @template param-dots
+#'
+#' @seealso [list_data_sources()], [get_description()]
 #'
 #' @export
-get_data <- function(dataset, quietly = TRUE, test = TRUE) {
+get_data <- function(dataset, quietly = TRUE, test = TRUE, ...) {
   if (!is.character(dataset) | length(dataset) != 1L) {
     stop("The dataset argument must be a scalar character.",
          call. = FALSE)
   }
-    
-  file_path <- sprintf("inst/datasets/%s/%s.R", dataset, dataset)
+  
+  
+  file_path <- .corenets_sys_file(
+    sprintf("datasets/%s/%s.R", dataset, dataset)
+  )
+  
   
   if (!file.exists(file_path)) {
-    stop("Can't find file: ", file_path, 
-         call. = FALSE)
+    stop("Can't find file: ", file_path, call. = FALSE)
   }
   
   foo <- parse(
-    text = readLines(file_path, warn = FALSE)
+    text = readr::read_lines(file_path)
   )
   
+
   if (quietly) {
     out <- withCallingHandlers(
       eval(foo),
@@ -37,20 +44,25 @@ get_data <- function(dataset, quietly = TRUE, test = TRUE) {
     out <- eval(foo)
   }
   
-  if(test) {
-    suppressMessages(
-      COREnets:::test_output(output = out)
-      )
+  if (test) {
+    suppressMessages(test_output(output = out))
   } else {
     out
   }
 }
 
+
 #' @title Read Data Description
 #' 
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #' 
-#' @param dataset, the name of the dataset desired.
+#' @param dataset `<chr>` Name of desired data set.
+#' 
+#' @examples
+#' get_description("drugnet")
+#' 
+#' 
+#' @seealso [list_data_sources()], [get_data()]
 #' 
 #' @export
 get_description <- function(dataset) {
@@ -58,21 +70,26 @@ get_description <- function(dataset) {
     stop("The dataset argument must be a scalar character.",
          call. = FALSE)
   }
-  file_path <- sprintf("inst/datasets/%s/description.txt", dataset)
+  file_path <- .corenets_sys_file(
+    sprintf("datasets/%s/description.txt", dataset)
+  )
   
-  readLines(file_path,
-            warn = FALSE)
+  .corenets_read_lines(file_path)
 }
+
 
 #' @title List Available Data
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #'
+#' @examples 
+#' list_data_sources()
+#' 
+#' @seealso [list_data_sources()], [get_description()]
+#'
 #' @export
 list_data_sources <- function() {
   
-  list.dirs(path = "inst/datasets/",
-            full.names = FALSE,
-            recursive = FALSE)
+  dir(.corenets_sys_file("datasets"))
   
 }

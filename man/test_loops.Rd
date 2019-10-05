@@ -7,7 +7,7 @@
 test_loops(g)
 }
 \arguments{
-\item{g, }{An `igraph` object.}
+\item{g, }{An \code{igraph} object.}
 }
 \description{
 Testing for Loops
@@ -15,3 +15,4 @@ Testing for Loops
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

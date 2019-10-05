@@ -1,3 +1,12 @@
-^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^README.Rmd$
+^data-raw$
+^man-roxygen$
+^docs$
+^_pkgdown.yml$
+^.travis.yml$
+^codecov\.yml$
+^.appveyor\.yml$
+^README_files$
+^API$

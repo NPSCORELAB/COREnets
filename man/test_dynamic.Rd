@@ -7,7 +7,7 @@
 test_dynamic(g)
 }
 \arguments{
-\item{g, }{An `igraph` object.}
+\item{g, }{An \code{igraph} object.}
 }
 \description{
 Testing for Dynamic Edges
@@ -15,3 +15,4 @@ Testing for Dynamic Edges
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

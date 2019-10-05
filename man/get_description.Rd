@@ -7,10 +7,18 @@
 get_description(dataset)
 }
 \arguments{
-\item{dataset, }{the name of the dataset desired.}
+\item{dataset}{\code{<chr>} Name of desired data set.}
 }
 \description{
 Read Data Description
+}
+\examples{
+get_description("drugnet")
+
+
+}
+\seealso{
+\code{\link[=list_data_sources]{list_data_sources()}}, \code{\link[=get_data]{get_data()}}
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}

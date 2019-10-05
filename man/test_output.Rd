@@ -7,7 +7,7 @@
 test_output(output)
 }
 \arguments{
-\item{output, }{A `list` object returned from the `get_data()` function.}
+\item{output, }{A \code{list} object returned from the \code{get_data()} function.}
 }
 \description{
 Testing for Expected Structures
@@ -15,3 +15,4 @@ Testing for Expected Structures
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

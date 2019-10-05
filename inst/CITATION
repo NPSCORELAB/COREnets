@@ -1,0 +1,16 @@
+citHeader("To cite COREnets use:")
+
+citEntry(
+  entry        = "Manual",
+  title        = "COREnets: Network Datasets for Research and Education",
+  author       = c(as.person("Christopher Callaghan"), as.person("Brendan Knapp")),
+  year         = "2019",
+  note         = "R package version 0.0.0.9",
+  url          = "https://npscorelab.github.io/COREnets",
+  key          = "COREnets-package",
+  textVersion  = paste(
+    "Callaghan C, Knapp, B (2019). COREnets: Network Data Sets for Research and Education",
+    "R package version 0.0.0.9",
+    "Retrieved from https://npscorelab.github.io/COREnets"
+  )
+)

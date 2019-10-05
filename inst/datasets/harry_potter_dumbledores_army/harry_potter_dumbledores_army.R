@@ -5,7 +5,9 @@
 # paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3389503
 
 # read adjacency matrices ======================================================
-edges <- COREnets:::read_matrix("inst/datasets/harry_potter_dumbledores_army/Dumbledores_Army.csv") %>%
+edges <- COREnets:::read_matrix(
+  .corenets_sys_file("datasets/harry_potter_dumbledores_army/Dumbledores_Army.csv") 
+  ) %>%
   igraph::graph_from_adjacency_matrix(mode = "undirected",
                                       weighted = TRUE) %>%
   igraph::get.data.frame("edges") %>%
@@ -26,22 +28,26 @@ g <- igraph::graph_from_data_frame(
   )
 
 # build final dataset ----------------------------------------------------------
-.description <- readLines("inst/datasets/harry_potter_dumbledores_army/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/harry_potter_dumbledores_army/description.txt")
+)
 
-.abstract <- readLines("inst/datasets/harry_potter_dumbledores_army/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/harry_potter_dumbledores_army/abstract.txt")
+)
 
-.bibtex <- bibtex::read.bib("inst/datasets/harry_potter_dumbledores_army/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/harry_potter_dumbledores_army/refs.bib")
+)
 
 
 .codebook <- data.frame(
-  `edge_class` = c("mutual understanding and trust"),
-  is_bimodal  = c(FALSE),
-  is_directed = c(FALSE),
-  is_dynamic  = c(FALSE),
-  is_weighted = c(TRUE),
-  definition  = c("Undirected weighted relationship between two actors. The authors coded tie strength on a scale from 0 to 5, where '0' indicates the absece of a tie, '1' for casual acquaintances, and '5' for kin and close friendships."),
+  `edge_class` = "mutual understanding and trust",
+  is_bimodal  = FALSE,
+  is_directed = FALSE,
+  is_dynamic  = FALSE,
+  is_weighted = TRUE,
+  definition  = "Undirected weighted relationship between two actors. The authors coded tie strength on a scale from 0 to 5, where '0' indicates the absece of a tie, '1' for casual acquaintances, and '5' for kin and close friendships.",
   stringsAsFactors = FALSE
 )
 
@@ -59,13 +65,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3389503")
 
 .network <- list(
-  metadata   = COREnets:::unnest_edge_class(g = g,
-                                            edge_class_name = "edge_class") %>%
+  metadata   = unnest_edge_class(g = g, edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
-    purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+    purrr::map(~ .x %>% generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

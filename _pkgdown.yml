@@ -1,0 +1,20 @@
+destination: docs
+
+url: https://npscorelab.github.io/COREnets/
+
+reference:
+  - title: Network Data
+    contents:
+    - list_data_sources
+    - get_description
+    - get_data
+  
+  - title: Build Graph Objects
+    contents:
+    - core_as_igraph
+    - core_as_network
+
+navbar:
+  right:
+  - icon: fa-github fa-lg
+    href:  https://npscorelab.github.io/COREnets/

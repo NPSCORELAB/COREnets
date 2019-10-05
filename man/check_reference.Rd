@@ -2,16 +2,17 @@
 % Please edit documentation in R/output_testing.R
 \name{check_reference}
 \alias{check_reference}
-\title{Check `reference` element}
+\title{Check \code{reference} element}
 \usage{
 check_reference(output)
 }
 \arguments{
-\item{output, }{A `list` object returned from the `get_data()` function.}
+\item{output, }{A \code{list} object returned from the \code{get_data()} function.}
 }
 \description{
-Check `reference` element
+Check \code{reference} element
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

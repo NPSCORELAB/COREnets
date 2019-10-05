@@ -7,8 +7,9 @@
 # Citation: Rhodes, C.J. and P. Jones, “Inferring Missing Links in Partially Observed Social Networks”, Journal of the Operational Research Society (2009) 60, 1373-1383
 
 # Get edges data ===============================================================
-edges <- readr::read_csv("inst/datasets/november17/RHODESBOMBING.csv") %>%
-  COREnets:::to_matrix() %>%
+edges <- .corenets_sys_file("datasets/november17/RHODESBOMBING.csv") %>%
+  .corenets_read_csv() %>% 
+  to_matrix() %>%
   igraph::graph_from_adjacency_matrix(mode = "undirected") %>%
   igraph::get.data.frame("edges")%>%
   dplyr::mutate(
@@ -20,7 +21,8 @@ edges <- readr::read_csv("inst/datasets/november17/RHODESBOMBING.csv") %>%
                 dplyr::everything())
 
 # Get nodees data ==============================================================
-nodes <- readr::read_csv("inst/datasets/november17/RHODESBOMBING_ATTR.csv") %>%
+nodes <- .corenets_sys_file("datasets/november17/RHODESBOMBING_ATTR.csv") %>%
+  .corenets_read_csv() %>% 
   dplyr::rename(name = X1) %>%
   # Recode for human readiblity:
   dplyr::mutate(
@@ -46,13 +48,17 @@ g <- igraph::graph_from_data_frame(
 )
 
 # build final dataset ==========================================================
-.description <- readLines("inst/datasets/november17/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/november17/description.txt")
+)
 
-.abstract <- readLines("inst/datasets/november17/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/november17/abstract.txt")
+)
 
-.bibtex <- bibtex::read.bib("inst/datasets/november17/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/november17/refs.bib")
+)
 
 .codebook <- data.frame(
   `edge_class` = c("connection"),
@@ -75,13 +81,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://www.jstor.org/stable/40295697?seq=1#metadata_info_tab_contents")
 
 .network <- list(
-  metadata    = COREnets:::unnest_edge_class(g = g,
-                                             edge_class_name = "edge_class") %>%
+  metadata    = unnest_edge_class(g = g, edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
-    purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+    purrr::map(~ .x %>% generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")
