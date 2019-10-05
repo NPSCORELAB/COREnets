@@ -1,6 +1,6 @@
 test_that("core_as_network works", {
   expect_error(
-    core_as_network(COREnets::get_data("anabaptists")),
+    core_as_network(get_data("anabaptists")),
     NA
   )
 
@@ -10,7 +10,7 @@ test_that("core_as_network works", {
   )
 
   expect_error(
-    core_as_network(COREnets::get_data("cocaine_smuggling_jake")),
+    core_as_network(get_data("cocaine_smuggling_jake")),
     NA
   )
 
