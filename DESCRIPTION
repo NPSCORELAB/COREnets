@@ -14,7 +14,7 @@ Authors@R: c(
 Description: A collection of network data for easy research and education.
 License: GPL-2 | file LICENSE
 Depends:
-    R (>= 3.2)
+    R (>= 3.5)
 Imports:
     bibtex,
     dplyr,
