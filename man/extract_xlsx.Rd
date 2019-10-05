@@ -7,13 +7,14 @@
 extract_xlsx(path)
 }
 \arguments{
-\item{path, }{A path to the workbook with multiple relational and 
+\item{path, }{A path to the workbook with multiple relational and
 non-relational network data.}
 }
 \description{
-`extract_xlsx` inspects excel documents for multiple tabs, then
+\code{extract_xlsx} inspects excel documents for multiple tabs, then
 proceeds to open these, and return all in a list as tibbles.
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

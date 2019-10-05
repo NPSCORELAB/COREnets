@@ -2,16 +2,17 @@
 % Please edit documentation in R/output_testing.R
 \name{check_edges_table}
 \alias{check_edges_table}
-\title{Check `edges_table`}
+\title{Check \code{edges_table}}
 \usage{
 check_edges_table(output)
 }
 \arguments{
-\item{output, }{A `list` object returned from the `get_data()` function.}
+\item{output, }{A \code{list} object returned from the \code{get_data()} function.}
 }
 \description{
-Checks `edges_table` element for column and content types.
+Checks \code{edges_table} element for column and content types.
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

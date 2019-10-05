@@ -9,6 +9,13 @@ list_data_sources()
 \description{
 List Available Data
 }
+\examples{
+list_data_sources()
+
+}
+\seealso{
+\code{\link[=list_data_sources]{list_data_sources()}}, \code{\link[=get_description]{get_description()}}
+}
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }

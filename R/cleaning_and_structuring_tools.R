@@ -1,3 +1,4 @@
+#' @keywords internal
 #' @title From Dataframe to Adjacency or Incidence Matrix
 #'
 #' @description `to_adj_matrix` returns a `matrix` with the values tibble 
@@ -29,21 +30,20 @@ to_matrix <- function(df, rownames = 1) {
   df
 }
 
+
+#' @keywords internal
 #' @title Read Matrix
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
 #'
 #' @param file, the name of the file which the data are to be read from.
 #' @param sep, the field separator character.
-#' @param top_left_corner a regex to test whether or not to automatically assign row and column names.
+#' @param top_left_corner a RegEx to test whether or not to automatically assign row and column names.
 #'
 read_matrix <- function(file, sep = ",", top_left_corner = "^\\s*?$") {
-  if (!file.exists(file)) {
-    stop("Provided file does not exist.",
-         call. = FALSE)
-  }
+  stopifnot(file.exists(file))
   
-  lines <- readLines(con = file)
+  lines <- readr::read_lines(file = file)
   mat <- do.call(rbind,
           strsplit(
             lines,
@@ -57,9 +57,12 @@ read_matrix <- function(file, sep = ",", top_left_corner = "^\\s*?$") {
     mat           <- mat[-1,-1] 
   }
   
-  mat
-  }
+  matrix(as.double(mat), nrow = nrow(mat), ncol = ncol(mat), 
+         dimnames = dimnames(mat))
+}
 
+
+#' @keywords internal
 #' @title Transform to one-mode
 #' 
 #' @description `to_one_mode` takes in an `igraph` object, tests if bipartite,
@@ -102,6 +105,8 @@ to_one_mode <- function(g, project = "rows") {
   g
 }
 
+
+#' @keywords internal
 #' @title Read Multiple Tables from Excels
 #'
 #' @author Christopher Callaghan, \email{cjcallag@@nps.edu}

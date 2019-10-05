@@ -6,11 +6,13 @@
 # codebook: 
 
 # read adjacency matrix ========================================================
-edges_path <- "inst/datasets/drugnet/DRUGNET.csv"
+edges_path <- .corenets_sys_file("datasets/drugnet/DRUGNET.csv")
+nodes_path <- .corenets_sys_file("datasets/drugnet/DRUGATTR.csv")
+
 
 edges <- edges_path %>%
-  readr::read_csv() %>%
-  COREnets:::to_matrix() %>%
+  .corenets_read_csv() %>%
+  to_matrix() %>%
   igraph::graph_from_adjacency_matrix(mode = "directed") %>%
   igraph::get.data.frame("edges") %>%
   dplyr::mutate(
@@ -22,10 +24,8 @@ edges <- edges_path %>%
                 dplyr::everything())
 
 # read attribute table =========================================================
-nodes_path <- "inst/datasets/drugnet/DRUGATTR.csv"
-
 nodes <- nodes_path %>%
-  readr::read_csv() %>%
+  .corenets_read_csv() %>%
   dplyr::rename(name = X1) %>%
   dplyr::mutate(hr_gender = dplyr::case_when(Gender == 1 ~ "Male",
                                              Gender    == 2 ~ "Female",
@@ -59,13 +59,17 @@ g <- igraph::graph_from_data_frame(
 
 # build final dataset ==========================================================
 
-.description <- readLines("inst/datasets/drugnet/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/drugnet/description.txt")
+)
 
-.abstract <- readLines("inst/datasets/drugnet/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/drugnet/abstract.txt")
+)
 
-.bibtex <- bibtex::read.bib("inst/datasets/drugnet/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/drugnet/refs.bib")
+)
 
 .codebook <- data.frame(
   `edge_class` = c("Acquaintanceship"),
@@ -92,13 +96,12 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://search.proquest.com/docview/211193699?OpenUrlRefId=info:xri/sid:primo&accountid=12702")
 
 .network <- list(
-  metadata   = COREnets:::unnest_edge_class(g = g,
-                                              edge_class_name = "edge_class") %>%
+  metadata   = unnest_edge_class(g = g, edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+                 generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

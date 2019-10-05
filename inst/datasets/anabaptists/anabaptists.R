@@ -27,7 +27,9 @@ kv_bases <- c(
 )
 
 # read "raw" data ==============================================================
-init_attrs <- readr::read_csv("inst/datasets/anabaptists/Anabaptist_Attributes.csv")
+init_attrs <- .corenets_read_csv(
+  .corenets_sys_file("datasets/anabaptists/Anabaptist_Attributes.csv")
+)
 
 # clean node attributes ========================================================
 groups_attr <- init_attrs %>%
@@ -58,30 +60,22 @@ groups_attr <- init_attrs %>%
 nodes_df <- init_attrs %>% 
   # use "better" names
   dplyr::rename(
-    name                 = X1,
-    violence_sanctioning = Violence,            # paper: p. 47
-    apocalyptic          = Apocalyptic,         # paper: p. 47
-    believer_baptist     = `Believers Baptism`, # paper: p. 2
-    origin               = `Origin #`,
-    based_in             = `Operate #`,
-    munster_rebel        = `Münster Rebellion`
+    name                 = "X1",
+    violence_sanctioning = "Violence",          # paper: p. 47
+    apocalyptic          = "Apocalyptic",       # paper: p. 47
+    believer_baptist     = "Believers Baptism", # paper: p. 2
+    origin               = "Origin #",
+    based_in             = "Operate #",
+    munster_rebel        = "M\u00FCnster Rebellion"
   ) %>% 
   dplyr::mutate(hr_origin               = dplyr::recode(origin,
                                                         !!!kv_origins),
                 hr_based_in             = dplyr::recode(based_in,
                                                         !!!kv_bases),
-                is_violence_sanctioning = dplyr::if_else(violence_sanctioning == 1,
-                                                         TRUE,
-                                                         FALSE),
-                is_apocalyptic          = dplyr::if_else(apocalyptic == 1,
-                                                         TRUE,
-                                                         FALSE),
-                is_believer_baptist     = dplyr::if_else(believer_baptist == 1,
-                                                         TRUE,
-                                                         FALSE),
-                is_munster_rebel        = dplyr::if_else(munster_rebel == 1,
-                                                         TRUE,
-                                                         FALSE),
+                is_violence_sanctioning = violence_sanctioning == 1,
+                is_apocalyptic          = apocalyptic == 1,
+                is_believer_baptist     = believer_baptist == 1,
+                is_munster_rebel        = munster_rebel == 1,
                 node_class              = "people"
                 ) %>%
   # attach attribute containing all groups
@@ -103,8 +97,8 @@ nodes_df <- init_attrs %>%
          ) 
 
 # pull edges from pajek file
-edges_df <- igraph::read_graph("inst/datasets/anabaptists/Anabaptist_Leaders.net",
-                               format = "paj") %>%
+edges_df <- .corenets_sys_file("datasets/anabaptists/Anabaptist_Leaders.net") %>% 
+  igraph::read_graph(format = "paj") %>%
   igraph::as_data_frame() %>% 
   dplyr::select(-weight) %>% 
   # fix name that doesn't match
@@ -126,21 +120,25 @@ g <- igraph::graph_from_data_frame(
 )
 
 # build final dataset ==========================================================
-.description <- readLines("inst/datasets/anabaptists/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/anabaptists/description.txt"),
+)
 
-.abstract <- readLines("inst/datasets/anabaptists/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/anabaptists/abstract.txt")
+)
 
-.bibtex <- bibtex::read.bib("inst/datasets/anabaptists/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/anabaptists/refs.bib")
+)
 
 .codebook <- data.frame(
-  `edge_class` = c("Face-to-Face Meeting"),
-  is_bimodal  = c(FALSE),
-  is_directed = c(FALSE),
-  is_dynamic  = c(FALSE),
-  is_weighted = c(FALSE),
-  definition  = c("Ties indicate that the two actors met one another at some point in time or were in conversation with one another. In many cases, the leaders worked together, or went to school together. In other cases, they opposed one another in debates and were at total odds with one another. The importance of looking at ties, regardless of sentiment, is that this data set provides a better understanding as to who had access to different ideas throughout the overall network, and who was isolated."),
+  `edge_class` = "Face-to-Face Meeting",
+  is_bimodal  = FALSE,
+  is_directed = FALSE,
+  is_dynamic  = FALSE,
+  is_weighted = FALSE,
+  definition  = "Ties indicate that the two actors met one another at some point in time or were in conversation with one another. In many cases, the leaders worked together, or went to school together. In other cases, they opposed one another in debates and were at total odds with one another. The importance of looking at ties, regardless of sentiment, is that this data set provides a better understanding as to who had access to different ideas throughout the overall network, and who was isolated.",
   stringsAsFactors = FALSE
 )
 
@@ -159,13 +157,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://apps.dtic.mil/dtic/tr/fulltext/u2/a632471.pdf")
 
 .network <- list(
-  metadata    = COREnets:::unnest_edge_class(g = g,
-                                              edge_class_name = "edge_class") %>%
+  metadata    = unnest_edge_class(g = g, edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
-    purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+    purrr::map(~ .x %>% generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

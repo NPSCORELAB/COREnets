@@ -12,8 +12,9 @@ unnest_edge_class(g, edge_class_name)
 \item{edge_class_name, }{String denoting edge type variable.}
 }
 \description{
-`unnest_edge_classs` extracts subnetworks based on the edge_class.
+\code{unnest_edge_classs} extracts subnetworks based on the edge_class.
 }
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

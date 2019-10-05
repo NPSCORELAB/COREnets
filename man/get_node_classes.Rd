@@ -7,11 +7,11 @@
 get_node_classes(g, from_class = "from_class", to_class = "to_class")
 }
 \arguments{
-\item{g, }{An `igraph` object.}
+\item{g, }{An \code{igraph} object.}
 
-\item{from_class, }{A string pointer to variable containing the node class for the `from` column}
+\item{from_class, }{A string pointer to variable containing the node class for the \code{from} column}
 
-\item{to_class, }{A string pointer to variable containing the node class for the `to` column}
+\item{to_class, }{A string pointer to variable containing the node class for the \code{to} column}
 }
 \description{
 Testing for Isolates
@@ -19,3 +19,4 @@ Testing for Isolates
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

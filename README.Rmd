@@ -22,7 +22,20 @@ knitr::opts_chunk$set(
 
 # COREnets
 
-[![Build Status](https://travis-ci.org/NPSCORELAB/COREnets.svg?branch=master)](https://travis-ci.org/NPSCORELAB/COREnets)
+
+<!-- badges: start -->
+[![Lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![GitHub last commit](https://img.shields.io/github/last-commit/NPSCORELAB/COREnets.svg)](https://github.com/NPSCORELAB/COREnets/commits/master)
+[![Codecov test coverage](https://codecov.io/gh/NPSCORELAB/COREnets/branch/master/graph/badge.svg)](https://codecov.io/gh/NPSCORELAB/COREnets?branch=master)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/NPSCORELAB/COREnets?branch=master&svg=true)](https://ci.appveyor.com/project/NPSCORELAB/COREnets)
+[![Travis-CI Build Status](https://travis-ci.org/NPSCORELAB/COREnets.svg?branch=master)](https://travis-ci.org/NPSCORELAB/COREnets)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0)
+[![Depends](https://img.shields.io/badge/Depends-GNU_R>=3.5-blue.svg)](https://www.r-project.org/)
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/NPSCORELAB/COREnets.svg)](https://github.com/NPSCORELAB/COREnets)
+[![HitCount](http://hits.dwyl.io/NPSCORELAB/COREnets.svg)](http://hits.dwyl.io/NPSCORELAB/COREnets)
+<!-- badges: end -->
+
+
 
 ## Installation
 
@@ -107,7 +120,7 @@ metadata <- tibble::tibble(
   )
 )
 metadata %>%
-  knitr::kable(format = "pandoc", escape = TRUE) %>%
+  knitr::kable(format = "html", escape = TRUE) %>%
   kableExtra::kable_styling(bootstrap_options = c("bordered"))
 ```
 
@@ -178,15 +191,14 @@ drugnet$network$nodes_table %>%
 ```
 
 
-## Generating Networks 
+## Generating Graph Objects 
 
-Each network in the package contains the necessary edges and nodes tables to generate network objects with **{igraph}**. For instance:
+Each network in the package contains the necessary edges and nodes tables to generate network objects with **`{igraph}`** or **`{network}`**. For instance:
 
 ```{r}
-net <- igraph::graph_from_data_frame(d        = drugnet$network$edges_table,
-                                     directed = FALSE, 
-                                     vertices = drugnet$network$nodes_table)
-net
+core_as_igraph(drugnet)
+
+core_as_network(drugnet)
 ```
 
 

@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="Get Data — get_data" />
-<meta property="og:description" content="`get_data` returns a `list` with metadata and network 
+<meta property="og:description" content="get_data returns a list with metadata and network
 object required to generate a sociogram." />
 <meta name="twitter:card" content="summary" />
 
@@ -88,8 +88,8 @@ object required to generate a sociogram." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/NPSCORELAB/COREnets">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://npscorelab.github.io/COREnets/">
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -112,39 +112,47 @@ object required to generate a sociogram." />
     </div>
 
     <div class="ref-description">
-    <p>`get_data` returns a `list` with metadata and network 
+    <p><code>get_data</code> returns a <code>list</code> with metadata and network
 object required to generate a sociogram.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_data</span>(<span class='no'>dataset</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_data</span>(<span class='no'>dataset</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset, </th>
-      <td><p>the name of the dataset desired.</p></td>
+      <th>dataset</th>
+      <td><p><code>&lt;character&gt;</code> Name of the desired data set.</p></td>
     </tr>
     <tr>
       <th>quietly, </th>
-      <td><p>logical determining how to handle unusual conditions.</p></td>
+      <td><p><code>&lt;logical&gt;</code> Determines how to handle unusual conditions.</p></td>
     </tr>
     <tr>
-      <th>test, </th>
-      <td><p>a logical determining whether or not to run internal tests.</p></td>
+      <th>test</th>
+      <td><p><code>&lt;logical&gt;</code> Whether or not to run internal tests.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='list_data_sources.html'>list_data_sources()</a></code>, <code><a href='get_description.html'>get_description()</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
     <h2>Author</h2>
-    <p>Brendan Knapp, <a href='mailto:brendan.knapp@nps.edu'>brendan.knapp@nps.edu</a></p>
+    <p>Brendan Knapp <a href='mailto:brendan.g.knapp@gmail.com'>brendan.g.knapp@gmail.com</a></p>
   </div>
 </div>
 
@@ -155,7 +163,7 @@ object required to generate a sociogram.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -7,7 +7,7 @@
 test_isolates(g)
 }
 \arguments{
-\item{g, }{An `igraph` object.}
+\item{g, }{An \code{igraph} object.}
 }
 \description{
 Testing for Isolates
@@ -15,3 +15,4 @@ Testing for Isolates
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

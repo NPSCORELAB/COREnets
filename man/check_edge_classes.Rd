@@ -7,7 +7,7 @@
 check_edge_classes(output)
 }
 \arguments{
-\item{output, }{A `list` object returned from the `get_data()` function.}
+\item{output, }{A \code{list} object returned from the \code{get_data()} function.}
 }
 \description{
 Check matching edge classes against codebook
@@ -15,3 +15,4 @@ Check matching edge classes against codebook
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

@@ -6,8 +6,9 @@
 # paper: https://www.springer.com/gp/book/9780387095257 
 
 # Read edges data ==============================================================
-edges <- readr::read_csv(file = "inst/datasets/siren/SIREN.csv") %>%
-  COREnets:::to_matrix() %>%
+edges <- .corenets_sys_file("datasets/siren/SIREN.csv") %>%
+  .corenets_read_csv() %>% 
+  to_matrix() %>%
   igraph::graph_from_adjacency_matrix(mode = "undirected") %>%
   igraph::get.data.frame("edges") %>%
   dplyr::mutate(
@@ -31,13 +32,17 @@ g <- igraph::graph_from_data_frame(
 
 # Build final dataset ==========================================================
 
-.description <- readLines("inst/datasets/siren/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/siren/description.txt")
+)
 
-.abstract <- readLines("inst/datasets/siren/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/siren/abstract.txt")
+)
 
-.bibtex <- bibtex::read.bib("inst/datasets/siren/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/siren/refs.bib")
+)
 
 .codebook <- data.frame(
   `edge_class` = c("communication"),
@@ -61,13 +66,11 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://www.springer.com/gp/book/9780387095257")
 
 .network <- list(
-  metadata    = COREnets:::unnest_edge_class(g = g,
-                                             edge_class_name = "edge_class") %>%
+  metadata    = unnest_edge_class(g = g, edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
-    purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+    purrr::map(~ .x %>% generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

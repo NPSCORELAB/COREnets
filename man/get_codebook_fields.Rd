@@ -7,9 +7,9 @@
 get_codebook_fields(codebook, wanted_edge_class)
 }
 \arguments{
-\item{codebook, }{A `data.frame` with metedata fields for each `edge_class`}
+\item{codebook, }{A \code{data.frame} with metedata fields for each \code{edge_class}}
 
-\item{wanted_edge_class, }{A `character` matching a value in the `edge_class` variable in the codebook}
+\item{wanted_edge_class, }{A \code{character} matching a value in the \code{edge_class} variable in the codebook}
 }
 \description{
 Return Metadata Fields from Codebook
@@ -17,3 +17,4 @@ Return Metadata Fields from Codebook
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

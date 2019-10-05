@@ -2,12 +2,12 @@
 % Please edit documentation in R/output_testing.R
 \name{check_metadata}
 \alias{check_metadata}
-\title{Check `metadata` elements}
+\title{Check \code{metadata} elements}
 \usage{
 check_metadata(output)
 }
 \arguments{
-\item{output, }{A `list` object returned from the `get_data()` function.}
+\item{output, }{A \code{list} object returned from the \code{get_data()} function.}
 }
 \description{
 Checks metadata for each edge class
@@ -15,3 +15,4 @@ Checks metadata for each edge class
 \author{
 Christopher Callaghan, \email{cjcallag@nps.edu}
 }
+\keyword{internal}

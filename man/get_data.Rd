@@ -4,19 +4,24 @@
 \alias{get_data}
 \title{Get Data}
 \usage{
-get_data(dataset, quietly = TRUE, test = TRUE)
+get_data(dataset, quietly = TRUE, test = TRUE, ...)
 }
 \arguments{
-\item{dataset, }{the name of the dataset desired.}
+\item{dataset}{\code{<character>} Name of the desired data set.}
 
-\item{quietly, }{logical determining how to handle unusual conditions.}
+\item{quietly, }{\code{<logical>} Determines how to handle unusual conditions.}
 
-\item{test, }{a logical determining whether or not to run internal tests.}
+\item{test}{\code{<logical>} Whether or not to run internal tests.}
+
+\item{...}{Additional arguments passed to or from other methods.}
 }
 \description{
-`get_data` returns a `list` with metadata and network 
+\code{get_data} returns a \code{list} with metadata and network
 object required to generate a sociogram.
 }
+\seealso{
+\code{\link[=list_data_sources]{list_data_sources()}}, \code{\link[=get_description]{get_description()}}
+}
 \author{
-Brendan Knapp, \email{brendan.knapp@nps.edu}
+Brendan Knapp \email{brendan.g.knapp@gmail.com}
 }
