@@ -6,11 +6,11 @@
 
 # read "raw" data ==============================================================
 # pull edges from two matrices in CSV format:
-files <- list.files(path="inst/datasets/fifa/",
+files <- list.files(path= .corenets_sys_file("datasets/fifa/"),
                     pattern = "*.csv", 
                     full.names = TRUE)
 
-edges <- lapply(files, COREnets:::read_matrix) %>%
+edges <- lapply(files, read_matrix) %>%
   # extract from multiple files and pull into one data.frame
   setNames(stringr::str_extract(files,
                               pattern = "[\\w]+\\.csv")) %>%
@@ -39,14 +39,18 @@ g <- igraph::graph_from_data_frame(
                                value = "person")
 
 # build final dataset ==================================================================
-.description <- readLines("inst/datasets/fifa/description.txt",
-                          warn = FALSE)
-
-.abstract <- readLines("inst/datasets/fifa/abstract.txt",
-                       warn = FALSE)
-
-.bibtex <- bibtex::read.bib("inst/datasets/fifa/refs.bib")
-
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/fifa/description.txt"
+                     )
+  )
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/fifa/abstract.txt"
+                     )
+  )
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/fifa/refs.bib"
+                     )
+  )
 
 .codebook <- data.frame(
   `edge_class` = c("co-membership"),
@@ -69,13 +73,13 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "https://sites.google.com/site/ucinetsoftware/datasets/covert-networks/fifa")
 
 .network <- list(
-  metadata   = COREnets:::unnest_edge_class(g = g,
-                                            edge_class_name = "edge_class") %>%
+  metadata   = unnest_edge_class(g = g,
+                                 edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+                 generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")

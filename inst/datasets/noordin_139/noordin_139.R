@@ -191,14 +191,17 @@ edges_recode <- c(
   )
 
 # read edges data ==============================================================
-edges <- readxl::excel_sheets("inst/datasets/noordin_139/Noordin_139_Data.xlsx") %>%
+file_path <- .corenets_sys_file("datasets/noordin_139/Noordin_139_Data.xlsx")
+  
+edges <- file_path %>%
+  readxl::excel_sheets() %>%
   purrr::discard(stringr::str_detect,
                  pattern = "Attributes") %>%
   purrr::set_names() %>%
   lapply(function(x) {
-    mat <- COREnets:::to_matrix(
+    mat <- to_matrix(
       readxl::read_excel(
-        path = "inst/datasets/noordin_139/Noordin_139_Data.xlsx",
+        path = file_path,
         sheet = x)
       )
     if(NCOL(mat) == NROW(mat)) {
@@ -253,10 +256,10 @@ edges <- edges %>%
   )
 
 # read attribute data ==========================================================
-attrs <- readxl::excel_sheets("inst/datasets/noordin_139/Noordin_139_Data.xlsx") %>%
+attrs <- readxl::excel_sheets(file_path) %>%
   purrr::keep(stringr::str_detect, pattern = "Attributes") %>%
   purrr::map_dfr(
-    ~ readxl::read_excel(path = "inst/datasets/noordin_139/Noordin_139_Data.xlsx",
+    ~ readxl::read_excel(path = file_path,
                          sheet = .x) %>%
       dplyr::as_tibble()
     )
@@ -522,13 +525,17 @@ g <- igraph::graph_from_data_frame(
 
 # build final dataset ==========================================================
 
-.description <- readLines("inst/datasets/noordin_139/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/noordin_139/description.txt")
+  )
 
-.abstract <- readLines("inst/datasets/noordin_139/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/noordin_139/abstract.txt")
+  )
 
-.bibtex <- bibtex::read.bib("inst/datasets/noordin_139/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/noordin_139/refs.bib")
+  )
 
 .codebook <- data.frame(
   `edge_class` = c("Organizations (Orgs)",
@@ -631,13 +638,13 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.1026.7447&rep=rep1&type=pdf")
 
 .network <- list(
-  metadata    = COREnets:::unnest_edge_class(g = g,
-                                             edge_class_name = "edge_class") %>%
+  metadata    = unnest_edge_class(g = g,
+                                  edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
+                 generate_graph_metadata(codebook = .codebook)
     ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")
