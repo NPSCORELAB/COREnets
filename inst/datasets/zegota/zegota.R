@@ -7,7 +7,7 @@
 # Citation:
 
 # read edges data ==============================================================
-file <- "inst/datasets/zegota/Edgelists.xlsx"
+file <- .corenets_sys_file("datasets/zegota/Edgelists.xlsx")
 
 edges <- file %>%
   readxl::excel_sheets() %>%
@@ -27,8 +27,10 @@ edges <- file %>%
   
 # edit edges data ==============================================================
 # import variables for recoding (all variables came from the codebook):
-ids_organizations <- readr::read_csv(
-  "inst/datasets/zegota/resistance_organizations.csv"
+ids_organizations <- .corenets_read_csv(
+  .corenets_sys_file(
+    "datasets/zegota/resistance_organizations.csv"
+    )
   )
 ids_organizations <- na.omit(
   setNames(
@@ -36,8 +38,10 @@ ids_organizations <- na.omit(
     ids_organizations$id)
   )
 
-ids_roles         <- readr::read_csv(
-  "inst/datasets/zegota/roles.csv"
+ids_roles         <- .corenets_read_csv(
+  .corenets_sys_file(
+    "datasets/zegota/roles.csv"
+    )
   )
 ids_roles         <- na.omit(
   setNames(
@@ -45,8 +49,10 @@ ids_roles         <- na.omit(
     ids_roles$id)
   )
 
-ids_cells         <- readr::read_csv(
-  "inst/datasets/zegota/zegota_operational_ties.csv"
+ids_cells         <- .corenets_read_csv(
+  .corenets_sys_file(
+    "datasets/zegota/zegota_operational_ties.csv"
+    )
   )
 ids_cells         <- na.omit(
   setNames(
@@ -54,8 +60,10 @@ ids_cells         <- na.omit(
     ids_cells$id)
   )
 
-ids_regions       <- readr::read_csv(
-  "inst/datasets/zegota/regions.csv"
+ids_regions       <- .corenets_read_csv(
+  .corenets_sys_file(
+    "datasets/zegota/regions.csv"
+    )
   )
 ids_regions       <- na.omit(
   setNames(
@@ -119,25 +127,31 @@ edges <- edges %>%
 #   select(from, to, relationships)
 
 # read nodes data ==============================================================
-political_party <- readr::read_csv(
-  "inst/datasets/zegota/political_party.csv"
-)
+political_party <- .corenets_read_csv(
+  .corenets_sys_file(
+    "datasets/zegota/political_party.csv"
+    )
+  )
 political_party <- na.omit(
   setNames(
     as.character(political_party$name),
     political_party$id)
 )
-postuprising_status <- readr::read_csv(
-  "inst/datasets/zegota/postuprising_status.csv"
+postuprising_status <- .corenets_read_csv(
+  .corenets_sys_file(
+    "datasets/zegota/postuprising_status.csv"
+    )
 )
 postuprising_status <- na.omit(
   setNames(
     as.character(postuprising_status$name),
     postuprising_status$id)
 )
-skills <- readr::read_csv(
-  "inst/datasets/zegota/skills.csv"
-)
+skills <- .corenets_read_csv(
+  .corenets_sys_file(
+    "datasets/zegota/skills.csv"
+    )
+  )
 skills<- na.omit(
   setNames(
     as.character(skills$name),
@@ -199,13 +213,17 @@ g <- igraph::graph_from_data_frame(
 )
 
 # build final dataset ==========================================================
-.description <- readLines("inst/datasets/zegota/description.txt",
-                          warn = FALSE)
+.description <- .corenets_read_lines(
+  .corenets_sys_file("datasets/zegota/description.txt")
+  )
 
-.abstract <- readLines("inst/datasets/zegota/abstract.txt",
-                       warn = FALSE)
+.abstract <- .corenets_read_lines(
+  .corenets_sys_file("datasets/zegota/abstract.txt")
+  )
 
-.bibtex <- bibtex::read.bib("inst/datasets/zegota/refs.bib")
+.bibtex <- bibtex::read.bib(
+  .corenets_sys_file("datasets/zegota/refs.bib")
+  )
 
 .codebook <- data.frame(
   `edge_class` = c("Zegota Friendship Network",
@@ -270,14 +288,14 @@ g <- igraph::graph_from_data_frame(
   paper_link   = "")
 
 .network <- list(
-  metadata    = COREnets:::unnest_edge_class(g = g,
-                                             edge_class_name = "edge_class") %>%
+  metadata    = unnest_edge_class(g = g,
+                                  edge_class_name = "edge_class") %>%
     purrr::set_names(unique(igraph::edge_attr(
       graph = g,
       name  = "edge_class"))) %>%
     purrr::map(~ .x %>%
-                 COREnets:::generate_graph_metadata(codebook = .codebook)
-    ),
+                 generate_graph_metadata(codebook = .codebook)
+               ),
   nodes_table = igraph::as_data_frame(g, what = "vertices"),
   edges_table = igraph::as_data_frame(g, what = "edges")
 )
