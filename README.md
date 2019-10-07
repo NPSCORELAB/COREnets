@@ -14,7 +14,7 @@ status](https://ci.appveyor.com/api/projects/status/github/NPSCORELAB/COREnets?b
 Status](https://travis-ci.org/NPSCORELAB/COREnets.svg?branch=master)](https://travis-ci.org/NPSCORELAB/COREnets)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0)
-[![Depends](https://img.shields.io/badge/Depends-GNU_R%3E=3.2-blue.svg)](https://www.r-project.org/)
+[![Depends](https://img.shields.io/badge/Depends-GNU_R%3E=3.5-blue.svg)](https://www.r-project.org/)
 [![GitHub code size in
 bytes](https://img.shields.io/github/languages/code-size/NPSCORELAB/COREnets.svg)](https://github.com/NPSCORELAB/COREnets)
 [![HitCount](http://hits.dwyl.io/NPSCORELAB/COREnets.svg)](http://hits.dwyl.io/NPSCORELAB/COREnets)
@@ -372,12 +372,12 @@ tables to generate network objects with **`{igraph}`** or
 
 ``` r
 core_as_igraph(drugnet)
-#> IGRAPH 41d69bf DN-- 293 337 -- 
+#> IGRAPH b9d4aef DN-- 293 337 -- 
 #> + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity
 #> | (v/n), HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c),
 #> | hr_has_tie (v/l), from_class (e/c), to_class (e/c), edge_class
 #> | (e/c)
-#> + edges from 41d69bf (vertex names):
+#> + edges from b9d4aef (vertex names):
 #>  [1] 1 ->2   1 ->10  2 ->1   2 ->10  3 ->7   4 ->7   4 ->211 5 ->134
 #>  [9] 6 ->152 7 ->3   7 ->4   7 ->9   8 ->107 8 ->117 9 ->1   9 ->2  
 #> [17] 9 ->7   10->1   10->2   11->135 11->220 12->89  13->216 14->24 
