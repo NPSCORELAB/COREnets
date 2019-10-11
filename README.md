@@ -42,6 +42,21 @@ accessed using the `get_data` function:
 ``` r
 library(COREnets)
 drugnet <- COREnets::get_data("drugnet")
+drugnet
+#> PROTO_NET drugnet Nodes:293 Edges:337
+#> Acquaintanceship 
+#>  +-D-- E:337 N:212 NC:1
+#> 
+#> Edge list: 
+#>  from from_class to to_class       edge_class
+#>     1     person  2   person Acquaintanceship
+#>     1     person 10   person Acquaintanceship
+#>     2     person  1   person Acquaintanceship
+#> 334 entries not printed. 
+#>  + Edge attributes: 
+#> 
+#> Node list: 
+#>  + Node attributes: name(character) node_class(character) Gender(character) Ethnicity(character) HasTie(character) hr_ethnicity(character) hr_gender(character) hr_has_tie(character)
 ```
 
 In order to look up the available data sets use the `list_data_sources`
@@ -55,15 +70,15 @@ COREnets::list_data_sources()
 #>  [7] "fifa"                          "harry_potter_death_eaters"    
 #>  [9] "harry_potter_dumbledores_army" "london_gang"                  
 #> [11] "montreal_street_gangs"         "noordin_139"                  
-#> [13] "november17"                    "siren"                        
-#> [15] "zegota"
+#> [13] "november17"                    "paul_revere"                  
+#> [15] "siren"                         "zegota"
 ```
 
 Get a brief description of the data set:
 
 ``` r
-COREnets::get_description("noordin_139")
-#> [1] "These data were drawn primarily from 'Terrorism in Indonesia: Noordin's Networks,' a publication of the International Crisis Group (2006) and include relational data on the 79 individuals listed in Appendix C of that publication. "
+COREnets::get_description("drugnet")
+#> [1] "These data represent a network of drug users in Hartford.  Ties are directed and represent acquaintanceship. The network is a result of two years of ethnographic observations of people's drug habits. "
 ```
 
 Each data object contains two main lists of information, the `reference`
@@ -335,11 +350,11 @@ drugnet$network$edges_table %>%
   glimpse()
 #> Observations: 337
 #> Variables: 5
-#> $ from       <chr> "1", "1", "2", "2", "3", "4", "4", "5", "6", "7", "...
-#> $ to         <chr> "2", "10", "1", "10", "7", "7", "211", "134", "152"...
-#> $ from_class <chr> "person", "person", "person", "person", "person", "...
-#> $ to_class   <chr> "person", "person", "person", "person", "person", "...
-#> $ edge_class <chr> "Acquaintanceship", "Acquaintanceship", "Acquaintan...
+#> $ from       <chr> "1", "1", "2", "2", "3", "4", "4", "5", "6", "7", "7"…
+#> $ to         <chr> "2", "10", "1", "10", "7", "7", "211", "134", "152", …
+#> $ from_class <chr> "person", "person", "person", "person", "person", "pe…
+#> $ to_class   <chr> "person", "person", "person", "person", "person", "pe…
+#> $ edge_class <chr> "Acquaintanceship", "Acquaintanceship", "Acquaintance…
 ```
 
   - `nodes_table`: A `data.frame` contain node non-relational
@@ -354,14 +369,14 @@ drugnet$network$nodes_table %>%
   glimpse()
 #> Observations: 293
 #> Variables: 8
-#> $ name         <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"...
-#> $ node_class   <chr> "people", "people", "people", "people", "people",...
-#> $ Gender       <dbl> 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
-#> $ Ethnicity    <dbl> 1, 1, 1, 1, 3, 3, 1, 3, 1, 3, 3, 2, 2, 2, 2, 3, 3...
-#> $ HasTie       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
-#> $ hr_ethnicity <chr> "White/Other", "White/Other", "White/Other", "Whi...
-#> $ hr_gender    <chr> "Male", "Male", "Male", "Female", "Male", "Male",...
-#> $ hr_has_tie   <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, T...
+#> $ name         <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", …
+#> $ node_class   <chr> "people", "people", "people", "people", "people", "…
+#> $ Gender       <dbl> 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ Ethnicity    <dbl> 1, 1, 1, 1, 3, 3, 1, 3, 1, 3, 3, 2, 2, 2, 2, 3, 3, …
+#> $ HasTie       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ hr_ethnicity <chr> "White/Other", "White/Other", "White/Other", "White…
+#> $ hr_gender    <chr> "Male", "Male", "Male", "Female", "Male", "Male", "…
+#> $ hr_has_tie   <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRU…
 ```
 
 ## Generating Graph Objects
@@ -372,12 +387,12 @@ tables to generate network objects with **`{igraph}`** or
 
 ``` r
 core_as_igraph(drugnet)
-#> IGRAPH b9d4aef DN-- 293 337 -- 
+#> IGRAPH 0dfd31a DN-- 293 337 -- 
 #> + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity
 #> | (v/n), HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c),
 #> | hr_has_tie (v/l), from_class (e/c), to_class (e/c), edge_class
 #> | (e/c)
-#> + edges from b9d4aef (vertex names):
+#> + edges from 0dfd31a (vertex names):
 #>  [1] 1 ->2   1 ->10  2 ->1   2 ->10  3 ->7   4 ->7   4 ->211 5 ->134
 #>  [9] 6 ->152 7 ->3   7 ->4   7 ->9   8 ->107 8 ->117 9 ->1   9 ->2  
 #> [17] 9 ->7   10->1   10->2   11->135 11->220 12->89  13->216 14->24 
