@@ -49,6 +49,9 @@ get_data <- function(dataset, quietly = TRUE, test = TRUE, ...) {
   } else {
     out
   }
+  
+  class(out) <- "proto_net"
+  out
 }
 
 
