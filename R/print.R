@@ -7,14 +7,14 @@ proto_net <- function(x) {
 
 #' Is this object a proto_net?
 #' 
-#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' @template author-cc
 #' 
 #' @description Logical test for proto_net objects.
 #' 
 #' @param pn An R object.
 #' @export
 is_proto_net <- function (pn) {
-  "proto_net" %in% class(pn)
+  inherits(pn, "proto_net")
 }
 
 #' proto_net print method
@@ -25,10 +25,6 @@ is_proto_net <- function (pn) {
 #' @param ... Extra arguments to pass to \code{print()}.
 #' @export 
 print.proto_net <- function(x, ...) {
-  if (!is_proto_net(x)) {
-    stop("Not a proto_net graph object.",
-         call. = FALSE)
-  }
   .print_header(x)
   lapply(names(x[["network"]][["metadata"]]),
          function(y) {
@@ -45,7 +41,7 @@ print.proto_net <- function(x, ...) {
 #' 
 #' @title Print header line for \code{proto_net} object
 #' 
-#' @author Christopher Callaghan, \email{cjcallag@@nps.edu}
+#' @template author-cc
 #' 
 #' @param pn The object to print, should be "proto_net" class.
 #' @param ... Extra arguments to pass to \code{print()}.
@@ -142,9 +138,11 @@ print.proto_net <- function(x, ...) {
     function(x) {
       paste0(
         x,
-        "(",
-        class(x),
-        ")") 
+        "<",
+        .refactor_classes(
+          class(x)
+          ),
+        ">") 
     },
     FUN.VALUE = "character")
   
@@ -182,16 +180,17 @@ print.proto_net <- function(x, ...) {
         function(x) {
           paste0(
             x,
-            "(",
-            class(x),
-            ")"
+            "<",
+            .refactor_classes(
+              class(x)
+              ),
+            ">"
           ) 
          },
         FUN.VALUE = "character")
   paste(temp[!names(temp) %in% wanted],
         collapse = " ")
 }
-
 
 #' @keywords internal
 #' @title Count nodes
@@ -230,3 +229,20 @@ print.proto_net <- function(x, ...) {
   )
 }
 
+#' @keywords internal
+#' @title Refactor data classes
+#'
+.refactor_classes <- function(chr) {
+  if(!is.character(chr)) {
+    stop("Not a character to refactor.",
+         call. = FALSE)
+  }
+  old_classes <- c("character", "numeric", "integer", "logical")
+  new_classes <- factor(
+    c("chr", "num", "int", "lgl")
+    )
+  as.character(
+    new_classes[match(
+      chr, old_classes)]
+    )
+}

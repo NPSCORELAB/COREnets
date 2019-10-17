@@ -13,5 +13,5 @@ is_proto_net(pn)
 Logical test for proto_net objects.
 }
 \author{
-Christopher Callaghan, \email{cjcallag@nps.edu}
+Chris Callaghan \email{cjcallag@nps.edu}
 }
