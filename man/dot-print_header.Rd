@@ -15,6 +15,6 @@
 Print header line for \code{proto_net} object
 }
 \author{
-Christopher Callaghan, \email{cjcallag@nps.edu}
+Chris Callaghan \email{cjcallag@nps.edu}
 }
 \keyword{internal}
