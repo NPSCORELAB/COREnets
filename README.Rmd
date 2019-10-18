@@ -58,6 +58,7 @@ devtools::install_github("NPSCORELAB/COREnets")
 ```{r, eval = TRUE}
 library(COREnets)
 drugnet <- COREnets::get_data("drugnet")
+drugnet
 ```
 
 In order to look up the available data sets use the `list_data_sources` function:
@@ -69,7 +70,7 @@ COREnets::list_data_sources()
 Get a brief description of the data set:
 
 ```{r}
-COREnets::get_description("noordin_139")
+COREnets::get_description("drugnet")
 ```
 
 Each data object contains two main lists of information, the `reference` and `network` lists:
