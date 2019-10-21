@@ -56,7 +56,7 @@ drugnet
 #>  + Edge attributes: 
 #> 
 #> Node list: 
-#>  + Node attributes: name(character) node_class(character) Gender(character) Ethnicity(character) HasTie(character) hr_ethnicity(character) hr_gender(character) hr_has_tie(character)
+#>  + Node attributes: name<chr> node_class<chr> Gender<chr> Ethnicity<chr> HasTie<chr> hr_ethnicity<chr> hr_gender<chr> hr_has_tie<chr>
 ```
 
 In order to look up the available data sets use the `list_data_sources`
@@ -387,12 +387,12 @@ tables to generate network objects with **`{igraph}`** or
 
 ``` r
 core_as_igraph(drugnet)
-#> IGRAPH 0dfd31a DN-- 293 337 -- 
+#> IGRAPH 155f06f DN-- 293 337 -- 
 #> + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity
 #> | (v/n), HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c),
 #> | hr_has_tie (v/l), from_class (e/c), to_class (e/c), edge_class
 #> | (e/c)
-#> + edges from 0dfd31a (vertex names):
+#> + edges from 155f06f (vertex names):
 #>  [1] 1 ->2   1 ->10  2 ->1   2 ->10  3 ->7   4 ->7   4 ->211 5 ->134
 #>  [9] 6 ->152 7 ->3   7 ->4   7 ->9   8 ->107 8 ->117 9 ->1   9 ->2  
 #> [17] 9 ->7   10->1   10->2   11->135 11->220 12->89  13->216 14->24 
