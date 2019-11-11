@@ -27,7 +27,11 @@ edges <- .corenets_sys_file("datasets/ciel/CIELNET.csv") %>%
 g <- igraph::graph_from_data_frame(
   d        = edges,
   directed = TRUE
-)
+) %>%
+  igraph::set.vertex.attribute(
+    name  = "node_class",
+    value = "person"
+  )
 
 # Build final dataset ==========================================================
 .description <- .corenets_read_lines(
