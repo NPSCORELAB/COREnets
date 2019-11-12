@@ -39,16 +39,16 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-First, if you haven't done so, install `devtools`:.
+First, if you haven't done so, install `remotes`:.
 
 ```{r, eval=FALSE}
-install.packages("devtools")
+install.packages("remotes")
 ```
 
 Proceed to install `{COREnets}` from Github:
   
 ```{r, eval=FALSE}
-devtools::install_github("NPSCORELAB/COREnets")
+remotes::install_github("NPSCORELAB/COREnets")
 ```
 
 ## Using the Package to Access Data
@@ -114,7 +114,7 @@ metadata <- tibble::tibble(
     "An informal dataset label for internal use.",
     "An internal classification assinged to the dataset.",
     "A brief definition of the dataset to include the type of data, collection, etc.",
-    "A brief summary of ...",
+    "A brief summary of the data and network context.",
     "A data table used for gathering and storing relationships and their definitions.",
     "The citation for the dataset in bibtex format. Some datasets may have mupltiple entries.",
     "Hyperlink(s) to publications linked to the dataset."
@@ -130,6 +130,7 @@ metadata %>%
 The `network` list contains all the relevant data to generate a sociogram and conduct the analysis. However, because each data set is slightly different, this list is segmented into three entries:
   
   - `metadata`: A list of lists each containing information on the different edge types contained in the edge list. The following list are included as individual nested items for each edge type sub-graph, each contain a variety of fields:
+  
 ```{r, echo=FALSE}
 net_metadata <- data.frame(
   Field = c(
