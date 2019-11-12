@@ -22,16 +22,16 @@ bytes](https://img.shields.io/github/languages/code-size/NPSCORELAB/COREnets.svg
 
 ## Installation
 
-First, if you haven’t done so, install `devtools`:.
+First, if you haven’t done so, install `remotes`:.
 
 ``` r
-install.packages("devtools")
+install.packages("remotes")
 ```
 
 Proceed to install `{COREnets}` from Github:
 
 ``` r
-devtools::install_github("NPSCORELAB/COREnets")
+remotes::install_github("NPSCORELAB/COREnets")
 ```
 
 ## Using the Package to Access Data
@@ -64,14 +64,15 @@ function:
 
 ``` r
 COREnets::list_data_sources()
-#>  [1] "anabaptists"                   "cocaine_smuggling_acero"      
-#>  [3] "cocaine_smuggling_jake"        "cocaine_smuggling_juanes"     
-#>  [5] "cocaine_smuggling_mambo"       "drugnet"                      
-#>  [7] "fifa"                          "harry_potter_death_eaters"    
-#>  [9] "harry_potter_dumbledores_army" "london_gang"                  
-#> [11] "montreal_street_gangs"         "noordin_139"                  
-#> [13] "november17"                    "paul_revere"                  
-#> [15] "siren"                         "zegota"
+#>  [1] "anabaptists"                     "australian_embassy_bombing_2004"
+#>  [3] "ciel"                            "cocaine_smuggling_acero"        
+#>  [5] "cocaine_smuggling_jake"          "cocaine_smuggling_juanes"       
+#>  [7] "cocaine_smuggling_mambo"         "drugnet"                        
+#>  [9] "fifa"                            "harry_potter_death_eaters"      
+#> [11] "harry_potter_dumbledores_army"   "london_gang"                    
+#> [13] "montreal_street_gangs"           "noordin_139"                    
+#> [15] "november17"                      "paul_revere"                    
+#> [17] "siren"                           "zegota"
 ```
 
 Get a brief description of the data set:
@@ -234,7 +235,7 @@ character
 
 <td style="text-align:left;">
 
-A brief summary of …
+A brief summary of the data and network context.
 
 </td>
 
@@ -387,12 +388,12 @@ tables to generate network objects with **`{igraph}`** or
 
 ``` r
 core_as_igraph(drugnet)
-#> IGRAPH 155f06f DN-- 293 337 -- 
+#> IGRAPH 456bc0a DN-- 293 337 -- 
 #> + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity
 #> | (v/n), HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c),
 #> | hr_has_tie (v/l), from_class (e/c), to_class (e/c), edge_class
 #> | (e/c)
-#> + edges from 155f06f (vertex names):
+#> + edges from 456bc0a (vertex names):
 #>  [1] 1 ->2   1 ->10  2 ->1   2 ->10  3 ->7   4 ->7   4 ->211 5 ->134
 #>  [9] 6 ->152 7 ->3   7 ->4   7 ->9   8 ->107 8 ->117 9 ->1   9 ->2  
 #> [17] 9 ->7   10->1   10->2   11->135 11->220 12->89  13->216 14->24 
