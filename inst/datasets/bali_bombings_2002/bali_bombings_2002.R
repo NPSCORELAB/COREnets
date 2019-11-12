@@ -6,10 +6,10 @@
 
 # read "raw" data ==============================================================
 nodes <- .corenets_read_csv(
-  .corenets_sys_file("datasets/australian_embassy_bombing_2004/AE_Nodes_Public_Version2.csv")
+  .corenets_sys_file("datasets/bali_bombings_2002/Bali1_Nodes_Public_Version2.csv")
 )
 edges <- .corenets_read_csv(
-  .corenets_sys_file("datasets/australian_embassy_bombing_2004/AE_Relations_Public_Version2.csv")
+  .corenets_sys_file("datasets/bali_bombings_2002/Bali1_Relations_Public_Version2.csv")
 )
 
 # Clean up the edges data ======================================================
@@ -71,15 +71,15 @@ g <- igraph::graph_from_data_frame(
 
 # build final dataset ==========================================================
 .description <- .corenets_read_lines(
-  .corenets_sys_file("datasets/australian_embassy_bombing_2004/description.txt")
+  .corenets_sys_file("datasets/bali_bombings_2002/description.txt")
 )
 
 .abstract <- .corenets_read_lines(
-  .corenets_sys_file("datasets/australian_embassy_bombing_2004/abstract.txt")
+  .corenets_sys_file("datasets/bali_bombings_2002/abstract.txt")
 )
 
 .bibtex <- bibtex::read.bib(
-  .corenets_sys_file("datasets/australian_embassy_bombing_2004/refs.bib")
+  .corenets_sys_file("datasets/bali_bombings_2002/refs.bib")
 )
 
 .codebook <- data.frame(
@@ -99,8 +99,8 @@ g <- igraph::graph_from_data_frame(
 )
 
 .reference <- list(
-  title        = "Australian Embassy Bombing 2004, Indonesia",
-  name         = "australian_embassy_bombing_2004",
+  title        = "Bali bombings 2002, Indonesia",
+  name         = "bali_bombings_2002",
   tags         = c("terrorism"),
   description  = .description,
   abstract     = .abstract,
@@ -119,9 +119,9 @@ g <- igraph::graph_from_data_frame(
   edges_table = igraph::as_data_frame(g, what = "edges")
 )
 
-australian_embassy_bombing_2004 <- list(
+bali_bombings_2002 <- list(
   reference = .reference,
   network  = .network
 )
 
-australian_embassy_bombing_2004
+bali_bombings_2002
