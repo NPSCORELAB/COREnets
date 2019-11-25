@@ -9,7 +9,7 @@ citEntry(
   url          = "https://npscorelab.github.io/COREnets",
   key          = "COREnets-package",
   textVersion  = paste(
-    "Callaghan C, Knapp, B (2019). COREnets: Network Data Sets for Research and Education",
+    "Callaghan, C, Knapp, B (2019). COREnets: Network Data Sets for Research and Education",
     "R package version 0.0.0.9",
     "Retrieved from https://npscorelab.github.io/COREnets"
   )

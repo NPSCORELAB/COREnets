@@ -18,14 +18,14 @@ edges <- edges %>%
                 `2000`, `2001`, `2002`, `2003`, `2004`, `2005`, `2006`, 
                 `2007`) %>%
   tidyr::gather(key, value, -ID, -Tie_ID, -Kinship) %>%
-  dplyr::rename(from = ID, to = Tie_ID, edge_time = key, edge_value = value) %>%
+  dplyr::rename(from = ID, to = Tie_ID, edge_time = key, edge_code = value) %>%
   dplyr::mutate(from_class = "person",
          to_class   = "person",
          edge_class = dplyr::case_when(
-           edge_value == 0 ~ "No relationship known",
-           edge_value == 1 ~ "Acquaintances/Distant familiy ties",
-           edge_value == 2 ~ "Friends/Moderately close family ties",
-           edge_value == 3 ~ "Close Friends/Family"),
+           edge_code == 0 ~ "No relationship known",
+           edge_code == 1 ~ "Acquaintances/Distant familiy ties",
+           edge_code == 2 ~ "Friends/Moderately close family ties",
+           edge_code == 3 ~ "Close Friends/Family"),
          kinship = dplyr::case_when(
            Kinship == 0 ~ "no kinship",
            Kinship == 1 ~ "in-laws",
@@ -36,7 +36,8 @@ edges <- edges %>%
            Kinship == 6 ~ "grandparent/child",
            Kinship == 7 ~ "significant other (not married)")
          ) %>%
-  dplyr::filter(!is.na(edge_value)) %>%
+  dplyr::filter(!is.na(edge_code)) %>%
+  dplyr::filter(edge_code != 0) %>%
   dplyr::select(from, to, from_class, to_class, edge_class,
                 dplyr::everything())
 
