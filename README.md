@@ -22,13 +22,13 @@ bytes](https://img.shields.io/github/languages/code-size/NPSCORELAB/COREnets.svg
 
 ## Installation
 
-First, if you haven’t done so, install `remotes`:.
+First, if you haven’t done so, install **{remotes}**:
 
 ``` r
 install.packages("remotes")
 ```
 
-Proceed to install `{COREnets}` from Github:
+Proceed to install **{COREnets}** from Github:
 
 ``` r
 remotes::install_github("NPSCORELAB/COREnets")
@@ -64,15 +64,30 @@ function:
 
 ``` r
 COREnets::list_data_sources()
-#>  [1] "anabaptists"                     "australian_embassy_bombing_2004"
-#>  [3] "ciel"                            "cocaine_smuggling_acero"        
-#>  [5] "cocaine_smuggling_jake"          "cocaine_smuggling_juanes"       
-#>  [7] "cocaine_smuggling_mambo"         "drugnet"                        
-#>  [9] "fifa"                            "harry_potter_death_eaters"      
-#> [11] "harry_potter_dumbledores_army"   "london_gang"                    
-#> [13] "montreal_street_gangs"           "noordin_139"                    
-#> [15] "november17"                      "paul_revere"                    
-#> [17] "siren"                           "zegota"
+#>  [1] "anabaptists"                                 
+#>  [2] "australian_embassy_bombing_2004"             
+#>  [3] "bali_bombings_2002"                          
+#>  [4] "bali_bombings_2005"                          
+#>  [5] "christmas_eve_bombings_2000"                 
+#>  [6] "ciel"                                        
+#>  [7] "cocaine_smuggling_acero"                     
+#>  [8] "cocaine_smuggling_jake"                      
+#>  [9] "cocaine_smuggling_juanes"                    
+#> [10] "cocaine_smuggling_mambo"                     
+#> [11] "drugnet"                                     
+#> [12] "fifa"                                        
+#> [13] "harry_potter_death_eaters"                   
+#> [14] "harry_potter_dumbledores_army"               
+#> [15] "london_gang"                                 
+#> [16] "madrid_train_bombings_2004"                  
+#> [17] "montreal_street_gangs"                       
+#> [18] "noordin_139"                                 
+#> [19] "november17"                                  
+#> [20] "paul_revere"                                 
+#> [21] "siren"                                       
+#> [22] "southeast_asian_aggregate_attack_series_2005"
+#> [23] "vivace_bombing_cell_2005"                    
+#> [24] "zegota"
 ```
 
 Get a brief description of the data set:
@@ -351,11 +366,11 @@ drugnet$network$edges_table %>%
   glimpse()
 #> Observations: 337
 #> Variables: 5
-#> $ from       <chr> "1", "1", "2", "2", "3", "4", "4", "5", "6", "7", "7"…
-#> $ to         <chr> "2", "10", "1", "10", "7", "7", "211", "134", "152", …
-#> $ from_class <chr> "person", "person", "person", "person", "person", "pe…
-#> $ to_class   <chr> "person", "person", "person", "person", "person", "pe…
-#> $ edge_class <chr> "Acquaintanceship", "Acquaintanceship", "Acquaintance…
+#> $ from       <chr> "1", "1", "2", "2", "3", "4", "4", "5", "6", "7", "7", "7"…
+#> $ to         <chr> "2", "10", "1", "10", "7", "7", "211", "134", "152", "3", …
+#> $ from_class <chr> "person", "person", "person", "person", "person", "person"…
+#> $ to_class   <chr> "person", "person", "person", "person", "person", "person"…
+#> $ edge_class <chr> "Acquaintanceship", "Acquaintanceship", "Acquaintanceship"…
 ```
 
   - `nodes_table`: A `data.frame` contain node non-relational
@@ -370,14 +385,14 @@ drugnet$network$nodes_table %>%
   glimpse()
 #> Observations: 293
 #> Variables: 8
-#> $ name         <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", …
-#> $ node_class   <chr> "people", "people", "people", "people", "people", "…
-#> $ Gender       <dbl> 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ Ethnicity    <dbl> 1, 1, 1, 1, 3, 3, 1, 3, 1, 3, 3, 2, 2, 2, 2, 3, 3, …
-#> $ HasTie       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ hr_ethnicity <chr> "White/Other", "White/Other", "White/Other", "White…
-#> $ hr_gender    <chr> "Male", "Male", "Male", "Female", "Male", "Male", "…
-#> $ hr_has_tie   <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRU…
+#> $ name         <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",…
+#> $ node_class   <chr> "people", "people", "people", "people", "people", "peopl…
+#> $ Gender       <dbl> 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2,…
+#> $ Ethnicity    <dbl> 1, 1, 1, 1, 3, 3, 1, 3, 1, 3, 3, 2, 2, 2, 2, 3, 3, 3, 3,…
+#> $ HasTie       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+#> $ hr_ethnicity <chr> "White/Other", "White/Other", "White/Other", "White/Othe…
+#> $ hr_gender    <chr> "Male", "Male", "Male", "Female", "Male", "Male", "Male"…
+#> $ hr_has_tie   <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TR…
 ```
 
 ## Generating Graph Objects
@@ -388,17 +403,17 @@ tables to generate network objects with **`{igraph}`** or
 
 ``` r
 core_as_igraph(drugnet)
-#> IGRAPH 456bc0a DN-- 293 337 -- 
-#> + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity
-#> | (v/n), HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c),
-#> | hr_has_tie (v/l), from_class (e/c), to_class (e/c), edge_class
-#> | (e/c)
-#> + edges from 456bc0a (vertex names):
-#>  [1] 1 ->2   1 ->10  2 ->1   2 ->10  3 ->7   4 ->7   4 ->211 5 ->134
-#>  [9] 6 ->152 7 ->3   7 ->4   7 ->9   8 ->107 8 ->117 9 ->1   9 ->2  
-#> [17] 9 ->7   10->1   10->2   11->135 11->220 12->89  13->216 14->24 
-#> [25] 14->52  16->10  16->19  17->64  17->79  18->55  18->104 18->165
-#> [33] 19->18  20->64  20->182 21->16  21->22  22->21  22->64  22->107
+#> IGRAPH 5c4819f DN-- 293 337 -- 
+#> + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity (v/n),
+#> | HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c), hr_has_tie (v/l),
+#> | from_class (e/c), to_class (e/c), edge_class (e/c)
+#> + edges from 5c4819f (vertex names):
+#>  [1] 1 ->2   1 ->10  2 ->1   2 ->10  3 ->7   4 ->7   4 ->211 5 ->134 6 ->152
+#> [10] 7 ->3   7 ->4   7 ->9   8 ->107 8 ->117 9 ->1   9 ->2   9 ->7   10->1  
+#> [19] 10->2   11->135 11->220 12->89  13->216 14->24  14->52  16->10  16->19 
+#> [28] 17->64  17->79  18->55  18->104 18->165 19->18  20->64  20->182 21->16 
+#> [37] 21->22  22->21  22->64  22->107 23->20  23->22  23->64  24->14  24->31 
+#> [46] 24->124 27->117 28->29  29->28  30->19  31->24  31->32  31->124 31->149
 #> + ... omitted several edges
 
 core_as_network(drugnet)

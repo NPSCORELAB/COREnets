@@ -39,13 +39,13 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-First, if you haven't done so, install `remotes`:.
+First, if you haven't done so, install **{remotes}**:
 
 ```{r, eval=FALSE}
 install.packages("remotes")
 ```
 
-Proceed to install `{COREnets}` from Github:
+Proceed to install **{COREnets}** from Github:
   
 ```{r, eval=FALSE}
 remotes::install_github("NPSCORELAB/COREnets")
