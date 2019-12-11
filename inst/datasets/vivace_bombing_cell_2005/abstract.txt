@@ -1,0 +1,3 @@
+The network data depict a group of individuals associated with four attempted bomb attacks on July 21, 2005 that paralyzed London's mass transportation system. Operation Vivace offers clear insight into the role of mosques in radicalization (Herrington, 2015). This failed incident resulted in the arrest and prosecution of the would be bombers, which yielded a great deal of information on the cell's activities. 
+
+The authors of these dataset, JJATT, gathered these data from using "open source" information. The present dataset reflects a combination of familial, frienship, and association relationships. Furthermore, as a dynamic dataset these relationships are depicted as dynamic and subject to changes. 

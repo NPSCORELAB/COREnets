@@ -1,0 +1,3 @@
+This network depicts a the ties between individuals associated with Jemaah Islamiyah and involed in one of the following events: Christmas Eve bombings in 2000, Philippines Ambassador Residence bombing in 2000, Bali bombings in 2002, Australian Embassy bombing in 2005, and Bali bombing in 2005.
+
+The authors of these dataset, JJATT, gathered these data from using "open source" information. The present dataset reflects a combination of familial, frienship, and association relationships. Furthermore, as a dynamic dataset these relationships are depicted as dynamic and subject to changes. 

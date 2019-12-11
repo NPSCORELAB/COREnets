@@ -121,7 +121,7 @@ g <- igraph::graph_from_data_frame(
 
 # build final dataset ==========================================================
 .description <- .corenets_read_lines(
-  .corenets_sys_file("datasets/anabaptists/description.txt"),
+  .corenets_sys_file("datasets/anabaptists/description.txt")
 )
 
 .abstract <- .corenets_read_lines(
