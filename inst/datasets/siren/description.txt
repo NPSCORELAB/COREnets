@@ -1,1 +1,1 @@
-Data on a network of criminals running a stolen-vehicle exportation operation obtained within a larger investigatite setting. The data was procured from the UCINET Software site and was reconstructed from Morselli's book Inside Criminal Networks.
+Data on a network of criminals running a stolen-vehicle exportation operation. Obtained within a larger investigatite setting. The data was procured from the UCINET Software site and was reconstructed from Morselli's book Inside Criminal Networks.

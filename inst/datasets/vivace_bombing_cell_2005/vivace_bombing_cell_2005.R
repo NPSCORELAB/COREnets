@@ -6,10 +6,10 @@
 
 # read "raw" data ==============================================================
 nodes <- .corenets_read_csv(
-  .corenets_sys_file("datasets/bali_bombings_2005/Bali2_Nodes_Public_Version2.csv")
+  .corenets_sys_file("datasets/vivace_bombing_cell_2005/Vivace_Nodes_Public_Version2.csv")
 )
 edges <- .corenets_read_csv(
-  .corenets_sys_file("datasets/bali_bombings_2005/Bali2_Relations_Public_Version2.csv")
+  .corenets_sys_file("datasets/vivace_bombing_cell_2005/Vivace_Relations_Public_Version2.csv")
 )
 
 # Clean up the edges data ======================================================
@@ -18,22 +18,22 @@ edges <- edges %>%
   tidyr::gather(key, value, -ID, -Tie_ID, -Kinship) %>%
   dplyr::rename(from = ID, to = Tie_ID, edge_time = key, edge_code = value) %>%
   dplyr::mutate(from_class = "person",
-         to_class   = "person",
-         edge_class = dplyr::case_when(
-           edge_code == 0 ~ "No relationship known",
-           edge_code == 1 ~ "Acquaintances/Distant familiy ties",
-           edge_code == 2 ~ "Friends/Moderately close family ties",
-           edge_code == 3 ~ "Close Friends/Family"),
-         kinship = dplyr::case_when(
-           Kinship == 0 ~ "no kinship",
-           Kinship == 1 ~ "in-laws",
-           Kinship == 2 ~ "cousins",
-           Kinship == 3 ~ "sibling",
-           Kinship == 4 ~ "parent/child",
-           Kinship == 5 ~ "married",
-           Kinship == 6 ~ "grandparent/child",
-           Kinship == 7 ~ "significant other (not married)")
-         ) %>%
+                to_class   = "person",
+                edge_class = dplyr::case_when(
+                  edge_code == 0 ~ "No relationship known",
+                  edge_code == 1 ~ "Acquaintances/Distant familiy ties",
+                  edge_code == 2 ~ "Friends/Moderately close family ties",
+                  edge_code == 3 ~ "Close Friends/Family"),
+                kinship = dplyr::case_when(
+                  Kinship == 0 ~ "no kinship",
+                  Kinship == 1 ~ "in-laws",
+                  Kinship == 2 ~ "cousins",
+                  Kinship == 3 ~ "sibling",
+                  Kinship == 4 ~ "parent/child",
+                  Kinship == 5 ~ "married",
+                  Kinship == 6 ~ "grandparent/child",
+                  Kinship == 7 ~ "significant other (not married)")
+  ) %>%
   dplyr::filter(!is.na(edge_code)) %>%
   dplyr::filter(edge_code != 0) %>%
   dplyr::select(from, to, from_class, to_class, edge_class,
@@ -46,7 +46,7 @@ nodes <- nodes %>%
   ) %>%
   dplyr::select(
     -c(Color)
-            ) %>%
+  ) %>%
   tidyr::gather(key, value, -name, -Group, -Arrest_Date, -Release_Date,
                 -Death_Date) %>%
   dplyr::mutate(
@@ -56,7 +56,7 @@ nodes <- nodes %>%
       value == 2 ~ "free",
       value == 3 ~ "released"),
     node_class = "person"
-    ) %>% 
+  ) %>% 
   tidyr::spread(key, value) %>%
   dplyr::select(name, node_class, dplyr::everything())
 
@@ -69,15 +69,15 @@ g <- igraph::graph_from_data_frame(
 
 # build final dataset ==========================================================
 .description <- .corenets_read_lines(
-  .corenets_sys_file("datasets/bali_bombings_2005/description.txt")
+  .corenets_sys_file("datasets/vivace_bombing_cell_2005/description.txt")
 )
 
 .abstract <- .corenets_read_lines(
-  .corenets_sys_file("datasets/bali_bombings_2005/abstract.txt")
+  .corenets_sys_file("datasets/vivace_bombing_cell_2005/abstract.txt")
 )
 
 .bibtex <- bibtex::read.bib(
-  .corenets_sys_file("datasets/bali_bombings_2005/refs.bib")
+  .corenets_sys_file("datasets/vivace_bombing_cell_2005/refs.bib")
 )
 
 .codebook <- data.frame(
@@ -97,8 +97,8 @@ g <- igraph::graph_from_data_frame(
 )
 
 .reference <- list(
-  title        = "Bali bombings 2005, Indonesia",
-  name         = "bali_bombings_2005",
+  title        = "Vivace Bombing Cell 2005, London",
+  name         = "vivace_bombing_cell_2005",
   tags         = c("terrorism"),
   description  = .description,
   abstract     = .abstract,
@@ -117,9 +117,9 @@ g <- igraph::graph_from_data_frame(
   edges_table = igraph::as_data_frame(g, what = "edges")
 )
 
-bali_bombings_2005 <- list(
+vivace_bombing_cell_2005 <- list(
   reference = .reference,
   network  = .network
 )
 
-bali_bombings_2005
+vivace_bombing_cell_2005
