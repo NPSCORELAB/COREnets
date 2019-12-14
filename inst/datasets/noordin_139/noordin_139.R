@@ -152,15 +152,15 @@ logistical_function <- c(
   "Safehouse"
 )
 meetings <- c(
-  "Meeting 1",
-  "Meeting 2",
-  "Meeting 3",
-  "Meeting 4",
-  "Meeting 5",
-  "Meeting 6",
-  "Meeting 7",
-  "Meeting 8",
-  "Meeting 9",
+  "Meeting  1",
+  "Meeting  2",
+  "Meeting  3",
+  "Meeting  4",
+  "Meeting  5",
+  "Meeting  6",
+  "Meeting  7",
+  "Meeting  8",
+  "Meeting  9",
   "Meeting 10",
   "Meeting 11",
   "Meeting 12",
@@ -487,8 +487,9 @@ nodes <- nodes %>%
     # Report, “Noordin’s Networks”
     original_79 = `Original 79`,
     is_orginal_79 = ifelse(`Original 79` == 0, FALSE, TRUE),
-    node_class    = "people",
+    # node_class    = "people",
     node_class    = dplyr::case_when(
+      !is.na(education_level)           ~ "people",
       name %in% insurgent_organizations   ~ "organization",
       name %in% schools                   ~ "organization",
       name %in% training_events           ~ "event",
