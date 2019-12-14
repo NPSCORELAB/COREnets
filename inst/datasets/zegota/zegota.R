@@ -278,8 +278,8 @@ g <- igraph::graph_from_data_frame(
 )
 
 .reference <- list(
-  title        = "November17",
-  name         = "november17",
+  title        = "Zegota",
+  name         = "zegota",
   tags         = c("terrorism"),
   description  = .description,
   abstract     = .abstract,
