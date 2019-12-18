@@ -7,7 +7,7 @@
 #'
 #' @param dataset `character(1L)` Name of the desired data set.
 #' @param validate, `logical(1L)`, Default: `TRUE` Whether to run data validation routine.
-#' @param quietly, `<logical>` Whether to muffle messages during data set construction.
+#' @param quietly, `logical(1L)` Whether to muffle messages during data set construction.
 #' @template param-dots
 #'
 #' @seealso [list_data_sources()], [get_description()]
@@ -20,13 +20,21 @@ get_data <- function(dataset, quietly = TRUE, validate = TRUE, ...) {
   }
   
   
-  file_path <- .corenets_sys_file(
-    sprintf("datasets/%s/%s.R", dataset, dataset)
+  file_path <- tryCatch(
+    .corenets_sys_file(sprintf("datasets/%s/%s.R", dataset, dataset)),
+    error = function(e) NULL
   )
   
   
-  if (!file.exists(file_path)) {
-    stop("Can't find file: ", file_path, call. = FALSE)
+  if (is.null(file_path)) {
+    msg <- c("Can't find file: \n\t-", dataset)
+    
+    suggestions <- agrep(dataset, list_data_sources(), ignore.case = TRUE, value = TRUE)
+    if (!.is_empty(suggestions)) {
+      msg <- c(msg, "\nDid you mean one of the following?", paste("\n\t-", suggestions))
+    }
+    
+    stop(msg, call. = FALSE)
   }
   
   foo <- parse(

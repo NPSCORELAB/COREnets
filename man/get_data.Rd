@@ -9,7 +9,7 @@ get_data(dataset, quietly = TRUE, validate = TRUE, ...)
 \arguments{
 \item{dataset}{\code{character(1L)} Name of the desired data set.}
 
-\item{quietly, }{\verb{<logical>} Whether to muffle messages during data set construction.}
+\item{quietly, }{\code{logical(1L)} Whether to muffle messages during data set construction.}
 
 \item{validate, }{\code{logical(1L)}, Default: \code{TRUE} Whether to run data validation routine.}
 
