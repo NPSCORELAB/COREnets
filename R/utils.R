@@ -1,4 +1,3 @@
-
 `%!in%` <- function(x, y){!(`%in%`(x,y))}
 
 .map_chr <- function(.x, .f, ..., .n = 1L) {
@@ -62,6 +61,19 @@
 .corenets_sys_file <- function(file_path) {
   stopifnot(is.character(file_path) && length(file_path) == 1L)
   system.file(file_path, package = "COREnets", mustWork = TRUE)
+}
+
+
+#' @keywords internal
+#' 
+#' @title Read file contents as-is then strip leading/trailing whitespace
+#' 
+#' @param file_path Path of target file relative to `/inst` (in dev. mode).
+#' @param warn `logical`, Default: `FALSE`. Argument passed to `base::readLines()`'s.
+#' @template param-dots
+#' 
+.corenets_read_file <- function(file_path, warn = FALSE) {
+  sub("\\s+$", "", paste(readLines(file_path, warn = warn), collapse = "\n"))
 }
 
 

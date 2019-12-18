@@ -132,11 +132,11 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>drugnet_proto_net</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"drugnet"</span>)
 
-<span class='fu'>core_as_igraph</span>(<span class='no'>drugnet_proto_net</span>)</div><div class='output co'>#&gt; IGRAPH ab3c42f DN-- 293 337 -- 
+<span class='fu'>core_as_igraph</span>(<span class='no'>drugnet_proto_net</span>)</div><div class='output co'>#&gt; IGRAPH e222dea DN-- 293 337 -- 
 #&gt; + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity (v/n),
 #&gt; | HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c), hr_has_tie (v/l),
 #&gt; | from_class (e/c), to_class (e/c), edge_class (e/c)
-#&gt; + edges from ab3c42f (vertex names):
+#&gt; + edges from e222dea (vertex names):
 #&gt;  [1] 1 -&gt;2   1 -&gt;10  2 -&gt;1   2 -&gt;10  3 -&gt;7   4 -&gt;7   4 -&gt;211 5 -&gt;134 6 -&gt;152
 #&gt; [10] 7 -&gt;3   7 -&gt;4   7 -&gt;9   8 -&gt;107 8 -&gt;117 9 -&gt;1   9 -&gt;2   9 -&gt;7   10-&gt;1  
 #&gt; [19] 10-&gt;2   11-&gt;135 11-&gt;220 12-&gt;89  13-&gt;216 14-&gt;24  14-&gt;52  16-&gt;10  16-&gt;19 
@@ -145,7 +145,7 @@
 #&gt; [46] 24-&gt;124 27-&gt;117 28-&gt;29  29-&gt;28  30-&gt;19  31-&gt;24  31-&gt;32  31-&gt;124 31-&gt;149
 #&gt; + ... omitted several edges</div><div class='input'>
 <span class='co'># currently supported networks ==============================================</span>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"anabaptists"</span>))</div><div class='output co'>#&gt; IGRAPH ab493b3 UN-- 67 183 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"anabaptists"</span>))</div><div class='output co'>#&gt; IGRAPH 9853e94 UN-- 67 183 -- 
 #&gt; + attr: name (v/c), node_class (v/c), believer_baptist (v/n),
 #&gt; | violence_sanctioning (v/n), munster_rebel (v/n), apocalyptic (v/n),
 #&gt; | Anabaptist (v/n), Melchiorite (v/n), Swiss Brethren (v/n), Denck
@@ -155,11 +155,11 @@
 #&gt; | hr_group (v/c), is_violence_sanctioning (v/l), is_apocalyptic (v/l),
 #&gt; | is_believer_baptist (v/l), is_munster_rebel (v/l), is_anabaptist
 #&gt; | (v/l), from_class (e/c), to_class (e/c), edge_class (e/c)
-#&gt; + edges from ab493b3 (vertex names):</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_acero"</span>))</div><div class='output co'>#&gt; IGRAPH ab4c485 UN-- 25 37 -- 
+#&gt; + edges from 9853e94 (vertex names):</div><div class='input'>
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_acero"</span>))</div><div class='output co'>#&gt; IGRAPH 9579582 UN-- 25 37 -- 
 #&gt; + attr: name (v/c), node_class (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c)
-#&gt; + edges from ab4c485 (vertex names):
+#&gt; + edges from 9579582 (vertex names):
 #&gt;  [1] AAR --DA   AAR --H    AAR --JA   AAR --JGG  AAR --JLAR AAR --PA  
 #&gt;  [7] AAR --R    AAR --RRS  AAR --SAR  AAR --VA   AL  --SAR  AN  --EEG 
 #&gt; [13] ASB --MMM  CEPO--EEG  CEPO--H    CEPO--HO   CEPO--JCR  CEPO--JLAR
@@ -167,10 +167,10 @@
 #&gt; [25] JA  --SAR  JCR --MMM  JCR --SAR  JCT --T    JFS --MMM  JLAR--SAR 
 #&gt; [31] JMMM--SAR  JOR --SAR  MMM --SAR  NA  --SAR  R   --SAR  RRS --SAR 
 #&gt; [37] SAR --T   </div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_jake"</span>))</div><div class='output co'>#&gt; IGRAPH ab4eb95 UN-- 38 50 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_jake"</span>))</div><div class='output co'>#&gt; IGRAPH 194f239 UN-- 38 50 -- 
 #&gt; + attr: name (v/c), node_class (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c)
-#&gt; + edges from ab4eb95 (vertex names):
+#&gt; + edges from 194f239 (vertex names):
 #&gt;  [1] ABFM --AFM  ABFM --DMN  ABFM --FLMC ABFM --H11  ABFM --JES  ABFM --JFM 
 #&gt;  [7] ABFM --JHY  ABFM --M3   ABFM --MCM  ABFM --PR   ABFM --RBM  ABFM --VFH 
 #&gt; [13] AFM  --JES  AFM  --JFM  AIGC --FFM  AIGC --JES  AIGC --MCM  AMG  --JFM 
@@ -179,10 +179,10 @@
 #&gt; [31] FFM  --MRQ  FFM  --RJJ  FLMC --H1   FLMC --H2   FLMC --H3   FLMC --H9  
 #&gt; [37] FLMC --JAGG FLMC --JES  FLMC --JFM  FLMC --ROB  H1   --JFM  H6   --JES 
 #&gt; + ... omitted several edges</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_juanes"</span>))</div><div class='output co'>#&gt; IGRAPH ab51788 UN-- 51 93 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_juanes"</span>))</div><div class='output co'>#&gt; IGRAPH 03befe5 UN-- 51 93 -- 
 #&gt; + attr: name (v/c), node_class (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c)
-#&gt; + edges from ab51788 (vertex names):
+#&gt; + edges from 03befe5 (vertex names):
 #&gt;  [1] 6D  --DFM  6D  --DN   6D  --JJLH ABF --DEAR ABF --JLT  ABF --LGM 
 #&gt;  [7] ABF --MDAA ABF --OAMS ABF --OJSR ABF --RJZZ ABF --RMP  AFPG--LGM 
 #&gt; [13] AHM --JJLH ARS --OAMS CAPV--FGV  CAPV--JDQJ CAPV--OAMS CAPV--OJSR
@@ -191,10 +191,10 @@
 #&gt; [31] DLLS--RMP  EGM --EHJ  EGM --FDS  EGM --JLLO EHJ --FARP EHJ --FP  
 #&gt; [37] EHJ --JBH  EHJ --JC   EHJ --JJLH EHJ --JLPC EHJ --OJSR EHJ --RJZZ
 #&gt; + ... omitted several edges</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_mambo"</span>))</div><div class='output co'>#&gt; IGRAPH ab54d29 UN-- 31 58 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"cocaine_smuggling_mambo"</span>))</div><div class='output co'>#&gt; IGRAPH bf17a39 UN-- 31 58 -- 
 #&gt; + attr: name (v/c), node_class (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c)
-#&gt; + edges from ab54d29 (vertex names):
+#&gt; + edges from bf17a39 (vertex names):
 #&gt;  [1] A   --CPGT A   --HPM  AP  --ELM  AP  --JPPM AP  --RS   ARG --JDD 
 #&gt;  [7] ARG --JPPM CPGT--GA   CPGT--JPPM CPGT--PCCP CPGT--SNRM CPGT--YPMG
 #&gt; [13] EDRS--SNRM ELM --FR   ELM --HPM  ELM --JB   ELM --JDD  ELM --JPPM
@@ -203,10 +203,10 @@
 #&gt; [31] HAMS--YPMG HPM --JPPM HPM --RS   JB  --JPPM JB  --SNRM JDD --JPPM
 #&gt; [37] JDD --OS   JE  --SNRM JEAB--JHLM JEAB--SNRM JG  --JJTE JG  --SNRM
 #&gt; + ... omitted several edges</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"harry_potter_death_eaters"</span>))</div><div class='output co'>#&gt; IGRAPH ab58087 UNW- 26 128 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"harry_potter_death_eaters"</span>))</div><div class='output co'>#&gt; IGRAPH b441918 UNW- 26 128 -- 
 #&gt; + attr: name (v/c), node_class (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c), weight (e/n)
-#&gt; + edges from ab58087 (vertex names):
+#&gt; + edges from b441918 (vertex names):
 #&gt;  [1] Lord Voldemort--Rodolphus Lestrange Lord Voldemort--Bellatrix Lestrange
 #&gt;  [3] Lord Voldemort--Walden Macnair      Lord Voldemort--Augustus Rookwood  
 #&gt;  [5] Lord Voldemort--Antonin Dolohov     Lord Voldemort--Corban Yaxley      
@@ -215,10 +215,10 @@
 #&gt; [11] Lord Voldemort--Barty Crouch Jr.    Lord Voldemort--Nott Sr.           
 #&gt; [13] Lord Voldemort--Crabbe Sr.          Lord Voldemort--Goyle Sr.          
 #&gt; + ... omitted several edges</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"harry_potter_dumbledores_army"</span>))</div><div class='output co'>#&gt; IGRAPH ab5ac74 UNW- 29 282 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"harry_potter_dumbledores_army"</span>))</div><div class='output co'>#&gt; IGRAPH e0bbd87 UNW- 29 282 -- 
 #&gt; + attr: name (v/c), node_class (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c), weight (e/n)
-#&gt; + edges from ab5ac74 (vertex names):
+#&gt; + edges from e0bbd87 (vertex names):
 #&gt;  [1] Harry Potter--Hermione Granger   Harry Potter--Ronald Weasley    
 #&gt;  [3] Harry Potter--Ginny Weasley      Harry Potter--Neville Longbottom
 #&gt;  [5] Harry Potter--Luna Lovegood      Harry Potter--Lavender Brown    
@@ -227,23 +227,23 @@
 #&gt; [11] Harry Potter--Parvati Patil      Harry Potter--Padma Patil       
 #&gt; [13] Harry Potter--Hannah Abbot       Harry Potter--Seamus Finnigan   
 #&gt; + ... omitted several edges</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"montreal_street_gangs"</span>))</div><div class='output co'>#&gt; IGRAPH ab5fa80 UN-- 35 78 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"montreal_street_gangs"</span>))</div><div class='output co'>#&gt; IGRAPH f3a20dd UN-- 35 78 -- 
 #&gt; + attr: name (v/c), node_class (v/c), Allegiances (v/n), Ethnicity
 #&gt; | (v/n), Territories (v/n), hr_allegiances (v/c), hr_gang_ethnicity
 #&gt; | (v/c), hr_territories (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c)
-#&gt; + edges from ab5fa80 (vertex names):
+#&gt; + edges from f3a20dd (vertex names):
 #&gt;  [1] BMF         --Bo-Gars      18th        --Bo-Gars     
 #&gt;  [3] Bo-Gars     --J.O.K.E.R.S  13th        --Bo-Gars     
 #&gt;  [5] 47          --Bo-Gars      Blue_Devil.2--Bo-Gars     
 #&gt;  [7] BMF         --Green_Land   18th        --BMF         
 #&gt;  [9] 187         --BMF          AYB.2       --BMF         
 #&gt; + ... omitted several edges</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"november17"</span>))</div><div class='output co'>#&gt; IGRAPH ab63c7f UN-- 22 66 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"november17"</span>))</div><div class='output co'>#&gt; IGRAPH 68984f8 UN-- 22 66 -- 
 #&gt; + attr: name (v/c), node_class (v/c), Role (v/n), Faction (v/n),
 #&gt; | Resources (v/n), hr_role (v/c), hr_faction (v/c), hr_resources (v/c),
 #&gt; | from_class (e/c), to_class (e/c), edge_class (e/c)
-#&gt; + edges from ab63c7f (vertex names):
+#&gt; + edges from 68984f8 (vertex names):
 #&gt;  [1] Alexandros Giotopoulos--Anna                
 #&gt;  [2] Alexandros Giotopoulos--Christodoulos Xiros 
 #&gt;  [3] Alexandros Giotopoulos--Constantinos Telios 
@@ -251,10 +251,10 @@
 #&gt;  [5] Alexandros Giotopoulos--Fotis               
 #&gt;  [6] Alexandros Giotopoulos--Nikitas             
 #&gt; + ... omitted several edges</div><div class='input'>
-<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"siren"</span>))</div><div class='output co'>#&gt; IGRAPH ab66fc5 UN-- 44 103 -- 
+<span class='fu'>core_as_igraph</span>(<span class='fu'><a href='get_data.html'>get_data</a></span>(<span class='st'>"siren"</span>))</div><div class='output co'>#&gt; IGRAPH 45b258d UN-- 44 103 -- 
 #&gt; + attr: name (v/c), node_class (v/c), from_class (e/c), to_class (e/c),
 #&gt; | edge_class (e/c)
-#&gt; + edges from ab66fc5 (vertex names):
+#&gt; + edges from 45b258d (vertex names):
 #&gt;  [1] 1 --2  1 --3  1 --4  1 --5  1 --6  1 --7  1 --8  1 --9  1 --10 1 --11
 #&gt; [11] 1 --12 1 --13 1 --14 1 --15 1 --16 1 --17 1 --18 1 --19 1 --20 1 --21
 #&gt; [21] 1 --22 1 --23 1 --24 1 --25 1 --26 1 --27 1 --36 1 --37 1 --38 1 --39

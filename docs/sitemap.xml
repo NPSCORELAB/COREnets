@@ -4,10 +4,10 @@
     <loc>https://npscorelab.github.io/COREnets//index.html</loc>
   </url>
   <url>
-    <loc>https://npscorelab.github.io/COREnets//reference/check_edges_table.html</loc>
+    <loc>https://npscorelab.github.io/COREnets//reference/check_edge_classes.html</loc>
   </url>
   <url>
-    <loc>https://npscorelab.github.io/COREnets//reference/check_edge_classes.html</loc>
+    <loc>https://npscorelab.github.io/COREnets//reference/check_edges_table.html</loc>
   </url>
   <url>
     <loc>https://npscorelab.github.io/COREnets//reference/check_metadata.html</loc>
@@ -31,10 +31,19 @@
     <loc>https://npscorelab.github.io/COREnets//reference/dot-corenets_read_csv.html</loc>
   </url>
   <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-corenets_read_file.html</loc>
+  </url>
+  <url>
     <loc>https://npscorelab.github.io/COREnets//reference/dot-corenets_read_lines.html</loc>
   </url>
   <url>
     <loc>https://npscorelab.github.io/COREnets//reference/dot-corenets_sys_file.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-count_edges.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-count_nodes.html</loc>
   </url>
   <url>
     <loc>https://npscorelab.github.io/COREnets//reference/dot-has_loops.html</loc>
@@ -44,6 +53,24 @@
   </url>
   <url>
     <loc>https://npscorelab.github.io/COREnets//reference/dot-is_multiplex.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-print_edge_class_attr.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-print_edge_table.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-print_edge_table_attrs.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-print_header.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-print_node_table.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/dot-refactor_classes.html</loc>
   </url>
   <url>
     <loc>https://npscorelab.github.io/COREnets//reference/extract_xlsx.html</loc>
@@ -64,7 +91,16 @@
     <loc>https://npscorelab.github.io/COREnets//reference/get_node_classes.html</loc>
   </url>
   <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/is_proto_net.html</loc>
+  </url>
+  <url>
     <loc>https://npscorelab.github.io/COREnets//reference/list_data_sources.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/print.proto_net.html</loc>
+  </url>
+  <url>
+    <loc>https://npscorelab.github.io/COREnets//reference/proto_net.html</loc>
   </url>
   <url>
     <loc>https://npscorelab.github.io/COREnets//reference/read_matrix.html</loc>

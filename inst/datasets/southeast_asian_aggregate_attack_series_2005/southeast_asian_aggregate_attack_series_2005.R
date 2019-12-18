@@ -83,11 +83,11 @@ g <- igraph::graph_from_data_frame(
 )  
 
 # build final dataset ==========================================================
-.description <- .corenets_read_lines(
+.description <- .corenets_read_file(
   .corenets_sys_file("datasets/southeast_asian_aggregate_attack_series_2005/description.txt")
 )
 
-.abstract <- .corenets_read_lines(
+.abstract <- .corenets_read_file(
   .corenets_sys_file("datasets/southeast_asian_aggregate_attack_series_2005/abstract.txt")
 )
 

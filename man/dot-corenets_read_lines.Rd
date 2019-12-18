@@ -10,7 +10,7 @@ more easily change dependencies later.}
 .corenets_read_lines(file_path, ...)
 }
 \arguments{
-\item{file_path}{Path of target file relative to \code{/inst} (in dev. mode).}
+\item{file_path}{Path of target file relative to \verb{/inst} (in dev. mode).}
 
 \item{...}{Additional arguments passed to or from other methods.}
 }

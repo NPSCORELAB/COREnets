@@ -4,16 +4,16 @@
 \alias{.corenets_sys_file}
 \title{\code{system.file()} wrapper
 
-Use to access files in \code{inst/}!}
+Use to access files in \verb{inst/}!}
 \usage{
 .corenets_sys_file(file_path)
 }
 \arguments{
-\item{file_path}{Path of target file relative to \code{/inst} (in development mode).}
+\item{file_path}{Path of target file relative to \verb{/inst} (in development mode).}
 }
 \description{
 \code{system.file()} wrapper
 
-Use to access files in \code{inst/}!
+Use to access files in \verb{inst/}!
 }
 \keyword{internal}

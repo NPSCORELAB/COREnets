@@ -74,37 +74,68 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>First, if you haven’t done so, install <code>devtools</code>:.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a></code></pre></div>
-<p>Proceed to install <code>{COREnets}</code> from Github:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"NPSCORELAB/COREnets"</span>)</a></code></pre></div>
+<p>First, if you haven’t done so, install <strong>{remotes}</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>)</span></code></pre></div>
+<p>Proceed to install <strong>{COREnets}</strong> from Github:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"NPSCORELAB/COREnets"</span>)</span></code></pre></div>
 </div>
 <div id="using-the-package-to-access-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-the-package-to-access-data" class="anchor"></a>Using the Package to Access Data</h2>
 <p><strong>{COREnets}</strong> contains a series of network data sets that can be accessed using the <code>get_data</code> function:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(COREnets)</a>
-<a class="sourceLine" id="cb3-2" title="2">drugnet &lt;-<span class="st"> </span>COREnets<span class="op">::</span><span class="kw"><a href="https://npscorelab.github.io/COREnets//reference/get_data.html">get_data</a></span>(<span class="st">"drugnet"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(COREnets)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>drugnet &lt;-<span class="st"> </span>COREnets<span class="op">::</span><span class="kw"><a href="https://npscorelab.github.io/COREnets//reference/get_data.html">get_data</a></span>(<span class="st">"drugnet"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>drugnet</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; PROTO_NET drugnet Nodes:293 Edges:337</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; Acquaintanceship </span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;  +-D-- E:337 N:212 NC:1</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; </span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; Edge list: </span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt;  from from_class to to_class       edge_class</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;     1     person  2   person Acquaintanceship</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;     1     person 10   person Acquaintanceship</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt;     2     person  1   person Acquaintanceship</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 334 entries not printed. </span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;  + Edge attributes: </span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; </span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; Node list: </span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt;  + Node attributes: name&lt;chr&gt; node_class&lt;chr&gt; Gender&lt;chr&gt; Ethnicity&lt;chr&gt; HasTie&lt;chr&gt; hr_ethnicity&lt;chr&gt; hr_gender&lt;chr&gt; hr_has_tie&lt;chr&gt;</span></span></code></pre></div>
 <p>In order to look up the available data sets use the <code>list_data_sources</code> function:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">COREnets<span class="op">::</span><span class="kw"><a href="https://npscorelab.github.io/COREnets//reference/list_data_sources.html">list_data_sources</a></span>()</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt;  [1] "anabaptists"                   "cocaine_smuggling_acero"      </span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt;  [3] "cocaine_smuggling_jake"        "cocaine_smuggling_juanes"     </span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt;  [5] "cocaine_smuggling_mambo"       "drugnet"                      </span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt;  [7] "fifa"                          "harry_potter_death_eaters"    </span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt;  [9] "harry_potter_dumbledores_army" "london_gang"                  </span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; [11] "montreal_street_gangs"         "noordin_139"                  </span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; [13] "november17"                    "siren"                        </span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; [15] "zegota"</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>COREnets<span class="op">::</span><span class="kw"><a href="https://npscorelab.github.io/COREnets//reference/list_data_sources.html">list_data_sources</a></span>()</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt;  [1] "anabaptists"                                 </span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;  [2] "australian_embassy_bombing_2004"             </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;  [3] "bali_bombings_2002"                          </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;  [4] "bali_bombings_2005"                          </span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt;  [5] "christmas_eve_bombings_2000"                 </span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;  [6] "ciel"                                        </span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;  [7] "cocaine_smuggling_acero"                     </span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  [8] "cocaine_smuggling_jake"                      </span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;  [9] "cocaine_smuggling_juanes"                    </span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; [10] "cocaine_smuggling_mambo"                     </span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; [11] "drugnet"                                     </span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; [12] "fifa"                                        </span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; [13] "harry_potter_death_eaters"                   </span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; [14] "harry_potter_dumbledores_army"               </span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; [15] "london_gang"                                 </span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; [16] "madrid_train_bombings_2004"                  </span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; [17] "montreal_street_gangs"                       </span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt; [18] "noordin_139"                                 </span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt; [19] "november17"                                  </span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; [20] "paul_revere"                                 </span></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt; [21] "siren"                                       </span></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt; [22] "southeast_asian_aggregate_attack_series_2005"</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt; [23] "vivace_bombing_cell_2005"                    </span></span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; [24] "zegota"</span></span></code></pre></div>
 <p>Get a brief description of the data set:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">COREnets<span class="op">::</span><span class="kw"><a href="https://npscorelab.github.io/COREnets//reference/get_description.html">get_description</a></span>(<span class="st">"noordin_139"</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; [1] "These data were drawn primarily from 'Terrorism in Indonesia: Noordin's Networks,' a publication of the International Crisis Group (2006) and include relational data on the 79 individuals listed in Appendix C of that publication. "</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>COREnets<span class="op">::</span><span class="kw"><a href="https://npscorelab.github.io/COREnets//reference/get_description.html">get_description</a></span>(<span class="st">"drugnet"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; [1] "These data represent a network of drug users in Hartford.  Ties are directed and represent acquaintanceship. The network is a result of two years of ethnographic observations of people's drug habits. "</span></span></code></pre></div>
 <p>Each data object contains two main lists of information, the <code>reference</code> and <code>network</code> lists:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(drugnet)</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; [1] "reference" "network"</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(drugnet<span class="op">$</span>reference)</a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; [1] "list"</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(drugnet<span class="op">$</span>network)</a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; [1] "list"</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(drugnet)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; [1] "reference" "network"</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(drugnet<span class="op">$</span>reference)</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; [1] "list"</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(drugnet<span class="op">$</span>network)</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; [1] "list"</span></span></code></pre></div>
 <div id="reference" class="section level3">
 <h3 class="hasAnchor">
 <a href="#reference" class="anchor"></a><code>reference</code>
@@ -229,7 +260,7 @@ character
 
 <td style="text-align:left;">
 
-A brief summary of …
+A brief summary of the data and network context.
 
 </td>
 
@@ -376,68 +407,68 @@ Hyperlink(s) to publications linked to the dataset.
 <li>
 <code>edges_table</code>: A <code>data.frame</code> that contains a minimum of two columns, one column of nodes acting as a vector source or starting point (<code>from</code>) and another column of nodes that are the target of the connection (<code>to</code>). In addition to the <code>from</code> and <code>to</code> variables the data include a class variable for each (<code>from_class</code> and <code>to_class</code>).</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">drugnet<span class="op">$</span>network<span class="op">$</span>edges_table <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">glimpse</span>()</a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; Observations: 337</span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; Variables: 5</span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; $ from       &lt;chr&gt; "1", "1", "2", "2", "3", "4", "4", "5", "6", "7", "...</span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; $ to         &lt;chr&gt; "2", "10", "1", "10", "7", "7", "211", "134", "152"...</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; $ from_class &lt;chr&gt; "person", "person", "person", "person", "person", "...</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; $ to_class   &lt;chr&gt; "person", "person", "person", "person", "person", "...</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; $ edge_class &lt;chr&gt; "Acquaintanceship", "Acquaintanceship", "Acquaintan...</span></a></code></pre></div>
+<!-- end list --><div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>drugnet<span class="op">$</span>network<span class="op">$</span>edges_table <span class="op">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">glimpse</span>()</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; Observations: 337</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt; Variables: 5</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; $ from       &lt;chr&gt; "1", "1", "2", "2", "3", "4", "4", "5", "6", "7", "7", "7"…</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; $ to         &lt;chr&gt; "2", "10", "1", "10", "7", "7", "211", "134", "152", "3", …</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; $ from_class &lt;chr&gt; "person", "person", "person", "person", "person", "person"…</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; $ to_class   &lt;chr&gt; "person", "person", "person", "person", "person", "person"…</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; $ edge_class &lt;chr&gt; "Acquaintanceship", "Acquaintanceship", "Acquaintanceship"…</span></span></code></pre></div>
 <ul>
 <li>
 <code>nodes_table</code>: A <code>data.frame</code> contain node non-relational characteristics. A unique identifier for each node in the <code>edge_table</code> should be present in the <code>name</code> variable. In addition, a <code>node_class</code> observation is included for each node.</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">drugnet<span class="op">$</span>network<span class="op">$</span>nodes_table <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">glimpse</span>()</a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; Observations: 293</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; Variables: 8</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; $ name         &lt;chr&gt; "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"...</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; $ node_class   &lt;chr&gt; "people", "people", "people", "people", "people",...</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; $ Gender       &lt;dbl&gt; 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...</span></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt; $ Ethnicity    &lt;dbl&gt; 1, 1, 1, 1, 3, 3, 1, 3, 1, 3, 3, 2, 2, 2, 2, 3, 3...</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt; $ HasTie       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; $ hr_ethnicity &lt;chr&gt; "White/Other", "White/Other", "White/Other", "Whi...</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt; $ hr_gender    &lt;chr&gt; "Male", "Male", "Male", "Female", "Male", "Male",...</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt; $ hr_has_tie   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, T...</span></a></code></pre></div>
+<!-- end list --><div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>drugnet<span class="op">$</span>network<span class="op">$</span>nodes_table <span class="op">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">glimpse</span>()</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt; Observations: 293</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt; Variables: 8</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; $ name         &lt;chr&gt; "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",…</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; $ node_class   &lt;chr&gt; "people", "people", "people", "people", "people", "peopl…</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; $ Gender       &lt;dbl&gt; 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2,…</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; $ Ethnicity    &lt;dbl&gt; 1, 1, 1, 1, 3, 3, 1, 3, 1, 3, 3, 2, 2, 2, 2, 3, 3, 3, 3,…</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; $ HasTie       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; $ hr_ethnicity &lt;chr&gt; "White/Other", "White/Other", "White/Other", "White/Othe…</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt; $ hr_gender    &lt;chr&gt; "Male", "Male", "Male", "Female", "Male", "Male", "Male"…</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt; $ hr_has_tie   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TR…</span></span></code></pre></div>
 </div>
 </div>
 <div id="generating-graph-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#generating-graph-objects" class="anchor"></a>Generating Graph Objects</h2>
 <p>Each network in the package contains the necessary edges and nodes tables to generate network objects with <strong><code>{igraph}</code></strong> or <strong><code>{network}</code></strong>. For instance:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/core_as_igraph.html">core_as_igraph</a></span>(drugnet)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; IGRAPH b9d4aef DN-- 293 337 -- </span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity</span></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; | (v/n), HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c),</span></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; | hr_has_tie (v/l), from_class (e/c), to_class (e/c), edge_class</span></a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; | (e/c)</span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; + edges from b9d4aef (vertex names):</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;  [1] 1 -&gt;2   1 -&gt;10  2 -&gt;1   2 -&gt;10  3 -&gt;7   4 -&gt;7   4 -&gt;211 5 -&gt;134</span></a>
-<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;  [9] 6 -&gt;152 7 -&gt;3   7 -&gt;4   7 -&gt;9   8 -&gt;107 8 -&gt;117 9 -&gt;1   9 -&gt;2  </span></a>
-<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; [17] 9 -&gt;7   10-&gt;1   10-&gt;2   11-&gt;135 11-&gt;220 12-&gt;89  13-&gt;216 14-&gt;24 </span></a>
-<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt; [25] 14-&gt;52  16-&gt;10  16-&gt;19  17-&gt;64  17-&gt;79  18-&gt;55  18-&gt;104 18-&gt;165</span></a>
-<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; [33] 19-&gt;18  20-&gt;64  20-&gt;182 21-&gt;16  21-&gt;22  22-&gt;21  22-&gt;64  22-&gt;107</span></a>
-<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt; + ... omitted several edges</span></a>
-<a class="sourceLine" id="cb9-14" title="14"></a>
-<a class="sourceLine" id="cb9-15" title="15"><span class="kw"><a href="reference/core_as_network.html">core_as_network</a></span>(drugnet)</a>
-<a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt;  Network attributes:</span></a>
-<a class="sourceLine" id="cb9-17" title="17"><span class="co">#&gt;   vertices = 293 </span></a>
-<a class="sourceLine" id="cb9-18" title="18"><span class="co">#&gt;   directed = TRUE </span></a>
-<a class="sourceLine" id="cb9-19" title="19"><span class="co">#&gt;   hyper = FALSE </span></a>
-<a class="sourceLine" id="cb9-20" title="20"><span class="co">#&gt;   loops = FALSE </span></a>
-<a class="sourceLine" id="cb9-21" title="21"><span class="co">#&gt;   multiple = FALSE </span></a>
-<a class="sourceLine" id="cb9-22" title="22"><span class="co">#&gt;   bipartite = FALSE </span></a>
-<a class="sourceLine" id="cb9-23" title="23"><span class="co">#&gt;   total edges= 337 </span></a>
-<a class="sourceLine" id="cb9-24" title="24"><span class="co">#&gt;     missing edges= 0 </span></a>
-<a class="sourceLine" id="cb9-25" title="25"><span class="co">#&gt;     non-missing edges= 337 </span></a>
-<a class="sourceLine" id="cb9-26" title="26"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-27" title="27"><span class="co">#&gt;  Vertex attribute names: </span></a>
-<a class="sourceLine" id="cb9-28" title="28"><span class="co">#&gt;     Ethnicity Gender HasTie hr_ethnicity hr_gender hr_has_tie node_class vertex.names </span></a>
-<a class="sourceLine" id="cb9-29" title="29"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-30" title="30"><span class="co">#&gt;  Edge attribute names: </span></a>
-<a class="sourceLine" id="cb9-31" title="31"><span class="co">#&gt;     edge_class from_class to_class</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="reference/core_as_igraph.html">core_as_igraph</a></span>(drugnet)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; IGRAPH 5c4819f DN-- 293 337 -- </span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt; + attr: name (v/c), node_class (v/c), Gender (v/n), Ethnicity (v/n),</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; | HasTie (v/n), hr_ethnicity (v/c), hr_gender (v/c), hr_has_tie (v/l),</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; | from_class (e/c), to_class (e/c), edge_class (e/c)</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; + edges from 5c4819f (vertex names):</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;  [1] 1 -&gt;2   1 -&gt;10  2 -&gt;1   2 -&gt;10  3 -&gt;7   4 -&gt;7   4 -&gt;211 5 -&gt;134 6 -&gt;152</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; [10] 7 -&gt;3   7 -&gt;4   7 -&gt;9   8 -&gt;107 8 -&gt;117 9 -&gt;1   9 -&gt;2   9 -&gt;7   10-&gt;1  </span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; [19] 10-&gt;2   11-&gt;135 11-&gt;220 12-&gt;89  13-&gt;216 14-&gt;24  14-&gt;52  16-&gt;10  16-&gt;19 </span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; [28] 17-&gt;64  17-&gt;79  18-&gt;55  18-&gt;104 18-&gt;165 19-&gt;18  20-&gt;64  20-&gt;182 21-&gt;16 </span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; [37] 21-&gt;22  22-&gt;21  22-&gt;64  22-&gt;107 23-&gt;20  23-&gt;22  23-&gt;64  24-&gt;14  24-&gt;31 </span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; [46] 24-&gt;124 27-&gt;117 28-&gt;29  29-&gt;28  30-&gt;19  31-&gt;24  31-&gt;32  31-&gt;124 31-&gt;149</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; + ... omitted several edges</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="kw"><a href="reference/core_as_network.html">core_as_network</a></span>(drugnet)</span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt;  Network attributes:</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt;   vertices = 293 </span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt;   directed = TRUE </span></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt;   hyper = FALSE </span></span>
+<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt;   loops = FALSE </span></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt;   multiple = FALSE </span></span>
+<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt;   bipartite = FALSE </span></span>
+<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt;   total edges= 337 </span></span>
+<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt;     missing edges= 0 </span></span>
+<span id="cb9-25"><a href="#cb9-25"></a><span class="co">#&gt;     non-missing edges= 337 </span></span>
+<span id="cb9-26"><a href="#cb9-26"></a><span class="co">#&gt; </span></span>
+<span id="cb9-27"><a href="#cb9-27"></a><span class="co">#&gt;  Vertex attribute names: </span></span>
+<span id="cb9-28"><a href="#cb9-28"></a><span class="co">#&gt;     Ethnicity Gender HasTie hr_ethnicity hr_gender hr_has_tie node_class vertex.names </span></span>
+<span id="cb9-29"><a href="#cb9-29"></a><span class="co">#&gt; </span></span>
+<span id="cb9-30"><a href="#cb9-30"></a><span class="co">#&gt;  Edge attribute names: </span></span>
+<span id="cb9-31"><a href="#cb9-31"></a><span class="co">#&gt;     edge_class from_class to_class</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -471,6 +502,7 @@ Hyperlink(s) to publications linked to the dataset.
 <ul class="list-unstyled">
 <li>Christopher Callaghan <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Brendan Knapp <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3284-4972" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 

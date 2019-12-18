@@ -10,7 +10,7 @@ core_as_network(proto_net)
 \item{proto_net}{Any \code{{COREnets}} data set obtained via \code{get_data()}.}
 }
 \value{
-\code{<network>}
+\verb{<network>}
 }
 \description{
 Build a \code{network} object from a \code{proto_net}

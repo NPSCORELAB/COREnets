@@ -9,9 +9,9 @@ Use in place of \code{igraph::as_data_frame()}/\code{igraph::get.data.frame()}.}
 .corenets_as_edge_df(igraph, .names = TRUE)
 }
 \arguments{
-\item{igraph}{\code{<igraph>}}
+\item{igraph}{\verb{<igraph>}}
 
-\item{.names}{\code{<lgl>} Whether the \code{"from"} and \code{"to"} columns contain node
+\item{.names}{\verb{<lgl>} Whether the \code{"from"} and \code{"to"} columns contain node
 \code{"name"}s or numerical indices.}
 }
 \description{

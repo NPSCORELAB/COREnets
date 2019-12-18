@@ -5,32 +5,40 @@
 #'
 #' @template author-bk
 #'
-#' @param dataset `<character>` Name of the desired data set.
-#' @param quietly, `<logical>` Determines how to handle unusual conditions.
-#' @param test `<logical>` Whether or not to run internal tests.
+#' @param dataset `character(1L)` Name of the desired data set.
+#' @param validate, `logical(1L)`, Default: `TRUE` Whether to run data validation routine.
+#' @param quietly, `logical(1L)` Whether to muffle messages during data set construction.
 #' @template param-dots
 #'
 #' @seealso [list_data_sources()], [get_description()]
 #'
 #' @export
-get_data <- function(dataset, quietly = TRUE, test = TRUE, ...) {
-  if (!is.character(dataset) | length(dataset) != 1L) {
+get_data <- function(dataset, quietly = TRUE, validate = TRUE, ...) {
+  if (!is.character(dataset) || length(dataset) != 1L) {
     stop("The dataset argument must be a scalar character.",
          call. = FALSE)
   }
   
   
-  file_path <- .corenets_sys_file(
-    sprintf("datasets/%s/%s.R", dataset, dataset)
+  file_path <- tryCatch(
+    .corenets_sys_file(sprintf("datasets/%s/%s.R", dataset, dataset)),
+    error = function(e) NULL
   )
   
   
-  if (!file.exists(file_path)) {
-    stop("Can't find file: ", file_path, call. = FALSE)
+  if (is.null(file_path)) {
+    msg <- c("Can't find file: \n\t-", dataset)
+    
+    suggestions <- agrep(dataset, list_data_sources(), ignore.case = TRUE, value = TRUE)
+    if (!.is_empty(suggestions)) {
+      msg <- c(msg, "\nDid you mean one of the following?", paste("\n\t-", suggestions))
+    }
+    
+    stop(msg, call. = FALSE)
   }
   
   foo <- parse(
-    text = readr::read_lines(file_path)
+    text = .corenets_read_file(file_path)
   )
   
 
@@ -44,14 +52,14 @@ get_data <- function(dataset, quietly = TRUE, test = TRUE, ...) {
     out <- eval(foo)
   }
   
-  if (test) {
-    suppressMessages(test_output(output = out))
-  } else {
-    out
+  if (validate) {
+    validate_proto_net(out)
   }
   
-  class(out) <- "proto_net"
-  out
+  structure(
+    out,
+    class = "proto_net"
+  )
 }
 
 
