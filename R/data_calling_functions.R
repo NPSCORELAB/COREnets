@@ -5,16 +5,16 @@
 #'
 #' @template author-bk
 #'
-#' @param dataset `<character>` Name of the desired data set.
-#' @param quietly, `<logical>` Determines how to handle unusual conditions.
-#' @param test `<logical>` Whether or not to run internal tests.
+#' @param dataset `character(1L)` Name of the desired data set.
+#' @param validate, `logical(1L)`, Default: `TRUE` Whether to run data validation routine.
+#' @param quietly, `<logical>` Whether to muffle messages during data set construction.
 #' @template param-dots
 #'
 #' @seealso [list_data_sources()], [get_description()]
 #'
 #' @export
-get_data <- function(dataset, quietly = TRUE, test = TRUE, ...) {
-  if (!is.character(dataset) | length(dataset) != 1L) {
+get_data <- function(dataset, quietly = TRUE, validate = TRUE, ...) {
+  if (!is.character(dataset) || length(dataset) != 1L) {
     stop("The dataset argument must be a scalar character.",
          call. = FALSE)
   }
@@ -30,7 +30,7 @@ get_data <- function(dataset, quietly = TRUE, test = TRUE, ...) {
   }
   
   foo <- parse(
-    text = readr::read_lines(file_path)
+    text = .corenets_read_file(file_path)
   )
   
 
@@ -44,14 +44,14 @@ get_data <- function(dataset, quietly = TRUE, test = TRUE, ...) {
     out <- eval(foo)
   }
   
-  if (test) {
-    suppressMessages(test_output(output = out))
-  } else {
-    out
+  if (validate) {
+    validate_proto_net(out)
   }
   
-  class(out) <- "proto_net"
-  out
+  structure(
+    out,
+    class = "proto_net"
+  )
 }
 
 

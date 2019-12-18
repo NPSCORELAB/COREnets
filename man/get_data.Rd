@@ -4,14 +4,14 @@
 \alias{get_data}
 \title{Get Data}
 \usage{
-get_data(dataset, quietly = TRUE, test = TRUE, ...)
+get_data(dataset, quietly = TRUE, validate = TRUE, ...)
 }
 \arguments{
-\item{dataset}{\verb{<character>} Name of the desired data set.}
+\item{dataset}{\code{character(1L)} Name of the desired data set.}
 
-\item{quietly, }{\verb{<logical>} Determines how to handle unusual conditions.}
+\item{quietly, }{\verb{<logical>} Whether to muffle messages during data set construction.}
 
-\item{test}{\verb{<logical>} Whether or not to run internal tests.}
+\item{validate, }{\code{logical(1L)}, Default: \code{TRUE} Whether to run data validation routine.}
 
 \item{...}{Additional arguments passed to or from other methods.}
 }

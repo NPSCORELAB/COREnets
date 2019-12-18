@@ -48,11 +48,11 @@ g <- igraph::graph_from_data_frame(
 )
 
 # build final dataset ==========================================================
-.description <- .corenets_read_lines(
+.description <- .corenets_read_file(
   .corenets_sys_file("datasets/november17/description.txt")
 )
 
-.abstract <- .corenets_read_lines(
+.abstract <- .corenets_read_file(
   .corenets_sys_file("datasets/november17/abstract.txt")
 )
 
