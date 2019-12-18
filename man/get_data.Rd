@@ -7,11 +7,11 @@
 get_data(dataset, quietly = TRUE, test = TRUE, ...)
 }
 \arguments{
-\item{dataset}{\code{<character>} Name of the desired data set.}
+\item{dataset}{\verb{<character>} Name of the desired data set.}
 
-\item{quietly, }{\code{<logical>} Determines how to handle unusual conditions.}
+\item{quietly, }{\verb{<logical>} Determines how to handle unusual conditions.}
 
-\item{test}{\code{<logical>} Whether or not to run internal tests.}
+\item{test}{\verb{<logical>} Whether or not to run internal tests.}
 
 \item{...}{Additional arguments passed to or from other methods.}
 }

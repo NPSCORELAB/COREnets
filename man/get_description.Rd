@@ -7,7 +7,7 @@
 get_description(dataset)
 }
 \arguments{
-\item{dataset}{\code{<chr>} Name of desired data set.}
+\item{dataset}{\verb{<chr>} Name of desired data set.}
 }
 \description{
 Read Data Description
